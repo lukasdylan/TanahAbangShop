@@ -30,7 +30,7 @@ public interface RegisterImplementer {
     }
 
     interface Presenter {
-        void initView(RegisterImplementer.View viewListener);
+        void initView();
 
         void validateRegisterRequest(String name, String phoneNumber, String password);
 

@@ -1,6 +1,6 @@
 package com.mobile.tanahabangshop.ui.main;
 
-import io.reactivex.Observable;
+import android.support.v4.app.Fragment;
 
 /**
  * Created by Lukas Dylan Adisurya on 24/02/2018.
@@ -10,22 +10,26 @@ import io.reactivex.Observable;
 
 public interface MainImplementer {
     interface View {
-        void showMenu();
-        void setWelcomeText(String welcomeTime, String name);
-        void showFavoriteItems();
+        void showFragment(Fragment fragment);
+
+        void isShowMenuItem(boolean show);
+
+        void setupToolbar(boolean show, String title);
     }
 
     interface Presenter {
-        void initView(MainImplementer.View viewListener);
-        void refreshView();
+        void initView();
+
         void destroyView();
+
+        void showProfile();
     }
 
     interface Model {
-        String getUserName();
+        String getTitle(int type);
     }
 
     interface MainAdapter {
-        void onSelectedMenu (int position);
+        void onSelectedMenu(int position);
     }
 }

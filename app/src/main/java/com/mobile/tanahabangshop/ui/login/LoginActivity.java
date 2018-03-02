@@ -1,10 +1,10 @@
 package com.mobile.tanahabangshop.ui.login;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -12,7 +12,6 @@ import android.widget.TextView;
 
 import com.mobile.tanahabangshop.R;
 import com.mobile.tanahabangshop.ui.main.MainActivity;
-import com.mobile.tanahabangshop.ui.main.MainAdapter;
 import com.mobile.tanahabangshop.ui.register.RegisterActivity;
 import com.mobile.tanahabangshop.utility.DialogUtils;
 import com.mobile.tanahabangshop.utility.UiUtils;
@@ -49,7 +48,7 @@ public class LoginActivity extends AppCompatActivity implements LoginImplementer
     int white;
 
     @Inject
-    LoginPresenter presenter;
+    LoginImplementer.Presenter presenter;
 
     private CustomDialog customDialog;
 
@@ -59,7 +58,7 @@ public class LoginActivity extends AppCompatActivity implements LoginImplementer
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
-        presenter.initView(this);
+        presenter.initView();
     }
 
     @OnClick(R.id.loginBtn)

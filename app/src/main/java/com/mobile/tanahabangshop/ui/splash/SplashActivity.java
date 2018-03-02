@@ -22,7 +22,7 @@ public class SplashActivity extends AppCompatActivity implements SplashImplement
     LottieAnimationView lottieAnimationView;
 
     @Inject
-    SplashPresenter presenter;
+    SplashImplementer.Presenter presenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,7 +30,7 @@ public class SplashActivity extends AppCompatActivity implements SplashImplement
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
         ButterKnife.bind(this);
-        presenter.initView(this);
+        presenter.initView();
     }
 
     @Override

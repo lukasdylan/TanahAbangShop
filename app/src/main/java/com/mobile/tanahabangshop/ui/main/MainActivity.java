@@ -1,53 +1,42 @@
 package com.mobile.tanahabangshop.ui.main;
 
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.TextView;
+import android.widget.FrameLayout;
 import android.widget.Toast;
 
 import com.mobile.tanahabangshop.R;
-import com.mobile.tanahabangshop.data.model.MainMenu;
 import com.mobile.tanahabangshop.utility.DialogUtils;
 import com.mobile.tanahabangshop.view.CustomBottomSheetDialog;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.inject.Inject;
 
-import butterknife.BindDrawable;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import dagger.android.AndroidInjection;
-import timber.log.Timber;
+import dagger.android.AndroidInjector;
+import dagger.android.DispatchingAndroidInjector;
+import dagger.android.support.HasSupportFragmentInjector;
 
 public class MainActivity extends AppCompatActivity implements MainImplementer.View,
-        MainImplementer.MainAdapter, CustomBottomSheetDialog.BottomSheetCallback {
+        CustomBottomSheetDialog.BottomSheetCallback, HasSupportFragmentInjector {
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
-    @BindView(R.id.welcomeUserTV)
-    TextView welcomeUserTV;
-    @BindView(R.id.mainMenuRV)
-    RecyclerView mainMenuRV;
-
-    @BindDrawable(R.drawable.icon_main_product)
-    Drawable iconMainProduct;
-    @BindDrawable(R.drawable.icon_invoice)
-    Drawable iconInvoice;
-    @BindDrawable(R.drawable.icon_shipping_cost)
-    Drawable iconShippingCost;
-    @BindDrawable(R.drawable.icon_store)
-    Drawable iconStore;
+    @BindView(R.id.frame_container)
+    FrameLayout frameContainer;
 
     @Inject
-    MainPresenter presenter;
+    MainImplementer.Presenter presenter;
+    @Inject
+    DispatchingAndroidInjector<Fragment> fragmentDispatchingAndroidInjector;
+
+    private boolean showMenuItem = true;
+    private boolean backToFinish = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,20 +44,25 @@ public class MainActivity extends AppCompatActivity implements MainImplementer.V
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
-        initToolbar();
-        presenter.initView(this);
+        setSupportActionBar(toolbar);
+        presenter.initView();
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main_menu, menu);
+        MenuItem menuItem = menu.findItem(R.id.menu_more);
+        menuItem.setVisible(showMenuItem);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
+            case android.R.id.home:
+                onBackPressed();
+                break;
             case R.id.menu_more:
                 CustomBottomSheetDialog customBottomSheetDialog = DialogUtils.showBottomSheetDialog(this, this);
                 customBottomSheetDialog.show();
@@ -82,44 +76,40 @@ public class MainActivity extends AppCompatActivity implements MainImplementer.V
     @Override
     protected void onResume() {
         super.onResume();
-        presenter.refreshView();
     }
 
-    private void initToolbar() {
-        setSupportActionBar(toolbar);
+    @Override
+    public void showFragment(android.support.v4.app.Fragment fragment) {
+        getSupportFragmentManager().beginTransaction()
+                .setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left, R.anim.slide_in_left, R.anim.slide_out_right)
+                .replace(frameContainer.getId(), fragment)
+                .addToBackStack(null)
+                .commit();
+    }
+
+    @Override
+    public void isShowMenuItem(boolean show) {
+        showMenuItem = show;
+        invalidateOptionsMenu();
+    }
+
+    @Override
+    public void setupToolbar(boolean show, String title) {
+        backToFinish = !show;
         if (getSupportActionBar() != null) {
-            getSupportActionBar().setTitle(getString(R.string.app_name));
+            getSupportActionBar().setDisplayShowHomeEnabled(show);
+            getSupportActionBar().setDisplayHomeAsUpEnabled(show);
+            getSupportActionBar().setTitle(title);
         }
     }
 
     @Override
-    public void onSelectedMenu(int position) {
-        Timber.d(String.valueOf(position));
-    }
-
-    @Override
-    public void showMenu() {
-        List<MainMenu> mainMenuList = new ArrayList<>();
-        mainMenuList.add(new MainMenu("Lihat Produk Toko", iconMainProduct));
-        mainMenuList.add(new MainMenu("Cek Pesanan Saya", iconInvoice));
-        mainMenuList.add(new MainMenu("Cek Biaya Pengiriman", iconShippingCost));
-        mainMenuList.add(new MainMenu("Cek Informasi Toko", iconStore));
-
-        MainAdapter mainAdapter = new MainAdapter(mainMenuList, this);
-        mainMenuRV.setHasFixedSize(true);
-        mainMenuRV.setLayoutManager(new GridLayoutManager(this, 2));
-        mainMenuRV.setAdapter(mainAdapter);
-        mainMenuRV.setNestedScrollingEnabled(false);
-    }
-
-    @Override
-    public void setWelcomeText(String welcomeTime, String name) {
-        welcomeUserTV.setText(String.format("%s, %s", welcomeTime, name));
-    }
-
-    @Override
-    public void showFavoriteItems() {
-
+    public void onBackPressed() {
+        if (backToFinish) {
+            finish();
+        } else {
+            super.onBackPressed();
+        }
     }
 
     @Override
@@ -130,11 +120,16 @@ public class MainActivity extends AppCompatActivity implements MainImplementer.V
 
     @Override
     public void openProfile() {
-        Toast.makeText(this, "Open Profile", Toast.LENGTH_SHORT).show();
+        presenter.showProfile();
     }
 
     @Override
     public void openSetting() {
         Toast.makeText(this, "Open Setting", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public AndroidInjector<Fragment> supportFragmentInjector() {
+        return fragmentDispatchingAndroidInjector;
     }
 }

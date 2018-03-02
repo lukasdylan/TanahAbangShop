@@ -17,12 +17,17 @@ import dagger.Provides;
 public class LoginModule {
 
     @Provides
-    LoginModel provideModel(Context context, APIService apiService){
+    LoginImplementer.View provideView(LoginActivity loginActivity){
+        return loginActivity;
+    }
+
+    @Provides
+    LoginImplementer.Model provideModel(Context context, APIService apiService){
         return new LoginModel(context, apiService);
     }
 
     @Provides
-    LoginPresenter providePresenter(LoginModel loginModel){
-        return new LoginPresenter(loginModel);
+    LoginImplementer.Presenter providePresenter(LoginImplementer.Model loginModel, LoginImplementer.View view){
+        return new LoginPresenter(loginModel, view);
     }
 }

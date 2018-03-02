@@ -17,12 +17,17 @@ import dagger.Provides;
 public class SplashModule {
 
     @Provides
-    SplashModel provideModel(Context context, AppPreferences appPreferences){
+    SplashImplementer.View provideView(SplashActivity splashActivity){
+        return splashActivity;
+    }
+
+    @Provides
+    SplashImplementer.Model provideModel(Context context, AppPreferences appPreferences){
         return new SplashModel(context, appPreferences);
     }
 
     @Provides
-    SplashPresenter providePresenter(SplashModel splashModel){
-        return new SplashPresenter(splashModel);
+    SplashImplementer.Presenter providePresenter(SplashImplementer.Model splashModel, SplashImplementer.View view){
+        return new SplashPresenter(splashModel, view);
     }
 }

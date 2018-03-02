@@ -17,7 +17,7 @@ public interface SplashImplementer {
     }
 
     interface Presenter {
-        void initView(SplashImplementer.View viewListener);
+        void initView();
 
         void destroyView();
     }

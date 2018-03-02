@@ -14,28 +14,29 @@ import timber.log.Timber;
  */
 
 public class LoginPresenter implements LoginImplementer.Presenter {
-    private final LoginModel loginModel;
+    private final LoginImplementer.Model model;
     private final CompositeDisposable compositeDisposable = new CompositeDisposable();
-    private LoginImplementer.View viewListener;
+    private final LoginImplementer.View view;
 
-    LoginPresenter(LoginModel loginModel) {
-        this.loginModel = loginModel;
+    public LoginPresenter(LoginImplementer.Model model, LoginImplementer.View view) {
+        this.model = model;
+        this.view = view;
     }
 
     @Override
-    public void initView(LoginImplementer.View viewListener) {
-        this.viewListener = viewListener;
+    public void initView() {
+
     }
 
     @Override
     public void validateLoginRequest(String phoneNumber, String password) {
         boolean valid = true;
         if (phoneNumber.trim().length() < 11 || phoneNumber.trim().length() > 15) {
-            viewListener.showErrorPhoneNumber("Mohon cek kembali nomor handphone anda");
+            view.showErrorPhoneNumber("Mohon cek kembali nomor handphone anda");
             valid = false;
         }
         if (password.trim().length() < 6 || password.trim().length() > 10) {
-            viewListener.showErrorPassword("Mohon cek kembali password anda");
+            view.showErrorPassword("Mohon cek kembali password anda");
             valid = false;
         }
         if (valid) {
@@ -44,22 +45,22 @@ public class LoginPresenter implements LoginImplementer.Presenter {
     }
 
     private void checkInternetConnection() {
-        compositeDisposable.add(loginModel.checkInternetConnection()
+        compositeDisposable.add(model.checkInternetConnection()
                 .subscribe(aBoolean -> {
                     if (aBoolean) {
                         loginRequest();
                     } else {
-                        viewListener.showFailedLogin("Tidak ada koneksi internet!");
+                        view.showFailedLogin("Tidak ada koneksi internet!");
                     }
                 }, Timber::e)
         );
     }
 
     private void loginRequest() {
-        viewListener.showLoading();
+        view.showLoading();
         new Handler().postDelayed(() -> {
-            viewListener.hideLoading();
-            viewListener.toMainScreen();
+            view.hideLoading();
+            view.toMainScreen();
         },5000);
     }
 

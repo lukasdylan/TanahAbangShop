@@ -46,7 +46,7 @@ public class RegisterActivity extends AppCompatActivity implements RegisterImple
     int white;
 
     @Inject
-    RegisterPresenter presenter;
+    RegisterImplementer.Presenter presenter;
 
     private CustomDialog customDialog;
 
@@ -68,7 +68,7 @@ public class RegisterActivity extends AppCompatActivity implements RegisterImple
             }
         }
 
-        presenter.initView(this);
+        presenter.initView();
     }
 
     @OnClick(R.id.registerBtn)

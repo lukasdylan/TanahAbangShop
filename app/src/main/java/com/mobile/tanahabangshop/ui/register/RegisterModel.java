@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.provider.Settings;
 
+import com.mobile.tanahabangshop.data.network.APIService;
 import com.mobile.tanahabangshop.utility.NetworkUtils;
 
 import io.reactivex.Observable;
@@ -18,7 +19,7 @@ public class RegisterModel implements RegisterImplementer.Model {
 
     private final Context context;
 
-    public RegisterModel(Context context){
+    public RegisterModel(Context context, APIService apiService){
         this.context = context;
     }
 

@@ -1,7 +1,6 @@
 package com.mobile.tanahabangshop.ui.splash;
 
 import io.reactivex.disposables.CompositeDisposable;
-import io.reactivex.schedulers.Schedulers;
 import timber.log.Timber;
 
 /**
@@ -11,12 +10,13 @@ import timber.log.Timber;
  */
 
 public class SplashPresenter implements SplashImplementer.Presenter {
-    private final SplashModel splashModel;
-    private SplashImplementer.View viewListener;
+    private final SplashImplementer.Model splashModel;
+    private final SplashImplementer.View viewListener;
     private final CompositeDisposable compositeDisposable = new CompositeDisposable();
 
-    SplashPresenter(SplashModel splashModel) {
+    SplashPresenter(SplashImplementer.Model splashModel, SplashImplementer.View view) {
         this.splashModel = splashModel;
+        viewListener = view;
     }
 
     private void checkLoggedAccount() {
@@ -42,8 +42,7 @@ public class SplashPresenter implements SplashImplementer.Presenter {
     }
 
     @Override
-    public void initView(SplashImplementer.View viewListener) {
-        this.viewListener = viewListener;
+    public void initView() {
         loadCityTracking();
         Timber.d("initView Done");
     }

@@ -1,5 +1,8 @@
 package com.mobile.tanahabangshop.ui.main;
 
+import android.content.res.Resources;
+
+import com.mobile.tanahabangshop.R;
 import com.mobile.tanahabangshop.data.constant.GlobalConstant;
 import com.mobile.tanahabangshop.data.local.AppPreferences;
 import com.mobile.tanahabangshop.utility.StringUtils;
@@ -10,16 +13,26 @@ import com.mobile.tanahabangshop.utility.StringUtils;
  * lukas.dylan.adisurya@gmail.com
  */
 
-public class MainModel implements MainImplementer.Model{
-    private final AppPreferences appPreferences;
+public class MainModel implements MainImplementer.Model {
 
-    public MainModel(AppPreferences appPreferences){
+    static final int HOME_TYPE = 0;
+    static final int PROFILE_TYPE = 1;
+    private final AppPreferences appPreferences;
+    private final Resources resources;
+
+    public MainModel(Resources resources, AppPreferences appPreferences) {
+        this.resources = resources;
         this.appPreferences = appPreferences;
     }
 
     @Override
-    public String getUserName() {
-        String fullName = appPreferences.getStringValue(GlobalConstant.PREFERENCES_USERS_NAME,"Lukas Dylan Adisurya");
-        return StringUtils.getFirstName(fullName);
+    public String getTitle(int type) {
+        switch (type){
+            case HOME_TYPE:
+                return resources.getString(R.string.app_name);
+            case PROFILE_TYPE:
+                return "Profile";
+        }
+        return resources.getString(R.string.app_name);
     }
 }

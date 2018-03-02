@@ -1,5 +1,7 @@
 package com.mobile.tanahabangshop.ui.main;
 
+import android.content.res.Resources;
+
 import com.mobile.tanahabangshop.data.local.AppPreferences;
 
 import dagger.Module;
@@ -15,12 +17,17 @@ import dagger.Provides;
 public class MainModule {
 
     @Provides
-    MainModel provideModel(AppPreferences appPreferences){
-        return new MainModel(appPreferences);
+    MainImplementer.View provideView(MainActivity mainActivity){
+        return mainActivity;
     }
 
     @Provides
-    MainPresenter providePresenter(MainModel mainModel){
-        return new MainPresenter(mainModel);
+    MainImplementer.Model provideModel(Resources resources, AppPreferences appPreferences){
+        return new MainModel(resources, appPreferences);
+    }
+
+    @Provides
+    MainImplementer.Presenter providePresenter(MainImplementer.Model model, MainImplementer.View view){
+        return new MainPresenter(model, view);
     }
 }

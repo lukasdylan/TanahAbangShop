@@ -1,8 +1,7 @@
 package com.mobile.tanahabangshop.ui.main;
 
-import java.util.Calendar;
-
-import timber.log.Timber;
+import com.mobile.tanahabangshop.ui.main.home.HomeFragment;
+import com.mobile.tanahabangshop.ui.main.profile.UserProfileFragment;
 
 /**
  * Created by Lukas Dylan Adisurya on 24/02/2018.
@@ -12,50 +11,29 @@ import timber.log.Timber;
 
 public class MainPresenter implements MainImplementer.Presenter {
 
-    private final MainModel mainModel;
-    private MainImplementer.View viewListener;
+    private MainImplementer.Model model;
+    private MainImplementer.View view;
 
-    MainPresenter(MainModel mainModel) {
-        this.mainModel = mainModel;
+    public MainPresenter(MainImplementer.Model model, MainImplementer.View view) {
+        this.view = view;
+        this.model = model;
     }
 
     @Override
-    public void initView(MainImplementer.View viewListener) {
-        this.viewListener = viewListener;
-        viewListener.showMenu();
-    }
-
-    @Override
-    public void refreshView() {
-        loadWelcomeText();
-        loadFavoriteData();
-    }
-
-    private void loadWelcomeText() {
-        Calendar calendar = Calendar.getInstance();
-        int hour = calendar.get(Calendar.HOUR_OF_DAY);
-        Timber.d("Current hour %s", hour);
-        String welcomeTime;
-        if (hour <= 4) {
-            welcomeTime = "Selamat malam";
-        } else if (hour >= 5 && hour <= 10) {
-            welcomeTime = "Selamat pagi";
-        } else if (hour >= 11 && hour <= 14) {
-            welcomeTime = "Selamat siang";
-        } else if (hour >= 15 && hour <= 18) {
-            welcomeTime = "Selamat sore";
-        } else {
-            welcomeTime = "Selamat malam";
-        }
-        viewListener.setWelcomeText(welcomeTime, mainModel.getUserName());
-    }
-
-    private void loadFavoriteData() {
-
+    public void initView() {
+        HomeFragment homeFragment = new HomeFragment();
+        view.showFragment(homeFragment);
     }
 
     @Override
     public void destroyView() {
-        viewListener = null;
+        view = null;
+        model = null;
+    }
+
+    @Override
+    public void showProfile() {
+        UserProfileFragment userProfileFragment = new UserProfileFragment();
+        view.showFragment(userProfileFragment);
     }
 }

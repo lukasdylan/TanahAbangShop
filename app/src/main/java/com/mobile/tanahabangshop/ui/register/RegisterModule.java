@@ -2,6 +2,8 @@ package com.mobile.tanahabangshop.ui.register;
 
 import android.content.Context;
 
+import com.mobile.tanahabangshop.data.network.APIService;
+
 import dagger.Module;
 import dagger.Provides;
 
@@ -15,12 +17,17 @@ import dagger.Provides;
 public class RegisterModule {
 
     @Provides
-    RegisterModel provideModel(Context context){
-        return new RegisterModel(context);
+    RegisterImplementer.View provideView(RegisterActivity registerActivity){
+        return registerActivity;
     }
 
     @Provides
-    RegisterPresenter providePresenter(RegisterModel registerModel){
-        return new RegisterPresenter(registerModel);
+    RegisterImplementer.Model provideModel(Context context, APIService apiService){
+        return new RegisterModel(context, apiService);
+    }
+
+    @Provides
+    RegisterImplementer.Presenter providePresenter(RegisterImplementer.Model model, RegisterImplementer.View view){
+        return new RegisterPresenter(model, view);
     }
 }

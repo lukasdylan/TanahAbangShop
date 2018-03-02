@@ -2,6 +2,7 @@ package com.mobile.tanahabangshop.di;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.res.Resources;
 
 import com.mobile.tanahabangshop.CoreApplication;
 import com.mobile.tanahabangshop.data.constant.GlobalConstant;
@@ -26,5 +27,10 @@ public class AppContextModule {
     @Provides
     SharedPreferences provideSharedPreferences(Context context){
         return context.getSharedPreferences(GlobalConstant.PREFERENCES_NAME, Context.MODE_PRIVATE);
+    }
+
+    @Provides
+    Resources provideResource(Context context){
+        return context.getResources();
     }
 }

@@ -18,28 +18,29 @@ import timber.log.Timber;
 public class RegisterPresenter implements RegisterImplementer.Presenter {
 
     private final CompositeDisposable compositeDisposable = new CompositeDisposable();
-    private RegisterImplementer.View viewListener;
-    private final RegisterModel registerModel;
+    private final RegisterImplementer.View view;
+    private final RegisterImplementer.Model model;
 
-    public RegisterPresenter(RegisterModel registerModel){
-        this.registerModel = registerModel;
+    public RegisterPresenter(RegisterImplementer.Model model, RegisterImplementer.View view) {
+        this.view = view;
+        this.model = model;
     }
 
     @Override
-    public void initView(RegisterImplementer.View viewListener) {
-        this.viewListener = viewListener;
+    public void initView() {
+
     }
 
     @Override
     public void validateRegisterRequest(String name, String phoneNumber, String password) {
-        String deviceID = registerModel.getDeviceID();
+        String deviceID = model.getDeviceID();
         JSONObject params = new JSONObject();
         try {
             params.put("name", name);
             params.put("phone_number", phoneNumber);
             params.put("password", password);
             params.put("device_id", deviceID);
-            viewListener.showConfirmationDialog(params);
+            view.showConfirmationDialog(params);
         } catch (JSONException e) {
             Timber.e(e);
         }
@@ -47,16 +48,15 @@ public class RegisterPresenter implements RegisterImplementer.Presenter {
 
     @Override
     public void sendRequest(JSONObject jsonObject) {
-        viewListener.showLoading();
+        view.showLoading();
         new Handler().postDelayed(() -> {
-            viewListener.hideDialog();
-            viewListener.showFailedDialog("Oops..\nSepertinya ada masalah dengan server kami");
+            view.hideDialog();
+            view.showFailedDialog("Oops..\nSepertinya ada masalah dengan server kami");
         }, 5000);
     }
 
     @Override
     public void destroyView() {
         compositeDisposable.dispose();
-        viewListener = null;
     }
 }

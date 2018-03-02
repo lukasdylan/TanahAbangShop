@@ -4,6 +4,8 @@ import com.mobile.tanahabangshop.ui.login.LoginActivity;
 import com.mobile.tanahabangshop.ui.login.LoginModule;
 import com.mobile.tanahabangshop.ui.main.MainActivity;
 import com.mobile.tanahabangshop.ui.main.MainModule;
+import com.mobile.tanahabangshop.ui.main.home.HomeFragment;
+import com.mobile.tanahabangshop.ui.main.home.HomeModule;
 import com.mobile.tanahabangshop.ui.register.RegisterActivity;
 import com.mobile.tanahabangshop.ui.register.RegisterModel;
 import com.mobile.tanahabangshop.ui.register.RegisterModule;
@@ -32,4 +34,7 @@ abstract class BuilderModule {
 
     @ContributesAndroidInjector(modules = MainModule.class)
     abstract MainActivity bindMainActivity();
+
+    @ContributesAndroidInjector(modules = HomeModule.class)
+    abstract HomeFragment bindHomeFragment();
 }

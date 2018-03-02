@@ -1,4 +1,4 @@
-package com.mobile.tanahabangshop.ui.main;
+package com.mobile.tanahabangshop.ui.main.home;
 
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.mobile.tanahabangshop.R;
 import com.mobile.tanahabangshop.data.model.MainMenu;
+import com.mobile.tanahabangshop.ui.main.MainImplementer;
 
 import java.util.List;
 
@@ -21,12 +22,12 @@ import butterknife.ButterKnife;
  * lukas.dylan.adisurya@gmail.com
  */
 
-public class MainAdapter extends RecyclerView.Adapter<MainAdapter.MenuViewHolder> {
+public class HomeMenuAdapter extends RecyclerView.Adapter<HomeMenuAdapter.MenuViewHolder> {
 
     private final List<MainMenu> mainMenuList;
     private MainImplementer.MainAdapter listener;
 
-    MainAdapter(List<MainMenu> mainMenuList, MainImplementer.MainAdapter listener) {
+    HomeMenuAdapter(List<MainMenu> mainMenuList, MainImplementer.MainAdapter listener) {
         this.mainMenuList = mainMenuList;
         this.listener = listener;
     }

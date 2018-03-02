@@ -87,6 +87,7 @@ public class NetworkModule {
     }
 
     @Provides
+    @Singleton
     APIService provideApiService(OkHttpClient client, GsonConverterFactory gson, RxJava2CallAdapterFactory rxAdapter) {
         Retrofit retrofit = new Retrofit.Builder()
                 .client(client)
@@ -99,6 +100,7 @@ public class NetworkModule {
     }
 
     @Provides
+    @Singleton
     TrackingAPIService provideTrackingApiService(OkHttpClient client, GsonConverterFactory gson, RxJava2CallAdapterFactory rxAdapter) {
         Retrofit retrofit = new Retrofit.Builder()
                 .client(client)
