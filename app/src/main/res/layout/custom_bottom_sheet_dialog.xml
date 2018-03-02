@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="15dp"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/profileBtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:textSize="16sp"
+        android:background="?android:attr/selectableItemBackground"
+        android:textColor="@android:color/black"
+        android:text="Lihat Profil Anda"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.7dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        android:background="@color/lightGray"/>
+
+    <TextView
+        android:id="@+id/settingBtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:textSize="16sp"
+        android:background="?android:attr/selectableItemBackground"
+        android:textColor="@android:color/black"
+        android:text="Pengaturan Aplikasi"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.7dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        android:background="@color/lightGray"/>
+
+    <TextView
+        android:id="@+id/appVersionTV"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:textSize="16sp"
+        android:textColor="@color/lightGray"
+        android:text="Versi Aplikasi"/>
+
+    <Button
+        android:id="@+id/closeBtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="Tutup"
+        android:textColor="@android:color/white"
+        android:foreground="?android:attr/selectableItemBackground"
+        android:background="@color/colorPrimary" />
+
+</LinearLayout>

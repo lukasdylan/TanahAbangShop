@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:padding="15dp"
+    android:orientation="vertical"
+    android:background="@drawable/white_rounded_background"
+    android:layout_gravity="center"
+    android:gravity="center">
+
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/loadingView"
+        android:layout_width="175dp"
+        android:layout_height="100dp"
+        app:lottie_cacheStrategy="strong"
+        android:adjustViewBounds="true"/>
+
+    <TextView
+        android:id="@+id/messageTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@android:color/black"
+        android:textSize="16sp"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:padding="5dp"/>
+
+    <LinearLayout
+        android:id="@+id/buttonLayout"
+        android:layout_width="match_parent"
+        android:layout_height="36dp"
+        android:orientation="horizontal"
+        android:layout_marginTop="10dp"
+        android:visibility="gone"
+        style="?android:attr/buttonBarStyle">
+
+        <Button
+            style="?android:attr/buttonBarButtonStyle"
+            android:id="@+id/cancelButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:foreground="?attr/selectableItemBackground"
+            android:background="@android:color/white"
+            android:textColor="@android:color/holo_red_light"
+            android:visibility="gone"
+            android:textSize="12sp"
+            android:text="TIDAK"/>
+
+        <Button
+            style="?android:attr/buttonBarButtonStyle"
+            android:id="@+id/confirmButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:foreground="?attr/selectableItemBackground"
+            android:background="@android:color/holo_green_light"
+            android:textColor="@android:color/white"
+            android:visibility="gone"
+            android:textSize="12sp"
+            android:text="YA"/>
+
+    </LinearLayout>
+
+</LinearLayout>
