@@ -18,6 +18,7 @@ import com.mobile.tanahabangshop.R;
 import com.mobile.tanahabangshop.data.model.MainMenu;
 import com.mobile.tanahabangshop.ui.main.MainImplementer;
 import com.mobile.tanahabangshop.ui.main.listproduct.ListProductFragment;
+import com.mobile.tanahabangshop.ui.main.shippingcost.ShippingCostFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -106,6 +107,8 @@ public class HomeFragment extends Fragment implements MainImplementer.MainAdapte
             case 1:
                 break;
             case 2:
+                ShippingCostFragment shippingCostFragment = new ShippingCostFragment();
+                mainView.showFragment(shippingCostFragment);
                 break;
             case 3:
                 break;

@@ -3,6 +3,7 @@ package com.mobile.tanahabangshop.utility;
 import android.content.Context;
 import android.support.annotation.NonNull;
 
+import com.mobile.tanahabangshop.view.CourierBottomSheetDialog;
 import com.mobile.tanahabangshop.view.CustomBottomSheetDialog;
 import com.mobile.tanahabangshop.view.CustomDialog;
 
@@ -56,5 +57,11 @@ public class DialogUtils {
     public static CustomBottomSheetDialog showBottomSheetDialog(Context context,
                                                                 CustomBottomSheetDialog.BottomSheetCallback callback){
         return new CustomBottomSheetDialog(context, callback);
+    }
+
+    @NonNull
+    public static CourierBottomSheetDialog showCourierDialog(Context context,
+                                                             CourierBottomSheetDialog.CourierCallback courierCallback){
+        return new CourierBottomSheetDialog(context, courierCallback);
     }
 }

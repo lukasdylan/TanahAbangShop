@@ -10,8 +10,8 @@ public class GlobalConstant {
     public static final String DATABASE_NAME = "shop";
     public static final int DATABASE_VERSION = 1;
 
-    public static final String API_BASE_URL = "https://google.com";
-    public static final String TRACKING_API_BASE_URL = "https://api.rajaongkir.com/starter";
+    public static final String API_BASE_URL = "https://google.com/";
+    public static final String TRACKING_API_BASE_URL = "https://api.rajaongkir.com/starter/";
     public static final String TRACKING_API_KEY = "fbf35eae521191289eab60663b1a7443";
 
     public static final String PREFERENCES_NAME = "pref";

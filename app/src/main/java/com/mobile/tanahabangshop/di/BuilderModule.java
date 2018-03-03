@@ -1,5 +1,7 @@
 package com.mobile.tanahabangshop.di;
 
+import com.mobile.tanahabangshop.ui.administrative.AdministrativeActivity;
+import com.mobile.tanahabangshop.ui.administrative.AdministrativeModule;
 import com.mobile.tanahabangshop.ui.login.LoginActivity;
 import com.mobile.tanahabangshop.ui.login.LoginModule;
 import com.mobile.tanahabangshop.ui.main.MainActivity;
@@ -37,4 +39,7 @@ abstract class BuilderModule {
 
     @ContributesAndroidInjector(modules = HomeModule.class)
     abstract HomeFragment bindHomeFragment();
+
+    @ContributesAndroidInjector(modules = AdministrativeModule.class)
+    abstract AdministrativeActivity bindAdministrativeActivity();
 }

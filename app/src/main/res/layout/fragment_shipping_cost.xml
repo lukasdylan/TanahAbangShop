@@ -16,6 +16,15 @@
             android:orientation="vertical">
 
             <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:text="Masukkan data lokasi pengiriman pesanan anda"
+                android:textSize="20sp"
+                android:textColor="@color/darkGray"/>
+
+            <TextView
                 android:id="@+id/provinceTV"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
