@@ -1,0 +1,120 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:padding="16dp"
+    tools:context="com.mobile.tanahabangshop.ui.main.shippingcost.ShippingCostFragment">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/provinceTV"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:padding="5dp"
+                android:textSize="16sp"
+                android:textColor="@android:color/black"
+                android:textColorHint="@color/darkGray"
+                android:drawableEnd="@drawable/icon_drop_down"
+                android:ellipsize="end"
+                android:singleLine="true"
+                android:hint="Pilih nama provinsi anda"/>
+
+            <TextView
+                android:id="@+id/cityTV"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:padding="5dp"
+                android:textSize="16sp"
+                android:textColor="@android:color/black"
+                android:textColorHint="@color/darkGray"
+                android:drawableEnd="@drawable/icon_drop_down"
+                android:ellipsize="end"
+                android:singleLine="true"
+                android:visibility="invisible"
+                android:hint="Pilih nama kota atau kabupaten anda"/>
+
+            <TextView
+                android:id="@+id/courierNameTV"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:padding="5dp"
+                android:textSize="16sp"
+                android:textColor="@android:color/black"
+                android:textColorHint="@color/darkGray"
+                android:drawableEnd="@drawable/icon_drop_down"
+                android:ellipsize="end"
+                android:singleLine="true"
+                android:visibility="invisible"
+                android:hint="Pilih provider pengirim"/>
+
+            <LinearLayout
+                android:id="@+id/weightLayout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:visibility="invisible">
+
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/inputLayoutWeight"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="5dp"
+                    android:hint="Berat"
+                    app:hintAnimationEnabled="true"
+                    app:errorTextAppearance="@style/ErrorEdittext">
+
+                    <EditText
+                        android:id="@+id/weightET"
+                        android:layout_width="100dp"
+                        android:layout_height="wrap_content"
+                        android:inputType="numberDecimal"
+                        android:textSize="16sp"
+                        app:backgroundTint="@color/colorPrimary"/>
+
+                </android.support.design.widget.TextInputLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="5dp"
+                    android:gravity="center"
+                    android:layout_gravity="center"
+                    android:text="(dalam Kg)"/>
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/calculateBtn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Hitung biaya pengiriman"
+                android:textColor="@android:color/white"
+                android:layout_marginTop="10dp"
+                android:visibility="invisible"
+                android:background="@android:color/holo_green_light"/>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/shippingCostRV"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="invisible"/>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</FrameLayout>

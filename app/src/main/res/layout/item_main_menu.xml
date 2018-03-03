@@ -25,7 +25,7 @@
             android:textSize="16sp"
             android:layout_gravity="center"
             android:gravity="center"
-            android:textColor="@color/colorPrimaryDark"
+            android:textColor="@android:color/black"
             android:lines="2"/>
 
     </LinearLayout>

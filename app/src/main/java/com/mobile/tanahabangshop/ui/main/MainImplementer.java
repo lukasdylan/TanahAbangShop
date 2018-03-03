@@ -12,9 +12,9 @@ public interface MainImplementer {
     interface View {
         void showFragment(Fragment fragment);
 
-        void isShowMenuItem(boolean show);
+        void isShowMenuItem(boolean showMenuIcon);
 
-        void setupToolbar(boolean show, String title);
+        void setupToolbar(boolean showNavigationIcon, String title);
     }
 
     interface Presenter {

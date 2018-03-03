@@ -17,6 +17,7 @@ import android.widget.TextView;
 import com.mobile.tanahabangshop.R;
 import com.mobile.tanahabangshop.data.model.MainMenu;
 import com.mobile.tanahabangshop.ui.main.MainImplementer;
+import com.mobile.tanahabangshop.ui.main.listproduct.ListProductFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -97,7 +98,18 @@ public class HomeFragment extends Fragment implements MainImplementer.MainAdapte
 
     @Override
     public void onSelectedMenu(int position) {
-
+        switch (position){
+            case 0:
+                ListProductFragment listProductFragment = new ListProductFragment();
+                mainView.showFragment(listProductFragment);
+                break;
+            case 1:
+                break;
+            case 2:
+                break;
+            case 3:
+                break;
+        }
     }
 
     @Override
