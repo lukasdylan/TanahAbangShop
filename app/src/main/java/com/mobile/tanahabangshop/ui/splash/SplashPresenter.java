@@ -1,7 +1,6 @@
 package com.mobile.tanahabangshop.ui.splash;
 
 import io.reactivex.disposables.CompositeDisposable;
-import timber.log.Timber;
 
 /**
  * Created by Lukas Dylan Adisurya on 18/02/2018.
@@ -21,35 +20,20 @@ public class SplashPresenter implements SplashImplementer.Presenter {
 
     private void checkLoggedAccount() {
         boolean isAlreadyLoggedIn = splashModel.checkLoggedAccount();
-        if (isAlreadyLoggedIn) {
+        if (!isAlreadyLoggedIn) {
             viewListener.openMainActivity();
         } else {
             viewListener.openLoginActivity();
         }
     }
 
-    private void loadCityTracking() {
-        compositeDisposable.add(splashModel.checkInternetConnection()
-                .doAfterTerminate(this::checkLoggedAccount)
-                .subscribe(aBoolean -> {
-//                    if (aBoolean) {
-//                        viewListener.showToast("Have Connection");
-//                    } else {
-//                        viewListener.showToast("No Connection");
-//                    }
-                }, Timber::e)
-        );
-    }
-
     @Override
     public void initView() {
-        loadCityTracking();
-        Timber.d("initView Done");
+        checkLoggedAccount();
     }
 
     @Override
     public void destroyView() {
         compositeDisposable.dispose();
-        Timber.d("destroyView Done");
     }
 }

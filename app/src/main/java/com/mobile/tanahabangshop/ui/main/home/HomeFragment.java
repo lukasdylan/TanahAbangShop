@@ -17,8 +17,8 @@ import android.widget.TextView;
 import com.mobile.tanahabangshop.R;
 import com.mobile.tanahabangshop.data.model.MainMenu;
 import com.mobile.tanahabangshop.ui.main.MainImplementer;
-import com.mobile.tanahabangshop.ui.main.listproduct.ListProductFragment;
-import com.mobile.tanahabangshop.ui.main.shippingcost.ShippingCostFragment;
+import com.mobile.tanahabangshop.ui.listproduct.ListProductFragment;
+import com.mobile.tanahabangshop.ui.shippingcost.ShippingCostFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,7 +30,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import dagger.android.support.AndroidSupportInjection;
-import timber.log.Timber;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -72,6 +71,12 @@ public class HomeFragment extends Fragment implements MainImplementer.MainAdapte
                 throw new ClassCastException(context.toString() + "must implement MainImplementer.View");
             }
         }
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setRetainInstance(true);
     }
 
     @Override

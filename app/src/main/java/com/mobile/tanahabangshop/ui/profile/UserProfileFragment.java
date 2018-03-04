@@ -1,4 +1,4 @@
-package com.mobile.tanahabangshop.ui.main.profile;
+package com.mobile.tanahabangshop.ui.profile;
 
 
 import android.content.Context;

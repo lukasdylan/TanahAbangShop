@@ -9,6 +9,7 @@ import android.view.View;
 import com.airbnb.lottie.LottieAnimationView;
 import com.mobile.tanahabangshop.R;
 import com.mobile.tanahabangshop.ui.login.LoginActivity;
+import com.mobile.tanahabangshop.ui.main.MainActivity;
 
 import javax.inject.Inject;
 
@@ -42,16 +43,21 @@ public class SplashActivity extends AppCompatActivity implements SplashImplement
             Intent intent = new Intent(SplashActivity.this, LoginActivity.class);
             startActivity(intent);
             overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
-        },5000);
+        }, 5000);
 
     }
 
     @Override
     public void openMainActivity() {
-//        Intent intent = new Intent(this, LoginActivity.class);
-//        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-//        startActivity(intent);
-//        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+        new Handler().postDelayed(() -> {
+            lottieAnimationView.cancelAnimation();
+            lottieAnimationView.setVisibility(View.GONE);
+            SplashActivity.this.finish();
+            Intent intent = new Intent(SplashActivity.this, MainActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
+            overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+        }, 5000);
     }
 
     @Override

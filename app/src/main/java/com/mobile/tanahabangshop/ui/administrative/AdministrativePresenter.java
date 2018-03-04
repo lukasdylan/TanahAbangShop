@@ -3,6 +3,7 @@ package com.mobile.tanahabangshop.ui.administrative;
 import com.mobile.tanahabangshop.data.network.RajaOngkirCity;
 import com.mobile.tanahabangshop.data.network.RajaOngkirProvince;
 
+import java.net.SocketTimeoutException;
 import java.net.UnknownHostException;
 import java.util.Collections;
 
@@ -39,7 +40,8 @@ public class AdministrativePresenter implements AdministrativeImplementer.Presen
                         view.showProvinceList(Collections.emptyList());
                     }
                 }, throwable -> {
-                    if(throwable instanceof UnknownHostException){
+                    if(throwable instanceof UnknownHostException
+                            || throwable instanceof SocketTimeoutException){
                         view.showFailed();
                     }
                 }));
@@ -59,7 +61,8 @@ public class AdministrativePresenter implements AdministrativeImplementer.Presen
                         view.showCityList(Collections.emptyList());
                     }
                 }, throwable -> {
-                    if(throwable instanceof UnknownHostException){
+                    if(throwable instanceof UnknownHostException
+                            || throwable instanceof SocketTimeoutException){
                         view.showFailed();
                     }
                 }));

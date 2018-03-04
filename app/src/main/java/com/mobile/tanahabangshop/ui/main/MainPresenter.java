@@ -1,7 +1,7 @@
 package com.mobile.tanahabangshop.ui.main;
 
 import com.mobile.tanahabangshop.ui.main.home.HomeFragment;
-import com.mobile.tanahabangshop.ui.main.profile.UserProfileFragment;
+import com.mobile.tanahabangshop.ui.profile.UserProfileFragment;
 
 /**
  * Created by Lukas Dylan Adisurya on 24/02/2018.

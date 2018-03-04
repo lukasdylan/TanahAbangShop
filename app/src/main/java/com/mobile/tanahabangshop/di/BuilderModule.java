@@ -11,6 +11,8 @@ import com.mobile.tanahabangshop.ui.main.home.HomeModule;
 import com.mobile.tanahabangshop.ui.register.RegisterActivity;
 import com.mobile.tanahabangshop.ui.register.RegisterModel;
 import com.mobile.tanahabangshop.ui.register.RegisterModule;
+import com.mobile.tanahabangshop.ui.shippingcost.ShippingCostFragment;
+import com.mobile.tanahabangshop.ui.shippingcost.ShippingCostModule;
 import com.mobile.tanahabangshop.ui.splash.SplashActivity;
 import com.mobile.tanahabangshop.ui.splash.SplashModule;
 
@@ -42,4 +44,7 @@ abstract class BuilderModule {
 
     @ContributesAndroidInjector(modules = AdministrativeModule.class)
     abstract AdministrativeActivity bindAdministrativeActivity();
+
+    @ContributesAndroidInjector(modules = ShippingCostModule.class)
+    abstract ShippingCostFragment bindShippingCostFragment();
 }

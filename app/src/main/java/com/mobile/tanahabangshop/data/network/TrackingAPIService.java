@@ -1,8 +1,11 @@
 package com.mobile.tanahabangshop.data.network;
 
 import io.reactivex.Observable;
+import retrofit2.http.Field;
+import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
+import retrofit2.http.POST;
 import retrofit2.http.Query;
 
 /**
@@ -17,4 +20,12 @@ public interface TrackingAPIService {
 
     @GET("city")
     Observable<CityResponse> getCityResponse(@Header("key") String apiKey, @Query("province") String provinceCode);
+
+    @FormUrlEncoded
+    @POST("cost")
+    Observable<ShippingCostResponse> getShippingCostResponse(@Header("key") String apiKey,
+                                                             @Field("origin") String originCode,
+                                                             @Field("destination") String destinationCode,
+                                                             @Field("weight") int weight,
+                                                             @Field("courier") String courierName);
 }

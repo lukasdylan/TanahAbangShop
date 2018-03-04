@@ -3,17 +3,18 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:padding="16dp"
-    tools:context="com.mobile.tanahabangshop.ui.main.shippingcost.ShippingCostFragment">
+    tools:context=".ui.shippingcost.ShippingCostFragment">
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:scrollbars="none">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:padding="16dp">
 
             <TextView
                 android:layout_width="match_parent"
@@ -24,52 +25,91 @@
                 android:textSize="20sp"
                 android:textColor="@color/darkGray"/>
 
-            <TextView
-                android:id="@+id/provinceTV"
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/inputProvinceLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:padding="5dp"
                 android:layout_marginTop="5dp"
                 android:layout_marginBottom="5dp"
-                android:padding="5dp"
-                android:textSize="16sp"
-                android:textColor="@android:color/black"
+                android:hint="Provinsi"
                 android:textColorHint="@color/darkGray"
-                android:drawableEnd="@drawable/icon_drop_down"
-                android:ellipsize="end"
-                android:singleLine="true"
-                android:hint="Pilih nama provinsi anda"/>
+                app:hintAnimationEnabled="true"
+                app:errorTextAppearance="@style/ErrorEdittext">
 
-            <TextView
-                android:id="@+id/cityTV"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:layout_marginBottom="5dp"
-                android:padding="5dp"
-                android:textSize="16sp"
-                android:textColor="@android:color/black"
-                android:textColorHint="@color/darkGray"
-                android:drawableEnd="@drawable/icon_drop_down"
-                android:ellipsize="end"
-                android:singleLine="true"
-                android:visibility="invisible"
-                android:hint="Pilih nama kota atau kabupaten anda"/>
+                <EditText
+                    android:id="@+id/provinceET"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:focusable="false"
+                    android:focusableInTouchMode="false"
+                    android:inputType="none"
+                    android:textSize="16sp"
+                    android:ellipsize="end"
+                    android:singleLine="true"
+                    android:textColor="@android:color/black"
+                    android:drawableEnd="@drawable/icon_drop_down"
+                    app:backgroundTint="@color/colorPrimary"/>
 
-            <TextView
-                android:id="@+id/courierNameTV"
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/inputCityLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:padding="5dp"
                 android:layout_marginTop="5dp"
                 android:layout_marginBottom="5dp"
-                android:padding="5dp"
-                android:textSize="16sp"
-                android:textColor="@android:color/black"
+                android:hint="Kota atau Kabupaten"
                 android:textColorHint="@color/darkGray"
-                android:drawableEnd="@drawable/icon_drop_down"
-                android:ellipsize="end"
-                android:singleLine="true"
                 android:visibility="invisible"
-                android:hint="Pilih provider pengirim"/>
+                app:hintAnimationEnabled="true"
+                app:errorTextAppearance="@style/ErrorEdittext">
+
+                <EditText
+                    android:id="@+id/cityET"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:focusable="false"
+                    android:focusableInTouchMode="false"
+                    android:inputType="none"
+                    android:textSize="16sp"
+                    android:ellipsize="end"
+                    android:singleLine="true"
+                    android:textColor="@android:color/black"
+                    android:drawableEnd="@drawable/icon_drop_down"
+                    app:backgroundTint="@color/colorPrimary"/>
+
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/inputCourierLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:hint="Kurir"
+                android:textColorHint="@color/darkGray"
+                android:visibility="invisible"
+                app:hintAnimationEnabled="true"
+                app:errorTextAppearance="@style/ErrorEdittext">
+
+                <EditText
+                    android:id="@+id/courierNameET"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:focusable="false"
+                    android:focusableInTouchMode="false"
+                    android:inputType="none"
+                    android:textSize="16sp"
+                    android:ellipsize="end"
+                    android:singleLine="true"
+                    android:textColor="@android:color/black"
+                    android:drawableEnd="@drawable/icon_drop_down"
+                    app:backgroundTint="@color/colorPrimary"/>
+
+            </android.support.design.widget.TextInputLayout>
 
             <LinearLayout
                 android:id="@+id/weightLayout"
@@ -83,7 +123,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:padding="5dp"
-                    android:hint="Berat"
+                    android:hint="Berat Barang"
+                    android:textColorHint="@color/darkGray"
                     app:hintAnimationEnabled="true"
                     app:errorTextAppearance="@style/ErrorEdittext">
 
@@ -92,6 +133,7 @@
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:inputType="numberDecimal"
+                        android:maxLength="5"
                         android:textSize="16sp"
                         app:backgroundTint="@color/colorPrimary"/>
 
@@ -103,6 +145,7 @@
                     android:padding="5dp"
                     android:gravity="center"
                     android:layout_gravity="center"
+                    android:textColor="@color/darkGray"
                     android:text="(dalam Kg)"/>
             </LinearLayout>
 
@@ -114,12 +157,14 @@
                 android:textColor="@android:color/white"
                 android:layout_marginTop="10dp"
                 android:visibility="invisible"
+                android:foreground="?attr/selectableItemBackground"
                 android:background="@android:color/holo_green_light"/>
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/shippingCostRV"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
                 android:visibility="invisible"/>
 
         </LinearLayout>
