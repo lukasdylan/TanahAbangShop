@@ -6,8 +6,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -23,6 +25,7 @@ import com.mobile.tanahabangshop.data.network.CostResult;
 import com.mobile.tanahabangshop.ui.administrative.AdministrativeActivity;
 import com.mobile.tanahabangshop.ui.main.MainImplementer;
 import com.mobile.tanahabangshop.utility.DialogUtils;
+import com.mobile.tanahabangshop.utility.UiUtils;
 import com.mobile.tanahabangshop.view.CourierBottomSheetDialog;
 
 import java.util.List;
@@ -47,9 +50,6 @@ public class ShippingCostFragment extends Fragment implements ShippingCostImplem
     private static final int CITY_REQUEST = 1;
     private Unbinder unbinder;
     private MainImplementer.View mainView;
-    private int provinceCode = 0;
-    private int cityCode = 0;
-    private String courierName = "";
 
     @BindView(R.id.provinceET)
     EditText provinceET;
@@ -73,6 +73,8 @@ public class ShippingCostFragment extends Fragment implements ShippingCostImplem
     LinearLayout weightLayout;
     @BindView(R.id.shippingCostRV)
     RecyclerView shippingCostRV;
+    @BindView(R.id.coordinatorLayout)
+    CoordinatorLayout coordinatorLayout;
 
     @Inject
     ShippingCostImplementer.Presenter presenter;
@@ -109,6 +111,7 @@ public class ShippingCostFragment extends Fragment implements ShippingCostImplem
         mainView.setupToolbar(true, "Biaya Pengiriman");
         shippingCostRV.setHasFixedSize(true);
         shippingCostRV.setLayoutManager(new LinearLayoutManager(getContext()));
+        //noinspection ConstantConditions
         shippingCostRV.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
         shippingCostRV.setNestedScrollingEnabled(false);
     }
@@ -118,7 +121,7 @@ public class ShippingCostFragment extends Fragment implements ShippingCostImplem
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK) {
             if (requestCode == PROVINCE_REQUEST && data != null) {
-                provinceCode = data.getIntExtra("province_code", 0);
+                presenter.setProvinceCode(data.getIntExtra("province_code", 0));
                 provinceET.setText(String.format("Provinsi %s", data.getStringExtra("province_name")));
                 inputCityLayout.setVisibility(View.VISIBLE);
                 if (cityET.getText().length() > 1) {
@@ -127,11 +130,11 @@ public class ShippingCostFragment extends Fragment implements ShippingCostImplem
                 if (calculateBtn.getVisibility() == View.VISIBLE) {
                     calculateBtn.setVisibility(View.INVISIBLE);
                 }
-                if(shippingCostRV.getVisibility() == View.VISIBLE){
+                if (shippingCostRV.getVisibility() == View.VISIBLE) {
                     shippingCostRV.setVisibility(View.GONE);
                 }
             } else if (requestCode == CITY_REQUEST && data != null) {
-                cityCode = data.getIntExtra("city_code", 0);
+                presenter.setCityCode(data.getIntExtra("city_code", 0));
                 cityET.setText(data.getStringExtra("city_name"));
                 if (inputCourierLayout.getVisibility() == View.VISIBLE && calculateBtn.getVisibility() == View.INVISIBLE) {
                     calculateBtn.setVisibility(View.VISIBLE);
@@ -165,7 +168,7 @@ public class ShippingCostFragment extends Fragment implements ShippingCostImplem
             case R.id.cityET:
                 Intent cityIntent = new Intent(getContext(), AdministrativeActivity.class);
                 cityIntent.putExtra("request_code", CITY_REQUEST);
-                cityIntent.putExtra("province_code", provinceCode);
+                cityIntent.putExtra("province_code", presenter.getProvinceCode());
                 startActivityForResult(cityIntent, CITY_REQUEST);
                 break;
             case R.id.courierNameET:
@@ -181,15 +184,15 @@ public class ShippingCostFragment extends Fragment implements ShippingCostImplem
                     shippingCostRV.setVisibility(View.GONE);
                 }
                 if (weightET.getText().length() != 0 && !weightET.getText().toString().startsWith(".")) {
-                    presenter.calculateShippingCost(cityCode, Double.parseDouble(weightET.getText().toString()), courierName);
+                    presenter.calculateShippingCost(Double.parseDouble(weightET.getText().toString()));
                 } else if (weightET.getText().length() != 0 && weightET.getText().toString().startsWith(".")) {
-                    if(weightET.getText().length() >= 2){
+                    if (weightET.getText().length() >= 2) {
                         String textAfterDot = weightET.getText().toString().substring(1);
                         weightET.setText(String.format("0.%s", textAfterDot));
                     } else {
                         weightET.setText("0.0");
                     }
-                    presenter.calculateShippingCost(cityCode, Double.parseDouble(weightET.getText().toString()), courierName);
+                    presenter.calculateShippingCost(Double.parseDouble(weightET.getText().toString()));
                 } else {
                     showWeightError("Masukkan berat barang terlebih dahulu");
                 }
@@ -199,8 +202,8 @@ public class ShippingCostFragment extends Fragment implements ShippingCostImplem
 
     @Override
     public void onSelectedCourier(String name) {
-        courierName = name;
-        courierNameET.setText(courierName);
+        presenter.setCourierName(name);
+        courierNameET.setText(name);
         weightLayout.setVisibility(View.VISIBLE);
         calculateBtn.setVisibility(View.VISIBLE);
     }
@@ -208,7 +211,7 @@ public class ShippingCostFragment extends Fragment implements ShippingCostImplem
     @Override
     public void showShippingCostList(List<CostResult> costResultList) {
         shippingCostRV.setVisibility(View.VISIBLE);
-        ShippingCostAdapter shippingCostAdapter = new ShippingCostAdapter(costResultList, courierName);
+        ShippingCostAdapter shippingCostAdapter = new ShippingCostAdapter(costResultList, presenter.getCourierName());
         shippingCostRV.setAdapter(shippingCostAdapter);
     }
 
@@ -225,5 +228,15 @@ public class ShippingCostFragment extends Fragment implements ShippingCostImplem
     public void showWeightError(String message) {
         inputLayoutWeight.setError(message);
         inputLayoutWeight.setErrorEnabled(true);
+    }
+
+    @Override
+    public void showErrorConnection() {
+        if (getContext() != null) {
+            UiUtils.showSnackBar(coordinatorLayout,
+                    "Gagal koneksi ke server. Mohon cek kembali koneksi anda",
+                    ContextCompat.getColor(getContext(), android.R.color.holo_red_light),
+                    ContextCompat.getColor(getContext(), android.R.color.white));
+        }
     }
 }

@@ -1,5 +1,10 @@
 package com.mobile.tanahabangshop.utility;
 
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
+import java.text.NumberFormat;
+import java.util.Locale;
+
 /**
  * Created by Lukas Dylan Adisurya on 24/02/2018.
  * If you had any question about this project, you can contact me via e-mail
@@ -24,5 +29,14 @@ public class StringUtils {
             firstName = firstName.substring(0, firstName.length() - 1);
             return firstName;
         }
+    }
+
+    public static String formatNumber(double value) {
+        DecimalFormat formatter = (DecimalFormat) NumberFormat.getInstance(Locale.US);
+        DecimalFormatSymbols symbols = formatter.getDecimalFormatSymbols();
+        symbols.setGroupingSeparator('.');
+        symbols.setDecimalSeparator(',');
+        formatter.setDecimalFormatSymbols(symbols);
+        return formatter.format(value);
     }
 }

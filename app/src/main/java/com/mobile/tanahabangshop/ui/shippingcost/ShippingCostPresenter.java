@@ -4,6 +4,8 @@ import android.support.annotation.NonNull;
 
 import com.mobile.tanahabangshop.data.network.RajaOngkirCost;
 
+import java.net.SocketTimeoutException;
+import java.net.UnknownHostException;
 import java.util.Collections;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -19,6 +21,9 @@ public class ShippingCostPresenter implements ShippingCostImplementer.Presenter 
     private ShippingCostImplementer.View view;
     private ShippingCostImplementer.Model model;
     private final CompositeDisposable compositeDisposable = new CompositeDisposable();
+    private int provinceCode = 0;
+    private int cityCode = 0;
+    private String courierName = "";
 
     ShippingCostPresenter(ShippingCostImplementer.View view, ShippingCostImplementer.Model model) {
         this.view = view;
@@ -26,12 +31,37 @@ public class ShippingCostPresenter implements ShippingCostImplementer.Presenter 
     }
 
     @Override
-    public void calculateShippingCost(int destinationCode, double weightTotal, String courierName) {
+    public void setProvinceCode(int provinceCode) {
+        this.provinceCode = provinceCode;
+    }
+
+    @Override
+    public void setCityCode(int cityCode) {
+        this.cityCode = cityCode;
+    }
+
+    @Override
+    public void setCourierName(String courierName) {
+        this.courierName = courierName;
+    }
+
+    @Override
+    public int getProvinceCode() {
+        return provinceCode;
+    }
+
+    @Override
+    public String getCourierName() {
+        return courierName;
+    }
+
+    @Override
+    public void calculateShippingCost(double weightTotal) {
         if (validateWeight(weightTotal)) {
-            String paramCourierName = validateCourierName(courierName);
+            String paramCourierName = validateCourierName();
             int paramWeightTotal = (int) (weightTotal * 1000);
             compositeDisposable.add(
-                    model.fetchShippingCost(String.valueOf(destinationCode), paramWeightTotal, paramCourierName)
+                    model.fetchShippingCost(String.valueOf(cityCode), paramWeightTotal, paramCourierName)
                             .subscribeOn(Schedulers.io())
                             .observeOn(AndroidSchedulers.mainThread())
                             .doOnSubscribe(disposable -> view.setUiEnable(false))
@@ -43,6 +73,11 @@ public class ShippingCostPresenter implements ShippingCostImplementer.Presenter 
                                 } else {
                                     view.showShippingCostList(Collections.emptyList());
                                 }
+                            }, throwable -> {
+                                if(throwable instanceof UnknownHostException
+                                        || throwable instanceof SocketTimeoutException){
+                                    view.showErrorConnection();
+                                }
                             }));
         } else {
             view.showWeightError("Maksimal pengecekan berat barang 30kg");
@@ -50,7 +85,7 @@ public class ShippingCostPresenter implements ShippingCostImplementer.Presenter 
     }
 
     @NonNull
-    private String validateCourierName(String courierName) {
+    private String validateCourierName() {
         if (courierName.equalsIgnoreCase("JNE")) {
             return "jne";
         } else if (courierName.equalsIgnoreCase("Pos Indonesia")) {

@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 import com.mobile.tanahabangshop.R;
 import com.mobile.tanahabangshop.data.model.MainMenu;
+import com.mobile.tanahabangshop.ui.listorder.ListOrderFragment;
 import com.mobile.tanahabangshop.ui.main.MainImplementer;
 import com.mobile.tanahabangshop.ui.listproduct.ListProductFragment;
 import com.mobile.tanahabangshop.ui.shippingcost.ShippingCostFragment;
@@ -110,6 +111,8 @@ public class HomeFragment extends Fragment implements MainImplementer.MainAdapte
                 mainView.showFragment(listProductFragment);
                 break;
             case 1:
+                ListOrderFragment listOrderFragment = new ListOrderFragment();
+                mainView.showFragment(listOrderFragment);
                 break;
             case 2:
                 ShippingCostFragment shippingCostFragment = new ShippingCostFragment();

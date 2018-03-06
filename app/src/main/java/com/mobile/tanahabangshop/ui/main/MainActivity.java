@@ -10,8 +10,10 @@ import android.widget.FrameLayout;
 import android.widget.Toast;
 
 import com.mobile.tanahabangshop.R;
+import com.mobile.tanahabangshop.ui.profile.UserProfileFragment;
 import com.mobile.tanahabangshop.utility.DialogUtils;
-import com.mobile.tanahabangshop.view.CustomBottomSheetDialog;
+import com.mobile.tanahabangshop.utility.UiUtils;
+import com.mobile.tanahabangshop.view.MenuBottomSheetDialog;
 
 import javax.inject.Inject;
 
@@ -23,7 +25,7 @@ import dagger.android.DispatchingAndroidInjector;
 import dagger.android.support.HasSupportFragmentInjector;
 
 public class MainActivity extends AppCompatActivity implements MainImplementer.View,
-        CustomBottomSheetDialog.BottomSheetCallback, HasSupportFragmentInjector {
+        MenuBottomSheetDialog.MenuBottomSheetCallback, HasSupportFragmentInjector {
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
@@ -61,16 +63,17 @@ public class MainActivity extends AppCompatActivity implements MainImplementer.V
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
+                UiUtils.hideKeyboard(frameContainer, this);
                 onBackPressed();
-                break;
+                return true;
             case R.id.menu_more:
-                CustomBottomSheetDialog customBottomSheetDialog = DialogUtils.showBottomSheetDialog(this, this);
-                customBottomSheetDialog.show();
-                break;
+                MenuBottomSheetDialog menuBottomSheetDialog = DialogUtils.showBottomSheetDialog(this, this);
+                menuBottomSheetDialog.show();
+                return true;
             default:
                 break;
         }
-        return true;
+        return false;
     }
 
     @Override
@@ -115,7 +118,11 @@ public class MainActivity extends AppCompatActivity implements MainImplementer.V
 
     @Override
     public void openProfile() {
-        presenter.showProfile();
+        getSupportFragmentManager().beginTransaction()
+                .setCustomAnimations(R.anim.slide_in_up, android.R.anim.fade_out, android.R.anim.fade_in, R.anim.slide_out_down)
+                .replace(frameContainer.getId(), new UserProfileFragment())
+                .addToBackStack(null)
+                .commit();
     }
 
     @Override

@@ -4,7 +4,7 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 
 import com.mobile.tanahabangshop.view.CourierBottomSheetDialog;
-import com.mobile.tanahabangshop.view.CustomBottomSheetDialog;
+import com.mobile.tanahabangshop.view.MenuBottomSheetDialog;
 import com.mobile.tanahabangshop.view.CustomDialog;
 
 /**
@@ -54,9 +54,9 @@ public class DialogUtils {
     }
 
     @NonNull
-    public static CustomBottomSheetDialog showBottomSheetDialog(Context context,
-                                                                CustomBottomSheetDialog.BottomSheetCallback callback){
-        return new CustomBottomSheetDialog(context, callback);
+    public static MenuBottomSheetDialog showBottomSheetDialog(Context context,
+                                                              MenuBottomSheetDialog.MenuBottomSheetCallback callback){
+        return new MenuBottomSheetDialog(context, callback);
     }
 
     @NonNull

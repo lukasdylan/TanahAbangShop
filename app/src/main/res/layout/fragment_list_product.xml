@@ -20,6 +20,8 @@
             android:layout_height="match_parent"
             android:drawableStart="@drawable/icon_search"
             android:drawablePadding="8dp"
+            android:singleLine="true"
+            android:ellipsize="end"
             android:hint="Cari berdasarkan nama atau kode produk"
             android:textColor="@android:color/black"
             android:textSize="16sp"

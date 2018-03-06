@@ -20,14 +20,14 @@ import timber.log.Timber;
  * lukas.dylan.adisurya@gmail.com
  */
 
-public class CustomBottomSheetDialog extends BottomSheetDialog {
+public class MenuBottomSheetDialog extends BottomSheetDialog {
 
     @BindView(R.id.appVersionTV)
     TextView appVersionTV;
 
-    private BottomSheetCallback callback;
+    private MenuBottomSheetCallback callback;
 
-    public CustomBottomSheetDialog(@NonNull Context context, BottomSheetCallback callback) {
+    public MenuBottomSheetDialog(@NonNull Context context, MenuBottomSheetCallback callback) {
         super(context);
         setCanceledOnTouchOutside(true);
         setContentView(R.layout.custom_bottom_sheet_dialog);
@@ -64,7 +64,7 @@ public class CustomBottomSheetDialog extends BottomSheetDialog {
         super.onBackPressed();
     }
 
-    public interface BottomSheetCallback {
+    public interface MenuBottomSheetCallback {
         void openProfile();
 
         void openSetting();

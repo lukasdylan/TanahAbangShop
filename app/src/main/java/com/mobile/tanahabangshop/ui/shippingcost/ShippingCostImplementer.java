@@ -18,10 +18,22 @@ public interface ShippingCostImplementer {
         void setUiEnable(boolean enabled);
 
         void showWeightError(String message);
+
+        void showErrorConnection();
     }
 
     interface Presenter {
-        void calculateShippingCost(int destinationCode, double weightTotal, String courierName);
+        void setProvinceCode(int provinceCode);
+
+        void setCityCode(int cityCode);
+
+        void setCourierName(String courierName);
+
+        int getProvinceCode();
+
+        String getCourierName();
+
+        void calculateShippingCost(double weightTotal);
 
         void destroy();
     }

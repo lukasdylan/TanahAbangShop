@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.mobile.tanahabangshop.R;
 import com.mobile.tanahabangshop.data.network.CostResult;
+import com.mobile.tanahabangshop.utility.StringUtils;
 
 import java.util.List;
 import java.util.Locale;
@@ -42,7 +43,7 @@ public class ShippingCostAdapter extends RecyclerView.Adapter<ShippingCostAdapte
     public void onBindViewHolder(ShippingCostViewHolder holder, int position) {
         CostResult costResult = costResultList.get(position);
         if (!costResult.getService().equalsIgnoreCase(costResult.getDescription())) {
-            holder.serviceNameTV.setText(String.format("%s(%s)", costResult.getService(), costResult.getDescription()));
+            holder.serviceNameTV.setText(String.format("%s (%s)", costResult.getService(), costResult.getDescription()));
         } else {
             holder.serviceNameTV.setText(costResult.getService());
         }
@@ -56,7 +57,7 @@ public class ShippingCostAdapter extends RecyclerView.Adapter<ShippingCostAdapte
         } else {
             holder.estimatedTimeTV.setText(String.format("%s hari", estimateTime));
         }
-        holder.priceTV.setText(String.format(Locale.getDefault(),"Rp %d", costResult.getCost().get(0).getValue()));
+        holder.priceTV.setText(String.format(Locale.getDefault(),"Rp %s", StringUtils.formatNumber(costResult.getCost().get(0).getValue())));
     }
 
     @Override
