@@ -21,6 +21,8 @@ public interface LoginImplementer {
         void hideLoading();
 
         void toMainScreen();
+
+        Observable<Boolean> isConnectedInternet();
     }
 
     interface Presenter {
@@ -32,6 +34,6 @@ public interface LoginImplementer {
     }
 
     interface Model {
-        Observable<Boolean> checkInternetConnection();
+
     }
 }

@@ -1,9 +1,11 @@
 package com.mobile.tanahabangshop.ui.register;
 
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -11,11 +13,11 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
 
+import com.google.gson.JsonObject;
 import com.mobile.tanahabangshop.R;
 import com.mobile.tanahabangshop.utility.DialogUtils;
+import com.mobile.tanahabangshop.utility.NetworkUtils;
 import com.mobile.tanahabangshop.view.CustomDialog;
-
-import org.json.JSONObject;
 
 import javax.inject.Inject;
 
@@ -24,6 +26,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import dagger.android.AndroidInjection;
+import io.reactivex.Observable;
 
 public class RegisterActivity extends AppCompatActivity implements RegisterImplementer.View {
 
@@ -163,7 +166,7 @@ public class RegisterActivity extends AppCompatActivity implements RegisterImple
     }
 
     @Override
-    public void showConfirmationDialog(JSONObject params) {
+    public void showConfirmationDialog(JsonObject params) {
         CustomDialog.PositiveCallback positiveCallback = customDialog -> {
             customDialog.dismiss();
             presenter.sendRequest(params);
@@ -176,5 +179,16 @@ public class RegisterActivity extends AppCompatActivity implements RegisterImple
 
         customDialog = DialogUtils.getConfirmationDialog(this, positiveCallback, negativeCallback, message);
         customDialog.show();
+    }
+
+    @Override
+    public Observable<Boolean> checkInternetConnection() {
+        return NetworkUtils.isNetworkAvailableObservable(this);
+    }
+
+    @SuppressLint("HardwareIds")
+    @Override
+    public String getDeviceID() {
+        return Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
     }
 }

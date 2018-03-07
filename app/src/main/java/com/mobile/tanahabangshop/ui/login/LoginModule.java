@@ -22,8 +22,8 @@ public class LoginModule {
     }
 
     @Provides
-    LoginImplementer.Model provideModel(Context context, APIService apiService){
-        return new LoginModel(context, apiService);
+    LoginImplementer.Model provideModel(APIService apiService){
+        return new LoginModel(apiService);
     }
 
     @Provides

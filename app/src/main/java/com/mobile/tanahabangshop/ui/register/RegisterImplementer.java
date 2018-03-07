@@ -1,6 +1,6 @@
 package com.mobile.tanahabangshop.ui.register;
 
-import org.json.JSONObject;
+import com.google.gson.JsonObject;
 
 import io.reactivex.Observable;
 
@@ -26,7 +26,11 @@ public interface RegisterImplementer {
 
         void hideDialog();
 
-        void showConfirmationDialog(JSONObject params);
+        void showConfirmationDialog(JsonObject params);
+
+        Observable<Boolean> checkInternetConnection();
+
+        String getDeviceID();
     }
 
     interface Presenter {
@@ -34,14 +38,12 @@ public interface RegisterImplementer {
 
         void validateRegisterRequest(String name, String phoneNumber, String password);
 
-        void sendRequest(JSONObject jsonObject);
+        void sendRequest(JsonObject params);
 
         void destroyView();
     }
 
     interface Model {
-        Observable<Boolean> checkInternetConnection();
 
-        String getDeviceID();
     }
 }

@@ -1,7 +1,5 @@
 package com.mobile.tanahabangshop.ui.splash;
 
-import android.content.Context;
-
 import com.mobile.tanahabangshop.data.local.AppPreferences;
 
 import dagger.Module;
@@ -22,8 +20,8 @@ public class SplashModule {
     }
 
     @Provides
-    SplashImplementer.Model provideModel(Context context, AppPreferences appPreferences){
-        return new SplashModel(context, appPreferences);
+    SplashImplementer.Model provideModel(AppPreferences appPreferences){
+        return new SplashModel(appPreferences);
     }
 
     @Provides

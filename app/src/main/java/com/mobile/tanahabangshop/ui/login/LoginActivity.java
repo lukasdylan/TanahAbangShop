@@ -14,6 +14,7 @@ import com.mobile.tanahabangshop.R;
 import com.mobile.tanahabangshop.ui.main.MainActivity;
 import com.mobile.tanahabangshop.ui.register.RegisterActivity;
 import com.mobile.tanahabangshop.utility.DialogUtils;
+import com.mobile.tanahabangshop.utility.NetworkUtils;
 import com.mobile.tanahabangshop.utility.UiUtils;
 import com.mobile.tanahabangshop.view.CustomDialog;
 
@@ -24,6 +25,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import dagger.android.AndroidInjection;
+import io.reactivex.Observable;
 
 public class LoginActivity extends AppCompatActivity implements LoginImplementer.View {
 
@@ -119,6 +121,11 @@ public class LoginActivity extends AppCompatActivity implements LoginImplementer
         overridePendingTransition(0, 0);
         finish();
         overridePendingTransition(0, 0);
+    }
+
+    @Override
+    public Observable<Boolean> isConnectedInternet() {
+        return NetworkUtils.isNetworkAvailableObservable(this);
     }
 
     @Override

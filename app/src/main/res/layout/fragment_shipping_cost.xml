@@ -140,6 +140,7 @@
                         android:maxLength="5"
                         android:textSize="16sp"
                         android:longClickable="false"
+                        android:imeOptions="actionDone"
                         app:backgroundTint="@color/colorPrimary"/>
 
                 </android.support.design.widget.TextInputLayout>
@@ -170,6 +171,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
+                android:layout_marginTop="10dp"
                 android:visibility="invisible"/>
 
         </LinearLayout>

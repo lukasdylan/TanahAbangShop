@@ -1,11 +1,6 @@
 package com.mobile.tanahabangshop.ui.login;
 
-import android.content.Context;
-
 import com.mobile.tanahabangshop.data.network.APIService;
-import com.mobile.tanahabangshop.utility.NetworkUtils;
-
-import io.reactivex.Observable;
 
 /**
  * Created by Lukas Dylan Adisurya on 19/02/2018.
@@ -15,16 +10,9 @@ import io.reactivex.Observable;
 
 public class LoginModel implements LoginImplementer.Model {
 
-    private final Context context;
     private final APIService apiService;
 
-    public LoginModel(Context context, APIService apiService){
-        this.context = context;
+    public LoginModel(APIService apiService){
         this.apiService = apiService;
-    }
-
-    @Override
-    public Observable<Boolean> checkInternetConnection() {
-        return NetworkUtils.isNetworkAvailableObservable(context);
     }
 }

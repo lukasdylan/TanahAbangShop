@@ -10,6 +10,7 @@ import com.airbnb.lottie.LottieAnimationView;
 import com.mobile.tanahabangshop.R;
 import com.mobile.tanahabangshop.ui.login.LoginActivity;
 import com.mobile.tanahabangshop.ui.main.MainActivity;
+import com.mobile.tanahabangshop.utility.NetworkUtils;
 
 import javax.inject.Inject;
 
@@ -58,6 +59,11 @@ public class SplashActivity extends AppCompatActivity implements SplashImplement
             startActivity(intent);
             overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
         }, 5000);
+    }
+
+    @Override
+    public boolean isConnectedInternet() {
+        return NetworkUtils.isNetworkAvailable(this);
     }
 
     @Override

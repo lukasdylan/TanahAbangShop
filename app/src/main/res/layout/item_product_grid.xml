@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <ImageView
+        android:id="@+id/productImageIV"
+        android:layout_width="match_parent"
+        android:layout_height="120dp"
+        android:layout_gravity="center"
+        android:src="@color/darkGray"/>
+
+    <TextView
+        android:id="@+id/productCodeTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/lightGray"
+        android:layout_marginTop="5dp"
+        android:textSize="13sp"
+        tools:text="ABC-123"/>
+
+    <TextView
+        android:id="@+id/productNameTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@android:color/black"
+        android:maxLines="2"
+        android:ellipsize="end"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:layout_marginTop="3dp"
+        tools:text="Baju Batik Merah"/>
+
+    <TextView
+        android:id="@+id/productPriceTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@android:color/holo_green_light"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:layout_marginTop="5dp"
+        tools:text="Rp 50.000 / pcs"/>
+
+    <TextView
+        android:id="@+id/productStockTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/darkGray"
+        android:textSize="13sp"
+        android:textStyle="italic"
+        android:layout_marginTop="5dp"
+        tools:text="Sisa stock: 30pcs"/>
+</LinearLayout>

@@ -2,9 +2,8 @@ package com.mobile.tanahabangshop.ui.register;
 
 import android.os.Handler;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
+import com.google.gson.JsonIOException;
+import com.google.gson.JsonObject;
 
 import io.reactivex.disposables.CompositeDisposable;
 import timber.log.Timber;
@@ -21,7 +20,7 @@ public class RegisterPresenter implements RegisterImplementer.Presenter {
     private final RegisterImplementer.View view;
     private final RegisterImplementer.Model model;
 
-    public RegisterPresenter(RegisterImplementer.Model model, RegisterImplementer.View view) {
+    RegisterPresenter(RegisterImplementer.Model model, RegisterImplementer.View view) {
         this.view = view;
         this.model = model;
     }
@@ -33,21 +32,21 @@ public class RegisterPresenter implements RegisterImplementer.Presenter {
 
     @Override
     public void validateRegisterRequest(String name, String phoneNumber, String password) {
-        String deviceID = model.getDeviceID();
-        JSONObject params = new JSONObject();
+        String deviceID = view.getDeviceID();
+        JsonObject params = new JsonObject();
         try {
-            params.put("name", name);
-            params.put("phone_number", phoneNumber);
-            params.put("password", password);
-            params.put("device_id", deviceID);
+            params.addProperty("name", name);
+            params.addProperty("phone_number", phoneNumber);
+            params.addProperty("password", password);
+            params.addProperty("device_id", deviceID);
             view.showConfirmationDialog(params);
-        } catch (JSONException e) {
+        } catch (JsonIOException e) {
             Timber.e(e);
         }
     }
 
     @Override
-    public void sendRequest(JSONObject jsonObject) {
+    public void sendRequest(JsonObject params) {
         view.showLoading();
         new Handler().postDelayed(() -> {
             view.hideDialog();

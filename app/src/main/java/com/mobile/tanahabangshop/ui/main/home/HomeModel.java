@@ -12,7 +12,7 @@ public class HomeModel implements HomeImplementer.Model {
 
     private AppPreferences appPreferences;
 
-    public HomeModel(AppPreferences appPreferences) {
+    HomeModel(AppPreferences appPreferences) {
         this.appPreferences = appPreferences;
     }
 

@@ -15,8 +15,8 @@ import com.mobile.tanahabangshop.utility.StringUtils;
 
 public class MainModel implements MainImplementer.Model {
 
-    static final int HOME_TYPE = 0;
-    static final int PROFILE_TYPE = 1;
+    private static final int HOME_TYPE = 0;
+    private static final int PROFILE_TYPE = 1;
     private final AppPreferences appPreferences;
     private final Resources resources;
 

@@ -127,9 +127,9 @@ public class HomeFragment extends Fragment implements MainImplementer.MainAdapte
     public void showMenu() {
         List<MainMenu> mainMenuList = new ArrayList<>();
         mainMenuList.add(new MainMenu("Lihat Produk Toko", iconMainProduct));
-        mainMenuList.add(new MainMenu("Cek Pesanan Saya", iconInvoice));
+        mainMenuList.add(new MainMenu("Lihat Pesanan Saya", iconInvoice));
         mainMenuList.add(new MainMenu("Cek Biaya Pengiriman", iconShippingCost));
-        mainMenuList.add(new MainMenu("Cek Informasi Toko", iconStore));
+        mainMenuList.add(new MainMenu("Lihat Informasi Toko", iconStore));
 
         HomeMenuAdapter homeMenuAdapter = new HomeMenuAdapter(mainMenuList, this);
         mainMenuRV.setHasFixedSize(true);

@@ -22,8 +22,8 @@ public class RegisterModule {
     }
 
     @Provides
-    RegisterImplementer.Model provideModel(Context context, APIService apiService){
-        return new RegisterModel(context, apiService);
+    RegisterImplementer.Model provideModel(APIService apiService){
+        return new RegisterModel(apiService);
     }
 
     @Provides

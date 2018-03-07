@@ -1,13 +1,6 @@
 package com.mobile.tanahabangshop.ui.register;
 
-import android.annotation.SuppressLint;
-import android.content.Context;
-import android.provider.Settings;
-
 import com.mobile.tanahabangshop.data.network.APIService;
-import com.mobile.tanahabangshop.utility.NetworkUtils;
-
-import io.reactivex.Observable;
 
 /**
  * Created by Lukas Dylan Adisurya on 21/02/2018.
@@ -17,20 +10,9 @@ import io.reactivex.Observable;
 
 public class RegisterModel implements RegisterImplementer.Model {
 
-    private final Context context;
+    private final APIService apiService;
 
-    public RegisterModel(Context context, APIService apiService){
-        this.context = context;
-    }
-
-    @Override
-    public Observable<Boolean> checkInternetConnection() {
-        return NetworkUtils.isNetworkAvailableObservable(context);
-    }
-
-    @SuppressLint("HardwareIds")
-    @Override
-    public String getDeviceID() {
-        return Settings.Secure.getString(context.getContentResolver(), Settings.Secure.ANDROID_ID);
+    RegisterModel(APIService apiService){
+        this.apiService = apiService;
     }
 }
