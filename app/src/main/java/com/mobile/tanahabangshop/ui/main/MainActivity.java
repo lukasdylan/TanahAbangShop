@@ -119,7 +119,7 @@ public class MainActivity extends AppCompatActivity implements MainImplementer.V
     @Override
     public void openProfile() {
         getSupportFragmentManager().beginTransaction()
-                .setCustomAnimations(R.anim.slide_in_up, android.R.anim.fade_out, android.R.anim.fade_in, R.anim.slide_out_down)
+                .setCustomAnimations(R.anim.slide_in_up, R.anim.fade_out, android.R.anim.fade_in, R.anim.slide_out_down)
                 .replace(frameContainer.getId(), new UserProfileFragment())
                 .addToBackStack(null)
                 .commit();

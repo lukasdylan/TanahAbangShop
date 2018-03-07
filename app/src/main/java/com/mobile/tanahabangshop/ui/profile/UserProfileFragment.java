@@ -47,6 +47,6 @@ public class UserProfileFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         mainView.isShowMenuItem(false);
-        mainView.setupToolbar(true, "Profile");
+        mainView.setupToolbar(true, "Profil Anda");
     }
 }
