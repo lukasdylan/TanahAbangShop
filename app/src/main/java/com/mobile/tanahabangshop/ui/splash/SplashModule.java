@@ -1,6 +1,7 @@
 package com.mobile.tanahabangshop.ui.splash;
 
 import com.mobile.tanahabangshop.data.local.AppPreferences;
+import com.mobile.tanahabangshop.service.backgroundreceiver.BackgroundReceiver;
 
 import dagger.Module;
 import dagger.Provides;
@@ -13,6 +14,10 @@ import dagger.Provides;
 
 @Module
 public class SplashModule {
+    @Provides
+    BackgroundReceiver provideBackgroundReceiver(){
+        return new BackgroundReceiver();
+    }
 
     @Provides
     SplashImplementer.View provideView(SplashActivity splashActivity){

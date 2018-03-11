@@ -6,7 +6,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.mobile.tanahabangshop.R;
@@ -39,6 +41,8 @@ public class MainActivity extends AppCompatActivity implements MainImplementer.V
 
     private boolean showMenuItem = true;
     private boolean backToFinish = true;
+    ImageView notificationIcon;
+    View notificationBadge;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +60,13 @@ public class MainActivity extends AppCompatActivity implements MainImplementer.V
         getMenuInflater().inflate(R.menu.main_menu, menu);
         MenuItem menuItem = menu.findItem(R.id.menu_more);
         menuItem.setVisible(showMenuItem);
+
+        MenuItem notificationMenuItem = menu.findItem(R.id.menu_notification);
+        View actionView = notificationMenuItem.getActionView();
+        actionView.setOnClickListener(v -> onOptionsItemSelected(notificationMenuItem));
+        notificationIcon = actionView.findViewById(R.id.notificationIcon);
+        notificationBadge = actionView.findViewById(R.id.notificationBadge);
+        notificationMenuItem.setVisible(showMenuItem);
         return true;
     }
 
@@ -69,6 +80,10 @@ public class MainActivity extends AppCompatActivity implements MainImplementer.V
             case R.id.menu_more:
                 MenuBottomSheetDialog menuBottomSheetDialog = DialogUtils.showBottomSheetDialog(this, this);
                 menuBottomSheetDialog.show();
+                return true;
+            case R.id.menu_notification:
+                notificationIcon.setRotation(30f);
+                notificationBadge.setVisibility(View.VISIBLE);
                 return true;
             default:
                 break;

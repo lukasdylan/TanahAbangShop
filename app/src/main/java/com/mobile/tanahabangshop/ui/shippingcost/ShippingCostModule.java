@@ -1,6 +1,6 @@
 package com.mobile.tanahabangshop.ui.shippingcost;
 
-import com.mobile.tanahabangshop.data.network.TrackingAPIService;
+import com.mobile.tanahabangshop.service.TrackingAPIService;
 
 import dagger.Module;
 import dagger.Provides;

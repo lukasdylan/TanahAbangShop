@@ -1,6 +1,6 @@
 package com.mobile.tanahabangshop.ui.register;
 
-import com.mobile.tanahabangshop.data.network.APIService;
+import com.mobile.tanahabangshop.service.APIService;
 
 /**
  * Created by Lukas Dylan Adisurya on 21/02/2018.

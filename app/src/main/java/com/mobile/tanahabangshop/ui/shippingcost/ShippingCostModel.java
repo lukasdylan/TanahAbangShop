@@ -2,7 +2,7 @@ package com.mobile.tanahabangshop.ui.shippingcost;
 
 import com.mobile.tanahabangshop.data.constant.GlobalConstant;
 import com.mobile.tanahabangshop.data.network.ShippingCostResponse;
-import com.mobile.tanahabangshop.data.network.TrackingAPIService;
+import com.mobile.tanahabangshop.service.TrackingAPIService;
 
 import io.reactivex.Observable;
 

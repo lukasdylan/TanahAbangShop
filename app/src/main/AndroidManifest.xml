@@ -40,6 +40,21 @@
             android:name=".ui.administrative.AdministrativeActivity"
             android:configChanges="screenSize|keyboard|locale"
             android:screenOrientation="portrait"/>
+
+        <service
+            android:name=".service.backgroundreceiver.BackgroundReceiver"
+            android:enabled="true"/>
+
+        <receiver
+            android:name=".service.backgroundreceiver.RestartBackgroundReceiver"
+            android:enabled="true"
+            android:exported="true"
+            android:process=":remote"
+            android:label="RestartServiceWhenStopped">
+            <intent-filter>
+                <action android:name="restart"/>
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>

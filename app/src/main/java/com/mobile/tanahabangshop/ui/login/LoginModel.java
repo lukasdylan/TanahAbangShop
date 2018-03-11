@@ -1,6 +1,6 @@
 package com.mobile.tanahabangshop.ui.login;
 
-import com.mobile.tanahabangshop.data.network.APIService;
+import com.mobile.tanahabangshop.service.APIService;
 
 /**
  * Created by Lukas Dylan Adisurya on 19/02/2018.

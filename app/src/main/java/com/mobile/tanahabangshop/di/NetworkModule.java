@@ -6,8 +6,8 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.mobile.tanahabangshop.BuildConfig;
 import com.mobile.tanahabangshop.data.constant.GlobalConstant;
-import com.mobile.tanahabangshop.data.network.APIService;
-import com.mobile.tanahabangshop.data.network.TrackingAPIService;
+import com.mobile.tanahabangshop.service.APIService;
+import com.mobile.tanahabangshop.service.TrackingAPIService;
 
 import java.io.File;
 import java.util.concurrent.TimeUnit;

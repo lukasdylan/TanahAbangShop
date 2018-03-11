@@ -3,7 +3,7 @@ package com.mobile.tanahabangshop.ui.administrative;
 import com.mobile.tanahabangshop.data.constant.GlobalConstant;
 import com.mobile.tanahabangshop.data.network.CityResponse;
 import com.mobile.tanahabangshop.data.network.ProvinceResponse;
-import com.mobile.tanahabangshop.data.network.TrackingAPIService;
+import com.mobile.tanahabangshop.service.TrackingAPIService;
 
 import io.reactivex.Observable;
 

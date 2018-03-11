@@ -8,6 +8,7 @@ import android.view.View;
 
 import com.airbnb.lottie.LottieAnimationView;
 import com.mobile.tanahabangshop.R;
+import com.mobile.tanahabangshop.service.backgroundreceiver.BackgroundReceiver;
 import com.mobile.tanahabangshop.ui.login.LoginActivity;
 import com.mobile.tanahabangshop.ui.main.MainActivity;
 import com.mobile.tanahabangshop.utility.NetworkUtils;
@@ -25,6 +26,10 @@ public class SplashActivity extends AppCompatActivity implements SplashImplement
 
     @Inject
     SplashImplementer.Presenter presenter;
+    @Inject
+    BackgroundReceiver backgroundReceiver;
+
+    private Intent intent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +37,8 @@ public class SplashActivity extends AppCompatActivity implements SplashImplement
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
         ButterKnife.bind(this);
+        intent = new Intent(this, backgroundReceiver.getClass());
+        startService(intent);
         presenter.initView();
     }
 
@@ -68,6 +75,7 @@ public class SplashActivity extends AppCompatActivity implements SplashImplement
 
     @Override
     protected void onDestroy() {
+        stopService(intent);
         presenter.destroyView();
         super.onDestroy();
     }

@@ -1,5 +1,7 @@
 package com.mobile.tanahabangshop.di;
 
+import com.mobile.tanahabangshop.service.backgroundreceiver.BackgroundReceiver;
+import com.mobile.tanahabangshop.service.backgroundreceiver.BackgroundReceiverModule;
 import com.mobile.tanahabangshop.ui.administrative.AdministrativeActivity;
 import com.mobile.tanahabangshop.ui.administrative.AdministrativeModule;
 import com.mobile.tanahabangshop.ui.login.LoginActivity;
@@ -27,7 +29,7 @@ import dagger.android.ContributesAndroidInjector;
 
 @Module
 abstract class BuilderModule {
-    @ContributesAndroidInjector(modules = SplashModule.class)
+    @ContributesAndroidInjector(modules = {SplashModule.class})
     abstract SplashActivity bindSplashActivity();
 
     @ContributesAndroidInjector(modules = LoginModule.class)
@@ -47,4 +49,7 @@ abstract class BuilderModule {
 
     @ContributesAndroidInjector(modules = ShippingCostModule.class)
     abstract ShippingCostFragment bindShippingCostFragment();
+
+    @ContributesAndroidInjector(modules = BackgroundReceiverModule.class)
+    abstract BackgroundReceiver bindBackgroundReceiver();
 }

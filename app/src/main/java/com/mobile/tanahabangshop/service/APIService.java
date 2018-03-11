@@ -1,4 +1,4 @@
-package com.mobile.tanahabangshop.data.network;
+package com.mobile.tanahabangshop.service;
 
 /**
  * Created by Lukas Dylan Adisurya on 17/02/2018.

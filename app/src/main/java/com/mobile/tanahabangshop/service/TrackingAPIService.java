@@ -1,4 +1,8 @@
-package com.mobile.tanahabangshop.data.network;
+package com.mobile.tanahabangshop.service;
+
+import com.mobile.tanahabangshop.data.network.CityResponse;
+import com.mobile.tanahabangshop.data.network.ProvinceResponse;
+import com.mobile.tanahabangshop.data.network.ShippingCostResponse;
 
 import io.reactivex.Observable;
 import retrofit2.http.Field;

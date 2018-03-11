@@ -2,6 +2,7 @@ package com.mobile.tanahabangshop;
 
 import android.app.Activity;
 import android.app.Application;
+import android.app.Service;
 import android.support.v7.app.AppCompatDelegate;
 
 import com.mobile.tanahabangshop.di.DaggerAppComponent;
@@ -13,6 +14,7 @@ import javax.inject.Inject;
 import dagger.android.AndroidInjector;
 import dagger.android.DispatchingAndroidInjector;
 import dagger.android.HasActivityInjector;
+import dagger.android.HasServiceInjector;
 import io.reactivex.plugins.RxJavaPlugins;
 import timber.log.Timber;
 
@@ -22,9 +24,11 @@ import timber.log.Timber;
  * lukas.dylan.adisurya@gmail.com
  */
 
-public class CoreApplication extends Application implements HasActivityInjector {
+public class CoreApplication extends Application implements HasActivityInjector, HasServiceInjector {
     @Inject
     DispatchingAndroidInjector<Activity> dispatchingAndroidInjector;
+    @Inject
+    DispatchingAndroidInjector<Service> serviceDispatchingAndroidInjector;
 
     @Override
     public void onCreate() {
@@ -50,5 +54,10 @@ public class CoreApplication extends Application implements HasActivityInjector 
     @Override
     public AndroidInjector<Activity> activityInjector() {
         return dispatchingAndroidInjector;
+    }
+
+    @Override
+    public AndroidInjector<Service> serviceInjector() {
+        return serviceDispatchingAndroidInjector;
     }
 }

@@ -1,8 +1,6 @@
 package com.mobile.tanahabangshop.ui.login;
 
-import android.content.Context;
-
-import com.mobile.tanahabangshop.data.network.APIService;
+import com.mobile.tanahabangshop.service.APIService;
 
 import dagger.Module;
 import dagger.Provides;

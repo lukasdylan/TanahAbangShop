@@ -2,8 +2,14 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
+        android:id="@+id/menu_notification"
+        android:icon="@drawable/vector_notification"
+        android:title="Notification"
+        app:actionLayout="@layout/custom_menu_notification"
+        app:showAsAction="ifRoom" />
+    <item
         android:id="@+id/menu_more"
         android:icon="@drawable/vector_more"
-        app:showAsAction="always"
-        android:title="More" />
+        android:title="More"
+        app:showAsAction="always" />
 </menu>
