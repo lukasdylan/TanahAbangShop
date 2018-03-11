@@ -1,11 +1,14 @@
 package com.mobile.tanahabangshop.ui.register;
 
-import android.os.Handler;
-
-import com.google.gson.JsonIOException;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 
+import java.net.SocketTimeoutException;
+import java.net.UnknownHostException;
+
+import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.schedulers.Schedulers;
 import timber.log.Timber;
 
 /**
@@ -26,32 +29,44 @@ public class RegisterPresenter implements RegisterImplementer.Presenter {
     }
 
     @Override
-    public void initView() {
-
-    }
-
-    @Override
     public void validateRegisterRequest(String name, String phoneNumber, String password) {
         String deviceID = view.getDeviceID();
-        JsonObject params = new JsonObject();
-        try {
-            params.addProperty("name", name);
-            params.addProperty("phone_number", phoneNumber);
-            params.addProperty("password", password);
-            params.addProperty("device_id", deviceID);
-            view.showConfirmationDialog(params);
-        } catch (JsonIOException e) {
-            Timber.e(e);
-        }
+        compositeDisposable.add(view.isConnectedInternet()
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(aBoolean -> {
+                    if (aBoolean) {
+                        view.showConfirmationDialog(name, phoneNumber, password, deviceID);
+                    } else {
+                        view.showFailedDialog("No Internet Connection");
+                    }
+                }));
     }
 
     @Override
-    public void sendRequest(JsonObject params) {
-        view.showLoading();
-        new Handler().postDelayed(() -> {
-            view.hideDialog();
-            view.showFailedDialog("Oops..\nSepertinya ada masalah dengan server kami");
-        }, 5000);
+    public void sendRegisterRequest(String name, String phoneNumber, String password, String deviceID) {
+        compositeDisposable.add(model.sendRegisterRequest(name, phoneNumber, password, deviceID)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnSubscribe(disposable -> view.showLoading())
+                .subscribe(responseBody -> {
+                    JsonParser jsonParser = new JsonParser();
+                    JsonObject jsonObject = (JsonObject) jsonParser.parse(responseBody.string());
+                    int statusCode = jsonObject.get("success").getAsInt();
+                    if (statusCode == 1) {
+                        model.savePhoneNumber(phoneNumber);
+                        view.hideDialog();
+                        view.showSuccessDialog();
+                    } else {
+                        String message = jsonObject.get("message").getAsString();
+                        view.hideDialog();
+                        view.showFailedDialog(message);
+                    }
+                }, throwable -> {
+                    Timber.e(throwable);
+                    if(throwable instanceof UnknownHostException || throwable instanceof SocketTimeoutException){
+                        view.showFailedDialog("Ada gangguan dari server\nSilahkan coba kembali");
+                    }
+                }));
     }
 
     @Override

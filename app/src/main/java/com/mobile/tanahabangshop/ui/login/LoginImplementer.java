@@ -1,6 +1,7 @@
 package com.mobile.tanahabangshop.ui.login;
 
 import io.reactivex.Observable;
+import okhttp3.ResponseBody;
 
 /**
  * Created by Lukas Dylan Adisurya on 19/02/2018.
@@ -34,6 +35,6 @@ public interface LoginImplementer {
     }
 
     interface Model {
-
+        Observable<ResponseBody> fetchLogin(String noHp, String password);
     }
 }

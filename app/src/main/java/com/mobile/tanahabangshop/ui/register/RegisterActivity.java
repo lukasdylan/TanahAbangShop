@@ -13,7 +13,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
 
-import com.google.gson.JsonObject;
 import com.mobile.tanahabangshop.R;
 import com.mobile.tanahabangshop.utility.DialogUtils;
 import com.mobile.tanahabangshop.utility.NetworkUtils;
@@ -65,13 +64,12 @@ public class RegisterActivity extends AppCompatActivity implements RegisterImple
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
             getSupportActionBar().setTitle("Daftar Baru");
-            Drawable drawable = toolbar.getNavigationIcon();
-            if (drawable != null) {
-                drawable.setColorFilter(white, PorterDuff.Mode.SRC_ATOP);
-            }
         }
 
-        presenter.initView();
+        Drawable drawable = toolbar.getNavigationIcon();
+        if (drawable != null) {
+            drawable.setColorFilter(white, PorterDuff.Mode.SRC_ATOP);
+        }
     }
 
     @OnClick(R.id.registerBtn)
@@ -166,23 +164,23 @@ public class RegisterActivity extends AppCompatActivity implements RegisterImple
     }
 
     @Override
-    public void showConfirmationDialog(JsonObject params) {
+    public void showConfirmationDialog(String name, String phoneNumber, String password, String deviceID) {
         CustomDialog.PositiveCallback positiveCallback = customDialog -> {
             customDialog.dismiss();
-            presenter.sendRequest(params);
+            presenter.sendRegisterRequest(name, phoneNumber, password, deviceID);
         };
 
         CustomDialog.NegativeCallback negativeCallback = Dialog::dismiss;
 
-        String message = "Mohon cek kembali data anda\n\nNama lengkap: " + nameET.getText().toString()
-                + "\nNomor Handphone: " + phoneET.getText().toString() + "\n\nApakah data anda sudah benar?";
+        String message = "Mohon cek kembali data anda\n\nNama lengkap: " + name
+                + "\nNomor Handphone: " + phoneNumber + "\n\nApakah data anda sudah benar?";
 
         customDialog = DialogUtils.getConfirmationDialog(this, positiveCallback, negativeCallback, message);
         customDialog.show();
     }
 
     @Override
-    public Observable<Boolean> checkInternetConnection() {
+    public Observable<Boolean> isConnectedInternet() {
         return NetworkUtils.isNetworkAvailableObservable(this);
     }
 

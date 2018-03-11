@@ -1,8 +1,8 @@
 package com.mobile.tanahabangshop.ui.login;
 
-import android.os.Handler;
-
+import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.schedulers.Schedulers;
 import timber.log.Timber;
 
 /**
@@ -15,6 +15,8 @@ public class LoginPresenter implements LoginImplementer.Presenter {
     private final LoginImplementer.Model model;
     private final CompositeDisposable compositeDisposable = new CompositeDisposable();
     private final LoginImplementer.View view;
+    private String phoneNumber;
+    private String password;
 
     LoginPresenter(LoginImplementer.Model model, LoginImplementer.View view) {
         this.model = model;
@@ -38,6 +40,8 @@ public class LoginPresenter implements LoginImplementer.Presenter {
             valid = false;
         }
         if (valid) {
+            this.phoneNumber = phoneNumber;
+            this.password = password;
             checkInternetConnection();
         }
     }
@@ -55,11 +59,15 @@ public class LoginPresenter implements LoginImplementer.Presenter {
     }
 
     private void loginRequest() {
-        view.showLoading();
-        new Handler().postDelayed(() -> {
-            view.hideLoading();
-            view.toMainScreen();
-        },5000);
+        compositeDisposable.add(model.fetchLogin(phoneNumber, password)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnSubscribe(disposable -> view.showLoading())
+                .doAfterTerminate(view::hideLoading)
+                .subscribe(responseBody -> {
+                    String result = responseBody.string();
+                    Timber.d(result);
+                }));
     }
 
     @Override

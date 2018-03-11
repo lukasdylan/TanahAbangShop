@@ -1,8 +1,7 @@
 package com.mobile.tanahabangshop.ui.register;
 
-import com.google.gson.JsonObject;
-
 import io.reactivex.Observable;
+import okhttp3.ResponseBody;
 
 /**
  * Created by Lukas Dylan Adisurya on 21/02/2018.
@@ -26,24 +25,24 @@ public interface RegisterImplementer {
 
         void hideDialog();
 
-        void showConfirmationDialog(JsonObject params);
+        void showConfirmationDialog(String name, String phoneNumber, String password, String deviceID);
 
-        Observable<Boolean> checkInternetConnection();
+        Observable<Boolean> isConnectedInternet();
 
         String getDeviceID();
     }
 
     interface Presenter {
-        void initView();
-
         void validateRegisterRequest(String name, String phoneNumber, String password);
 
-        void sendRequest(JsonObject params);
+        void sendRegisterRequest(String name, String phoneNumber, String password, String deviceID);
 
         void destroyView();
     }
 
     interface Model {
+        Observable<ResponseBody> sendRegisterRequest(String name, String phoneNumber, String password, String deviceID);
 
+        void savePhoneNumber(String phoneNumber);
     }
 }

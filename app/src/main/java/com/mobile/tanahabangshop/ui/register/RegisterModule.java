@@ -1,5 +1,6 @@
 package com.mobile.tanahabangshop.ui.register;
 
+import com.mobile.tanahabangshop.data.local.AppPreferences;
 import com.mobile.tanahabangshop.service.APIService;
 
 import dagger.Module;
@@ -20,8 +21,8 @@ public class RegisterModule {
     }
 
     @Provides
-    RegisterImplementer.Model provideModel(APIService apiService){
-        return new RegisterModel(apiService);
+    RegisterImplementer.Model provideModel(APIService apiService, AppPreferences appPreferences){
+        return new RegisterModel(apiService, appPreferences);
     }
 
     @Provides
