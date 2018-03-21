@@ -37,12 +37,4 @@ public interface AdministrativeImplementer {
 
         Observable<CityResponse> fetchCityRegionList(String provinceCode);
     }
-
-    interface ProvinceAdapter {
-        void onSelectedProvince(int provinceCode, String provinceName);
-    }
-
-    interface CityRegionAdapter {
-        void onSelectedCityRegion(int code, String type, String name);
-    }
 }

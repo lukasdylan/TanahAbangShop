@@ -11,7 +11,8 @@
         android:layout_width="match_parent"
         android:layout_height="120dp"
         android:layout_gravity="center"
-        android:src="@color/lightGray"/>
+        android:scaleType="centerCrop"
+        tools:src="@color/lightGray"/>
 
     <TextView
         android:id="@+id/productCodeTV"

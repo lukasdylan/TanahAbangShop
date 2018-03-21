@@ -13,6 +13,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import io.reactivex.subjects.PublishSubject;
 
 /**
  * Created by Lukas Dylan Adisurya on 3/3/2018.
@@ -21,11 +22,10 @@ import butterknife.ButterKnife;
 public class ProvinceAdapter extends RecyclerView.Adapter<ProvinceAdapter.ProvinceViewHolder> {
 
     private List<ProvinceResult> provinceResultList;
-    private AdministrativeImplementer.ProvinceAdapter callback;
+    PublishSubject<ProvinceResult> provinceResultSubject = PublishSubject.create();
 
-    ProvinceAdapter(List<ProvinceResult> provinceResultList, AdministrativeImplementer.ProvinceAdapter callback){
+    ProvinceAdapter(List<ProvinceResult> provinceResultList){
         this.provinceResultList = provinceResultList;
-        this.callback = callback;
     }
 
     @Override
@@ -38,9 +38,7 @@ public class ProvinceAdapter extends RecyclerView.Adapter<ProvinceAdapter.Provin
     public void onBindViewHolder(ProvinceViewHolder holder, int position) {
         ProvinceResult provinceResult = provinceResultList.get(position);
         holder.provinceNameTV.setText(String.format("Provinsi %s", provinceResult.getProvince()));
-        holder.itemView.setOnClickListener(v ->
-                callback.onSelectedProvince(Integer.parseInt(provinceResult.getProvinceId()),
-                        provinceResult.getProvince()));
+        holder.itemView.setOnClickListener(v -> provinceResultSubject.onNext(provinceResult));
     }
 
     @Override

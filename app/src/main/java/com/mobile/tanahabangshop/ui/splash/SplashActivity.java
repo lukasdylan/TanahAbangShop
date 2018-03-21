@@ -37,7 +37,7 @@ public class SplashActivity extends AppCompatActivity implements SplashImplement
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
         ButterKnife.bind(this);
-        intent = new Intent(this, backgroundReceiver.getClass());
+        intent = new Intent(getApplicationContext(), backgroundReceiver.getClass());
         startService(intent);
         presenter.initView();
     }

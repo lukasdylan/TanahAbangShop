@@ -16,6 +16,7 @@ import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
+import io.reactivex.schedulers.Schedulers;
 import okhttp3.Cache;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
@@ -38,8 +39,9 @@ public class NetworkModule {
         builder.retryOnConnectionFailure(true);
         builder.addInterceptor(logger);
         builder.cache(cache);
-        builder.connectTimeout(60, TimeUnit.SECONDS);
-        builder.readTimeout(60, TimeUnit.SECONDS);
+        builder.connectTimeout(30, TimeUnit.SECONDS);
+        builder.readTimeout(30, TimeUnit.SECONDS);
+        builder.writeTimeout(30, TimeUnit.SECONDS);
         return builder.build();
     }
 
@@ -48,7 +50,7 @@ public class NetworkModule {
     HttpLoggingInterceptor provideInterceptor() {
         HttpLoggingInterceptor httpLoggingInterceptor = new HttpLoggingInterceptor();
         if (BuildConfig.DEBUG) {
-            httpLoggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BASIC);
+            httpLoggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
         } else {
             httpLoggingInterceptor.setLevel(HttpLoggingInterceptor.Level.NONE);
         }
@@ -83,7 +85,7 @@ public class NetworkModule {
     @Provides
     @Singleton
     RxJava2CallAdapterFactory provideRxAdapter() {
-        return RxJava2CallAdapterFactory.create();
+        return RxJava2CallAdapterFactory.createWithScheduler(Schedulers.io());
     }
 
     @Provides

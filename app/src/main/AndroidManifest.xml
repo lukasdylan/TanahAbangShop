@@ -39,22 +39,24 @@
         <activity
             android:name=".ui.administrative.AdministrativeActivity"
             android:configChanges="screenSize|keyboard|locale"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
 
         <service
             android:name=".service.backgroundreceiver.BackgroundReceiver"
-            android:enabled="true"/>
+            android:enabled="true" />
 
         <receiver
             android:name=".service.backgroundreceiver.RestartBackgroundReceiver"
             android:enabled="true"
             android:exported="true"
-            android:process=":remote"
-            android:label="RestartServiceWhenStopped">
+            android:label="RestartServiceWhenStopped"
+            android:process=":remote">
             <intent-filter>
-                <action android:name="restart"/>
+                <action android:name="restart" />
             </intent-filter>
         </receiver>
+
+        <activity android:name=".ui.detailproduct.DetailProductActivity"></activity>
     </application>
 
 </manifest>

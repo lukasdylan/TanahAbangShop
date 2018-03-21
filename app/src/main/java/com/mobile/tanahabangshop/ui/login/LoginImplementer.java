@@ -27,8 +27,6 @@ public interface LoginImplementer {
     }
 
     interface Presenter {
-        void initView();
-
         void validateLoginRequest(String phoneNumber, String password);
 
         void destroyView();

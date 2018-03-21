@@ -40,8 +40,8 @@ public class AdministrativePresenter implements AdministrativeImplementer.Presen
                         view.showProvinceList(Collections.emptyList());
                     }
                 }, throwable -> {
-                    if(throwable instanceof UnknownHostException
-                            || throwable instanceof SocketTimeoutException){
+                    if (throwable instanceof UnknownHostException
+                            || throwable instanceof SocketTimeoutException) {
                         view.showFailed();
                     }
                 }));
@@ -61,8 +61,8 @@ public class AdministrativePresenter implements AdministrativeImplementer.Presen
                         view.showCityList(Collections.emptyList());
                     }
                 }, throwable -> {
-                    if(throwable instanceof UnknownHostException
-                            || throwable instanceof SocketTimeoutException){
+                    if (throwable instanceof UnknownHostException
+                            || throwable instanceof SocketTimeoutException) {
                         view.showFailed();
                     }
                 }));

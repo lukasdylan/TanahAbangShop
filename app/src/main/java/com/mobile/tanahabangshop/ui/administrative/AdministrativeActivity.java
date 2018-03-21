@@ -17,6 +17,7 @@ import com.mobile.tanahabangshop.data.network.CityResult;
 import com.mobile.tanahabangshop.data.network.ProvinceResult;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
 
@@ -24,8 +25,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import dagger.android.AndroidInjection;
 
-public class AdministrativeActivity extends AppCompatActivity implements AdministrativeImplementer.View,
-        AdministrativeImplementer.ProvinceAdapter, AdministrativeImplementer.CityRegionAdapter {
+public class AdministrativeActivity extends AppCompatActivity implements AdministrativeImplementer.View{
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
@@ -90,14 +90,32 @@ public class AdministrativeActivity extends AppCompatActivity implements Adminis
     @Override
     public void showProvinceList(List<ProvinceResult> provinceResultList) {
         administrativeRV.setVisibility(View.VISIBLE);
-        ProvinceAdapter provinceAdapter = new ProvinceAdapter(provinceResultList, this);
+        ProvinceAdapter provinceAdapter = new ProvinceAdapter(provinceResultList);
+        provinceAdapter.provinceResultSubject
+                .debounce(250, TimeUnit.MILLISECONDS)
+                .subscribe(provinceResult -> {
+                    Intent intent = new Intent();
+                    intent.putExtra("province_code", Integer.parseInt(provinceResult.getProvinceId()));
+                    intent.putExtra("province_name", provinceResult.getProvince());
+                    setResult(RESULT_OK, intent);
+                    finish();
+                });
         administrativeRV.setAdapter(provinceAdapter);
     }
 
     @Override
     public void showCityList(List<CityResult> cityResultList) {
         administrativeRV.setVisibility(View.VISIBLE);
-        CityRegionAdapter cityRegionAdapter = new CityRegionAdapter(cityResultList, this);
+        CityRegionAdapter cityRegionAdapter = new CityRegionAdapter(cityResultList);
+        cityRegionAdapter.cityResultSubject
+                .debounce(250, TimeUnit.MILLISECONDS)
+                .subscribe(cityResult -> {
+                    Intent intent = new Intent();
+                    intent.putExtra("city_code", Integer.parseInt(cityResult.getCityId()));
+                    intent.putExtra("city_name", cityResult.getType() + " " + cityResult.getCityName());
+                    setResult(RESULT_OK, intent);
+                    finish();
+                });
         administrativeRV.setAdapter(cityRegionAdapter);
     }
 
@@ -110,23 +128,5 @@ public class AdministrativeActivity extends AppCompatActivity implements Adminis
     @Override
     public void showFailed() {
         failedLayout.setVisibility(View.VISIBLE);
-    }
-
-    @Override
-    public void onSelectedProvince(int provinceCode, String provinceName) {
-        Intent intent = new Intent();
-        intent.putExtra("province_code", provinceCode);
-        intent.putExtra("province_name", provinceName);
-        setResult(RESULT_OK, intent);
-        finish();
-    }
-
-    @Override
-    public void onSelectedCityRegion(int code, String type, String name) {
-        Intent intent = new Intent();
-        intent.putExtra("city_code", code);
-        intent.putExtra("city_name", type+" "+name);
-        setResult(RESULT_OK, intent);
-        finish();
     }
 }

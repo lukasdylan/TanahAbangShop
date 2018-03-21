@@ -2,11 +2,14 @@ package com.mobile.tanahabangshop.ui.listproduct;
 
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.GridLayoutManager;
@@ -28,6 +31,7 @@ import android.widget.RelativeLayout;
 import com.airbnb.lottie.LottieAnimationView;
 import com.mobile.tanahabangshop.R;
 import com.mobile.tanahabangshop.data.model.DummyProduct;
+import com.mobile.tanahabangshop.ui.detailproduct.DetailProductActivity;
 import com.mobile.tanahabangshop.ui.main.MainImplementer;
 
 import java.util.ArrayList;
@@ -110,8 +114,25 @@ public class ListProductFragment extends Fragment implements TextWatcher {
         mainView.setupToolbar(true, "Produk Toko");
         productRV.setHasFixedSize(true);
         productRV.setLayoutManager(new LinearLayoutManager(getContext()));
-        productRV.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
+        productRV.addItemDecoration(new DividerItemDecoration(view.getContext(), DividerItemDecoration.VERTICAL));
         listProductAdapter = new ListProductAdapter();
+        listProductAdapter.publishSubject
+                .subscribe(dummyProductImageViewPair -> {
+                    if(getActivity() != null){
+                        DummyProduct dummyProduct = dummyProductImageViewPair.first;
+                        ImageView imageView = dummyProductImageViewPair.second;
+                        Intent intent = new Intent(getActivity(), DetailProductActivity.class);
+                        intent.putExtra("dummy_product", dummyProduct);
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                            ActivityOptionsCompat activityOptionsCompat =
+                                    ActivityOptionsCompat.makeSceneTransitionAnimation(getActivity(),
+                                            imageView, "image_transition");
+                            startActivity(intent, activityOptionsCompat.toBundle());
+                        } else {
+                            startActivity(intent);
+                        }
+                    }
+                });
         productRV.setAdapter(listProductAdapter);
         runnable = () -> {
             animationView.cancelAnimation();
@@ -155,13 +176,13 @@ public class ListProductFragment extends Fragment implements TextWatcher {
         return false;
     }
 
-    private void setDummyData(){
+    private void setDummyData() {
         List<DummyProduct> dummyProductList = new ArrayList<>();
-        dummyProductList.add(new DummyProduct("ABC-123", "Baju Batik Merah", 50000, 30));
-        dummyProductList.add(new DummyProduct("ABC-456", "Celana Kain Hitam Celana Kain Hitam Celana Kain Hitam", 150000, 50));
-        dummyProductList.add(new DummyProduct("XYZ-001", "Jaket Kulit Coklat Jaket Kulit Coklat Jaket Kulit Coklat", 360000, 5));
-        dummyProductList.add(new DummyProduct("XYZ-002", "Jaket Kulit Hitam", 360000, 10));
-        dummyProductList.add(new DummyProduct("QWE-111", "Celana Jeans Biru", 250000, 22));
+        dummyProductList.add(new DummyProduct("ABC-123", "Baju Batik Merah", 50000, 30, "https://thumb9.shutterstock.com/display_pic_with_logo/1962785/337337135/stock-photo-pile-of-knitted-winter-clothes-on-wooden-background-sweaters-knitwear-space-for-text-337337135.jpg"));
+        dummyProductList.add(new DummyProduct("ABC-456", "Celana Kain Hitam Celana Kain Hitam Celana Kain Hitam", 150000, 50, "https://thumb7.shutterstock.com/display_pic_with_logo/3108527/445572067/stock-photo-flat-lay-set-of-classic-men-s-clothes-such-as-blue-suit-brown-shoes-belt-watches-and-bracelet-on-445572067.jpg"));
+        dummyProductList.add(new DummyProduct("XYZ-001", "Jaket Kulit Coklat Jaket Kulit Coklat Jaket Kulit Coklat", 360000, 5, "https://thumb9.shutterstock.com/display_pic_with_logo/187633/658148692/stock-photo-flat-lay-shot-of-female-holiday-clothing-and-accessories-658148692.jpg"));
+        dummyProductList.add(new DummyProduct("XYZ-002", "Jaket Kulit Hitam", 360000, 10, "https://thumb7.shutterstock.com/display_pic_with_logo/2223650/519849511/stock-photo-still-life-of-casual-woman-woman-clothes-and-accessories-on-isolated-white-background-519849511.jpg"));
+        dummyProductList.add(new DummyProduct("QWE-111", "Celana Jeans Biru", 250000, 22, "https://thumb9.shutterstock.com/display_pic_with_logo/1094462/658593055/stock-photo-blank-sweatshirt-mock-up-template-front-and-back-view-isolated-on-white-plain-black-hoodie-658593055.jpg"));
         listProductAdapter.addList(dummyProductList);
     }
 

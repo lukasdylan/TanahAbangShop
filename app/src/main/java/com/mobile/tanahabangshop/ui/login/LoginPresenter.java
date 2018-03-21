@@ -1,5 +1,14 @@
 package com.mobile.tanahabangshop.ui.login;
 
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import com.mobile.tanahabangshop.utility.RxRetryWithDelay;
+
+import java.io.EOFException;
+import java.net.SocketException;
+import java.net.SocketTimeoutException;
+import java.net.UnknownHostException;
+
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.schedulers.Schedulers;
@@ -21,11 +30,6 @@ public class LoginPresenter implements LoginImplementer.Presenter {
     LoginPresenter(LoginImplementer.Model model, LoginImplementer.View view) {
         this.model = model;
         this.view = view;
-    }
-
-    @Override
-    public void initView() {
-
     }
 
     @Override
@@ -62,11 +66,28 @@ public class LoginPresenter implements LoginImplementer.Presenter {
         compositeDisposable.add(model.fetchLogin(phoneNumber, password)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
+                .retryWhen(new RxRetryWithDelay(3, 3000))
                 .doOnSubscribe(disposable -> view.showLoading())
-                .doAfterTerminate(view::hideLoading)
                 .subscribe(responseBody -> {
-                    String result = responseBody.string();
-                    Timber.d(result);
+                    Timber.d(responseBody.string());
+                    view.hideLoading();
+                    JsonParser jsonParser = new JsonParser();
+                    JsonObject jsonObject = (JsonObject) jsonParser.parse(responseBody.string());
+                    String statusCode = jsonObject.get("status").getAsString();
+                    if (statusCode.equalsIgnoreCase("1")) {
+                        view.toMainScreen();
+                    } else {
+                        String message = jsonObject.get("message").getAsString();
+                        view.showFailedLogin(message);
+                    }
+                }, throwable -> {
+                    view.hideLoading();
+                    Timber.e(throwable);
+                    if (throwable instanceof SocketException || throwable instanceof SocketTimeoutException) {
+                        view.showFailedLogin("Ada masalah dengan koneksi. Silahkan coba kembali");
+                    } else if (throwable instanceof UnknownHostException || throwable instanceof EOFException) {
+                        view.showFailedLogin("Ada masalah dengan server. Silahkan coba kembali");
+                    }
                 }));
     }
 

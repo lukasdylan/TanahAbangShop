@@ -44,7 +44,7 @@ public class LoginActivity extends AppCompatActivity implements LoginImplementer
     @BindView(R.id.registerBtn)
     TextView registerBtn;
 
-    @BindColor(android.R.color.holo_red_light)
+    @BindColor(android.R.color.holo_red_dark)
     int redDark;
     @BindColor(android.R.color.white)
     int white;
@@ -60,7 +60,6 @@ public class LoginActivity extends AppCompatActivity implements LoginImplementer
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
-        presenter.initView();
     }
 
     @OnClick(R.id.loginBtn)
@@ -104,12 +103,14 @@ public class LoginActivity extends AppCompatActivity implements LoginImplementer
     @Override
     public void showLoading() {
         customDialog = DialogUtils.getLoadingDialog(this);
-        customDialog.show();
+        if (!customDialog.isShowing()) {
+            customDialog.show();
+        }
     }
 
     @Override
     public void hideLoading() {
-        if (customDialog != null) {
+        if (customDialog != null && customDialog.isShowing()) {
             customDialog.dismiss();
         }
     }

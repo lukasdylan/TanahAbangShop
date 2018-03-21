@@ -13,12 +13,12 @@ import retrofit2.http.POST;
  */
 
 public interface APIService {
-    @POST("/androidconn/login.php")
+    @POST("login.php")
     @FormUrlEncoded
     Observable<ResponseBody> login(@Field("nohp") String nohp,
                                    @Field("password") String password);
 
-    @POST("/androidconn/register.php")
+    @POST("register.php")
     @FormUrlEncoded
     Observable<ResponseBody> register(@Field("name") String name,
                                       @Field("phone_number") String nohp,

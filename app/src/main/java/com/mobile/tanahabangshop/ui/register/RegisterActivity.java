@@ -11,11 +11,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.EditText;
 
 import com.mobile.tanahabangshop.R;
 import com.mobile.tanahabangshop.utility.DialogUtils;
 import com.mobile.tanahabangshop.utility.NetworkUtils;
+import com.mobile.tanahabangshop.utility.UiUtils;
 import com.mobile.tanahabangshop.view.CustomDialog;
 
 import javax.inject.Inject;
@@ -73,7 +75,8 @@ public class RegisterActivity extends AppCompatActivity implements RegisterImple
     }
 
     @OnClick(R.id.registerBtn)
-    void register() {
+    void register(View view) {
+        UiUtils.hideKeyboard(view, this);
         if (inputNameLayout.isErrorEnabled()) {
             inputNameLayout.setErrorEnabled(false);
             inputNameLayout.setError("");

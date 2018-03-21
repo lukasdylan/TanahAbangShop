@@ -13,6 +13,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import io.reactivex.subjects.PublishSubject;
 
 /**
  * Created by Lukas Dylan Adisurya on 3/3/2018.
@@ -21,11 +22,10 @@ import butterknife.ButterKnife;
 public class CityRegionAdapter extends RecyclerView.Adapter<CityRegionAdapter.CityRegionViewHolder> {
 
     private List<CityResult> cityResultList;
-    private AdministrativeImplementer.CityRegionAdapter callback;
+    PublishSubject<CityResult> cityResultSubject = PublishSubject.create();
 
-    CityRegionAdapter(List<CityResult> cityResultList, AdministrativeImplementer.CityRegionAdapter callback){
+    CityRegionAdapter(List<CityResult> cityResultList){
         this.cityResultList = cityResultList;
-        this.callback = callback;
     }
 
     @Override
@@ -39,9 +39,7 @@ public class CityRegionAdapter extends RecyclerView.Adapter<CityRegionAdapter.Ci
         CityResult cityResult = cityResultList.get(position);
         holder.cityRegionNameTV.setText(String.format("%s %s",cityResult.getType(), cityResult.getCityName()));
         holder.postalCodeTV.setText(String.format("Kode Pos: %s", cityResult.getPostalCode()));
-        holder.itemView.setOnClickListener(v ->
-                callback.onSelectedCityRegion(Integer.parseInt(cityResult.getCityId()),
-                        cityResult.getType(), cityResult.getCityName()));
+        holder.itemView.setOnClickListener(v -> cityResultSubject.onNext(cityResult));
     }
 
     @Override

@@ -111,8 +111,7 @@ public class ShippingCostFragment extends Fragment implements ShippingCostImplem
         mainView.setupToolbar(true, "Biaya Pengiriman");
         shippingCostRV.setHasFixedSize(true);
         shippingCostRV.setLayoutManager(new LinearLayoutManager(getContext()));
-        //noinspection ConstantConditions
-        shippingCostRV.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
+        shippingCostRV.addItemDecoration(new DividerItemDecoration(view.getContext(), DividerItemDecoration.VERTICAL));
         shippingCostRV.setNestedScrollingEnabled(false);
     }
 
