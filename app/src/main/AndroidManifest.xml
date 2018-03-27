@@ -56,7 +56,7 @@
             </intent-filter>
         </receiver>
 
-        <activity android:name=".ui.detailproduct.DetailProductActivity"></activity>
+        <activity android:name=".ui.detailproduct.DetailProductActivity" />
     </application>
 
 </manifest>

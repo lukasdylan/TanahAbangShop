@@ -1,17 +1,19 @@
 package com.mobile.tanahabangshop.ui.splash;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
 import com.airbnb.lottie.LottieAnimationView;
 import com.mobile.tanahabangshop.R;
 import com.mobile.tanahabangshop.service.backgroundreceiver.BackgroundReceiver;
+import com.mobile.tanahabangshop.ui.base.BaseActivity;
 import com.mobile.tanahabangshop.ui.login.LoginActivity;
 import com.mobile.tanahabangshop.ui.main.MainActivity;
 import com.mobile.tanahabangshop.utility.NetworkUtils;
+
+import java.lang.ref.WeakReference;
 
 import javax.inject.Inject;
 
@@ -19,7 +21,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import dagger.android.AndroidInjection;
 
-public class SplashActivity extends AppCompatActivity implements SplashImplementer.View {
+public class SplashActivity extends BaseActivity implements SplashImplementer.View {
 
     @BindView(R.id.animation_view)
     LottieAnimationView lottieAnimationView;
@@ -30,6 +32,7 @@ public class SplashActivity extends AppCompatActivity implements SplashImplement
     BackgroundReceiver backgroundReceiver;
 
     private Intent intent;
+    private static final long DELAY_TIME = 5000L;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,28 +47,12 @@ public class SplashActivity extends AppCompatActivity implements SplashImplement
 
     @Override
     public void openLoginActivity() {
-        new Handler().postDelayed(() -> {
-            lottieAnimationView.cancelAnimation();
-            lottieAnimationView.setVisibility(View.GONE);
-            SplashActivity.this.finish();
-            Intent intent = new Intent(SplashActivity.this, LoginActivity.class);
-            startActivity(intent);
-            overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
-        }, 5000);
-
+        startHandler(new SplashRunnable(lottieAnimationView, this, LoginActivity.class), DELAY_TIME);
     }
 
     @Override
     public void openMainActivity() {
-        new Handler().postDelayed(() -> {
-            lottieAnimationView.cancelAnimation();
-            lottieAnimationView.setVisibility(View.GONE);
-            SplashActivity.this.finish();
-            Intent intent = new Intent(SplashActivity.this, MainActivity.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            startActivity(intent);
-            overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
-        }, 5000);
+        startHandler(new SplashRunnable(lottieAnimationView, this, MainActivity.class), DELAY_TIME);
     }
 
     @Override
@@ -76,6 +63,7 @@ public class SplashActivity extends AppCompatActivity implements SplashImplement
     @Override
     protected void onDestroy() {
         stopService(intent);
+        stopHandler();
         presenter.destroyView();
         super.onDestroy();
     }
@@ -83,5 +71,29 @@ public class SplashActivity extends AppCompatActivity implements SplashImplement
     @Override
     public void onBackPressed() {
         //do nothing
+    }
+
+    private static class SplashRunnable implements Runnable {
+
+        private final WeakReference<LottieAnimationView> lottieAnimationViewWeakReference;
+        private final WeakReference<Activity> activityWeakReference;
+        private final WeakReference<Class<?>> classWeakReference;
+
+        SplashRunnable(LottieAnimationView lottieAnimationView, Activity activity, Class<?> clazz) {
+            this.lottieAnimationViewWeakReference = new WeakReference<>(lottieAnimationView);
+            this.activityWeakReference = new WeakReference<>(activity);
+            this.classWeakReference = new WeakReference<>(clazz);
+        }
+
+        @Override
+        public void run() {
+            lottieAnimationViewWeakReference.get().cancelAnimation();
+            lottieAnimationViewWeakReference.get().setVisibility(View.GONE);
+            activityWeakReference.get().finish();
+            Intent intent = new Intent(activityWeakReference.get(), classWeakReference.get());
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            activityWeakReference.get().startActivity(intent);
+            activityWeakReference.get().overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+        }
     }
 }

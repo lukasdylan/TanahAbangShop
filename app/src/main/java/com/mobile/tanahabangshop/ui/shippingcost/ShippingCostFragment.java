@@ -23,6 +23,7 @@ import android.widget.LinearLayout;
 import com.mobile.tanahabangshop.R;
 import com.mobile.tanahabangshop.data.network.CostResult;
 import com.mobile.tanahabangshop.ui.administrative.AdministrativeActivity;
+import com.mobile.tanahabangshop.ui.base.BaseFragment;
 import com.mobile.tanahabangshop.ui.main.MainImplementer;
 import com.mobile.tanahabangshop.utility.DialogUtils;
 import com.mobile.tanahabangshop.utility.UiUtils;
@@ -43,7 +44,7 @@ import static android.app.Activity.RESULT_OK;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ShippingCostFragment extends Fragment implements ShippingCostImplementer.View,
+public class ShippingCostFragment extends BaseFragment implements ShippingCostImplementer.View,
         CourierBottomSheetDialog.CourierCallback {
 
     private static final int PROVINCE_REQUEST = 0;
@@ -175,10 +176,7 @@ public class ShippingCostFragment extends Fragment implements ShippingCostImplem
                 courierBottomSheetDialog.show();
                 break;
             case R.id.calculateBtn:
-                if (inputLayoutWeight.isErrorEnabled()) {
-                    inputLayoutWeight.setErrorEnabled(false);
-                    inputLayoutWeight.setError(null);
-                }
+                clearInputLayout(inputLayoutWeight);
                 if (shippingCostRV.getVisibility() == View.VISIBLE) {
                     shippingCostRV.setVisibility(View.GONE);
                 }

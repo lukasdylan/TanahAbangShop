@@ -7,7 +7,6 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.support.design.widget.TextInputLayout;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -15,9 +14,9 @@ import android.view.View;
 import android.widget.EditText;
 
 import com.mobile.tanahabangshop.R;
+import com.mobile.tanahabangshop.ui.base.BaseActivity;
 import com.mobile.tanahabangshop.utility.DialogUtils;
 import com.mobile.tanahabangshop.utility.NetworkUtils;
-import com.mobile.tanahabangshop.utility.UiUtils;
 import com.mobile.tanahabangshop.view.CustomDialog;
 
 import javax.inject.Inject;
@@ -29,7 +28,7 @@ import butterknife.OnClick;
 import dagger.android.AndroidInjection;
 import io.reactivex.Observable;
 
-public class RegisterActivity extends AppCompatActivity implements RegisterImplementer.View {
+public class RegisterActivity extends BaseActivity implements RegisterImplementer.View {
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
@@ -76,19 +75,8 @@ public class RegisterActivity extends AppCompatActivity implements RegisterImple
 
     @OnClick(R.id.registerBtn)
     void register(View view) {
-        UiUtils.hideKeyboard(view, this);
-        if (inputNameLayout.isErrorEnabled()) {
-            inputNameLayout.setErrorEnabled(false);
-            inputNameLayout.setError("");
-        }
-        if (inputLayoutPhone.isErrorEnabled()) {
-            inputLayoutPhone.setErrorEnabled(false);
-            inputLayoutPhone.setError("");
-        }
-        if (inputLayoutPassword.isErrorEnabled()) {
-            inputLayoutPassword.setErrorEnabled(false);
-            inputLayoutPassword.setError("");
-        }
+        hideKeyboard(view);
+        clearInputLayout(inputNameLayout, inputLayoutPhone, inputLayoutPassword);
         presenter.validateRegisterRequest(
                 nameET.getText().toString(),
                 phoneET.getText().toString(),

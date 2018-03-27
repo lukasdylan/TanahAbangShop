@@ -2,7 +2,6 @@ package com.mobile.tanahabangshop.ui.main;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -12,9 +11,9 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.mobile.tanahabangshop.R;
+import com.mobile.tanahabangshop.ui.base.BaseActivity;
 import com.mobile.tanahabangshop.ui.profile.UserProfileFragment;
 import com.mobile.tanahabangshop.utility.DialogUtils;
-import com.mobile.tanahabangshop.utility.UiUtils;
 import com.mobile.tanahabangshop.view.MenuBottomSheetDialog;
 
 import javax.inject.Inject;
@@ -26,7 +25,7 @@ import dagger.android.AndroidInjector;
 import dagger.android.DispatchingAndroidInjector;
 import dagger.android.support.HasSupportFragmentInjector;
 
-public class MainActivity extends AppCompatActivity implements MainImplementer.View,
+public class MainActivity extends BaseActivity implements MainImplementer.View,
         MenuBottomSheetDialog.MenuBottomSheetCallback, HasSupportFragmentInjector {
 
     @BindView(R.id.toolbar)
@@ -41,8 +40,8 @@ public class MainActivity extends AppCompatActivity implements MainImplementer.V
 
     private boolean showMenuItem = true;
     private boolean backToFinish = true;
-    ImageView notificationIcon;
-    View notificationBadge;
+    private ImageView notificationIcon;
+    private View notificationBadge;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,7 +73,7 @@ public class MainActivity extends AppCompatActivity implements MainImplementer.V
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                UiUtils.hideKeyboard(frameContainer, this);
+                hideKeyboard(frameContainer);
                 onBackPressed();
                 return true;
             case R.id.menu_more:
@@ -93,11 +92,7 @@ public class MainActivity extends AppCompatActivity implements MainImplementer.V
 
     @Override
     public void showFragment(android.support.v4.app.Fragment fragment) {
-        getSupportFragmentManager().beginTransaction()
-                .setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left, R.anim.slide_in_left, R.anim.slide_out_right)
-                .replace(frameContainer.getId(), fragment)
-                .addToBackStack(null)
-                .commit();
+        openFragmentWithSlide(frameContainer.getId(), fragment);
     }
 
     @Override
@@ -133,11 +128,7 @@ public class MainActivity extends AppCompatActivity implements MainImplementer.V
 
     @Override
     public void openProfile() {
-        getSupportFragmentManager().beginTransaction()
-                .setCustomAnimations(R.anim.slide_in_up, R.anim.fade_out, android.R.anim.fade_in, R.anim.slide_out_down)
-                .replace(frameContainer.getId(), new UserProfileFragment())
-                .addToBackStack(null)
-                .commit();
+        openFragmentWithFade(frameContainer.getId(), new UserProfileFragment());
     }
 
     @Override

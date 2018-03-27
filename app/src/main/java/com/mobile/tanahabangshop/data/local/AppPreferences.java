@@ -4,6 +4,10 @@ import android.content.SharedPreferences;
 
 import com.google.gson.Gson;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -20,7 +24,7 @@ public class AppPreferences {
     private final SharedPreferences sharedPreferences;
 
     @Inject
-    public AppPreferences(SharedPreferences sharedPreferences){
+    public AppPreferences(SharedPreferences sharedPreferences) {
         this.sharedPreferences = sharedPreferences;
     }
 
@@ -37,17 +41,32 @@ public class AppPreferences {
         } else if (value.getClass().isAssignableFrom(Float.class)) {
             sharedPreferences.edit().putFloat(key, (Float) value).apply();
         } else if (value.getClass().isAssignableFrom(Double.class)) {
-            sharedPreferences.edit().putLong(key, Double.doubleToLongBits((Double)value)).apply();
+            sharedPreferences.edit().putLong(key, Double.doubleToLongBits((Double) value)).apply();
         } else {
             Timber.e(Thread.currentThread().getStackTrace()[2].getMethodName() + " ] " + "None");
         }
     }
 
-    public <T> void setListValue(String key, List<T> list){
+    public <T> void setListValue(String key, List<T> list) {
         Gson gson = new Gson();
         String json = gson.toJson(list);
         removeData(key);
         sharedPreferences.edit().putString(key, json).apply();
+    }
+
+    public <T> List<T> getListValue(String key, List<T> defaultValue) {
+        Gson gson = new Gson();
+        String json = gson.toJson(sharedPreferences.getString(key, String.valueOf(defaultValue)));
+        List<T> list = new ArrayList<>();
+        try {
+            JSONArray jsonArray = new JSONArray(json);
+            for (int x = 0; x < jsonArray.length(); x++){
+                list.add((T) jsonArray.getString(x));
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return list;
     }
 
     public int getIntegerValue(String key, int defaultValue) {
@@ -70,8 +89,8 @@ public class AppPreferences {
         return sharedPreferences.getFloat(key, defaultValue);
     }
 
-    public double getDoubleValue(String key, double defaultValue){
-        return Double.longBitsToDouble(sharedPreferences.getLong(key,Double.doubleToLongBits(defaultValue)));
+    public double getDoubleValue(String key, double defaultValue) {
+        return Double.longBitsToDouble(sharedPreferences.getLong(key, Double.doubleToLongBits(defaultValue)));
     }
 
     private void removeData(String key) {

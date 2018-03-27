@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 import com.mobile.tanahabangshop.R;
 import com.mobile.tanahabangshop.data.model.MainMenu;
+import com.mobile.tanahabangshop.ui.base.BaseFragment;
 import com.mobile.tanahabangshop.ui.listorder.ListOrderFragment;
 import com.mobile.tanahabangshop.ui.main.MainImplementer;
 import com.mobile.tanahabangshop.ui.listproduct.ListProductFragment;
@@ -35,7 +36,7 @@ import dagger.android.support.AndroidSupportInjection;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class HomeFragment extends Fragment implements MainImplementer.MainAdapter, HomeImplementer.View{
+public class HomeFragment extends BaseFragment implements MainImplementer.MainAdapter, HomeImplementer.View{
 
     @BindView(R.id.welcomeUserTV)
     TextView welcomeUserTV;
