@@ -21,8 +21,8 @@ import io.reactivex.subjects.PublishSubject;
 
 public class CityRegionAdapter extends RecyclerView.Adapter<CityRegionAdapter.CityRegionViewHolder> {
 
-    private List<CityResult> cityResultList;
-    PublishSubject<CityResult> cityResultSubject = PublishSubject.create();
+    private final List<CityResult> cityResultList;
+    final PublishSubject<CityResult> cityResultSubject = PublishSubject.create();
 
     CityRegionAdapter(List<CityResult> cityResultList){
         this.cityResultList = cityResultList;

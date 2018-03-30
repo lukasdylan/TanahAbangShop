@@ -26,14 +26,8 @@ public class MainPresenter implements MainImplementer.Presenter {
     }
 
     @Override
-    public void destroyView() {
+    public void destroy() {
         view = null;
         model = null;
-    }
-
-    @Override
-    public void showProfile() {
-        UserProfileFragment userProfileFragment = new UserProfileFragment();
-        view.showFragment(userProfileFragment);
     }
 }

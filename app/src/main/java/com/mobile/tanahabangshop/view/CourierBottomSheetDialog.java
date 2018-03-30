@@ -8,6 +8,7 @@ import com.mobile.tanahabangshop.R;
 
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import io.reactivex.subjects.PublishSubject;
 
 /**
  * Created by Lukas Dylan Adisurya on 3/3/2018.
@@ -15,11 +16,10 @@ import butterknife.OnClick;
 
 public class CourierBottomSheetDialog extends BottomSheetDialog {
 
-    private CourierCallback courierCallback;
+    public final PublishSubject<String> publishSubject = PublishSubject.create();
 
-    public CourierBottomSheetDialog(@NonNull Context context, CourierCallback courierCallback) {
+    public CourierBottomSheetDialog(@NonNull Context context) {
         super(context);
-        this.courierCallback = courierCallback;
         setCanceledOnTouchOutside(true);
         setContentView(R.layout.courier_bottom_sheet_dialog);
         ButterKnife.bind(this);
@@ -28,19 +28,19 @@ public class CourierBottomSheetDialog extends BottomSheetDialog {
     @OnClick(R.id.jneLayout)
     void clickJne(){
         dismiss();
-        courierCallback.onSelectedCourier("JNE");
+        publishSubject.onNext("JNE");
     }
 
     @OnClick(R.id.posIndonesiaLayout)
     void clickPosIndonesia(){
         dismiss();
-        courierCallback.onSelectedCourier("Pos Indonesia");
+        publishSubject.onNext("Pos Indonesia");
     }
 
     @OnClick(R.id.tikiLayout)
     void clickTiki(){
         dismiss();
-        courierCallback.onSelectedCourier("TIKI");
+        publishSubject.onNext("TIKI");
     }
 
     @OnClick(R.id.closeBtn)
@@ -51,9 +51,5 @@ public class CourierBottomSheetDialog extends BottomSheetDialog {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-    }
-
-    public interface CourierCallback {
-        void onSelectedCourier(String name);
     }
 }

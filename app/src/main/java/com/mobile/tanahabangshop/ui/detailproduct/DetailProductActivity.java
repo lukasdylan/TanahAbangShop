@@ -2,9 +2,10 @@ package com.mobile.tanahabangshop.ui.detailproduct;
 
 import android.graphics.drawable.Drawable;
 import android.os.Build;
-import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
@@ -18,12 +19,15 @@ import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.Target;
 import com.mobile.tanahabangshop.R;
 import com.mobile.tanahabangshop.data.model.DummyProduct;
+import com.mobile.tanahabangshop.ui.base.BaseActivity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class DetailProductActivity extends AppCompatActivity {
+public class DetailProductActivity extends BaseActivity {
 
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
     @BindView(R.id.productImageIV)
     ImageView productImageIV;
 
@@ -69,6 +73,29 @@ public class DetailProductActivity extends AppCompatActivity {
                         })
                         .into(productImageIV);
             }
+
+            setSupportActionBar(toolbar);
+            if (getSupportActionBar() != null) {
+                getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+                getSupportActionBar().setDisplayShowHomeEnabled(true);
+            }
         }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                onBackPressed();
+                return true;
+            default:
+                break;
+        }
+        return false;
+    }
+
+    @Override
+    public void onBackPressed() {
+        finish();
     }
 }

@@ -11,7 +11,7 @@ import io.reactivex.Observable;
  */
 
 public class BackgroundReceiverModel implements BackgroundReceiverImplementer.Model {
-    private TrackingAPIService trackingAPIService;
+    private final TrackingAPIService trackingAPIService;
 
     public BackgroundReceiverModel(TrackingAPIService trackingAPIService) {
         this.trackingAPIService = trackingAPIService;

@@ -26,10 +26,8 @@ public class RxRetryWithDelay implements Function<Observable<? extends Throwable
         return attempts
                 .flatMap((Function<Throwable, Observable<?>>) throwable -> {
                     if (++retryCount < maxRetries) {
-                        return Observable.timer(retryDelayMillis,
-                                TimeUnit.MILLISECONDS);
+                        return Observable.timer(retryDelayMillis, TimeUnit.MILLISECONDS);
                     }
-
                     return Observable.error(throwable);
                 });
     }

@@ -47,7 +47,8 @@ public class ListProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
     void setLayoutMode(int layoutMode) {
         this.layoutMode = layoutMode;
-        notifyDataSetChanged();
+//        notifyDataSetChanged();
+        notifyItemRangeChanged(0, dummyProductList.size());
     }
 
     void addList(List<DummyProduct> dummyProducts) {

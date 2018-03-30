@@ -25,8 +25,8 @@ import butterknife.ButterKnife;
 
 public class ShippingCostAdapter extends RecyclerView.Adapter<ShippingCostAdapter.ShippingCostViewHolder> {
 
-    private List<CostResult> costResultList;
-    private String courierName;
+    private final List<CostResult> costResultList;
+    private final String courierName;
 
     ShippingCostAdapter(List<CostResult> costResultList, String courierName) {
         this.costResultList = costResultList;

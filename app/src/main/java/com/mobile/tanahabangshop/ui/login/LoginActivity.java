@@ -24,7 +24,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import dagger.android.AndroidInjection;
-import io.reactivex.Observable;
 
 public class LoginActivity extends BaseActivity implements LoginImplementer.View {
 
@@ -65,7 +64,7 @@ public class LoginActivity extends BaseActivity implements LoginImplementer.View
     void login(View view) {
         hideKeyboard(view);
         clearInputLayout(inputLayoutPhone, inputLayoutPassword);
-        presenter.validateLoginRequest(phoneET.getText().toString(), passwordET.getText().toString());
+        presenter.requestLogin(phoneET.getText().toString(), passwordET.getText().toString());
     }
 
     @OnClick(R.id.registerBtn)
@@ -115,13 +114,13 @@ public class LoginActivity extends BaseActivity implements LoginImplementer.View
     }
 
     @Override
-    public Observable<Boolean> isConnectedInternet() {
-        return NetworkUtils.isNetworkAvailableObservable(this);
+    public boolean isConnectedInternet() {
+        return NetworkUtils.isNetworkAvailable(this);
     }
 
     @Override
     protected void onDestroy() {
-        presenter.destroyView();
+        presenter.destroy();
         super.onDestroy();
     }
 }

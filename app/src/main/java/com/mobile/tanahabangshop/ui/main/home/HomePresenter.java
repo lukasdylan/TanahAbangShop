@@ -10,8 +10,8 @@ import timber.log.Timber;
 
 public class HomePresenter implements HomeImplementer.Presenter {
 
-    private HomeImplementer.View view;
-    private HomeImplementer.Model model;
+    private final HomeImplementer.View view;
+    private final HomeImplementer.Model model;
 
     public HomePresenter(HomeImplementer.View view, HomeImplementer.Model model) {
         this.view = view;

@@ -9,12 +9,12 @@ import android.widget.TextView;
 
 import com.mobile.tanahabangshop.R;
 import com.mobile.tanahabangshop.data.model.MainMenu;
-import com.mobile.tanahabangshop.ui.main.MainImplementer;
 
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import io.reactivex.subjects.PublishSubject;
 
 /**
  * Created by Lukas Dylan Adisurya on 24/02/2018.
@@ -25,11 +25,10 @@ import butterknife.ButterKnife;
 public class HomeMenuAdapter extends RecyclerView.Adapter<HomeMenuAdapter.MenuViewHolder> {
 
     private final List<MainMenu> mainMenuList;
-    private MainImplementer.MainAdapter listener;
+    final PublishSubject<Integer> publishSubject = PublishSubject.create();
 
-    HomeMenuAdapter(List<MainMenu> mainMenuList, MainImplementer.MainAdapter listener) {
+    HomeMenuAdapter(List<MainMenu> mainMenuList) {
         this.mainMenuList = mainMenuList;
-        this.listener = listener;
     }
 
     @Override
@@ -43,7 +42,7 @@ public class HomeMenuAdapter extends RecyclerView.Adapter<HomeMenuAdapter.MenuVi
         MainMenu mainMenu = mainMenuList.get(position);
         holder.menuTitleTV.setText(mainMenu.getTitle());
         holder.menuTitleTV.setCompoundDrawablesWithIntrinsicBounds(null, mainMenu.getIcon(), null, null);
-        holder.menuCardView.setOnClickListener(view -> listener.onSelectedMenu(position));
+        holder.menuCardView.setOnClickListener(view -> publishSubject.onNext(position));
     }
 
     @Override

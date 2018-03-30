@@ -19,8 +19,8 @@ import io.reactivex.schedulers.Schedulers;
 public class BackgroundReceiverPresenter implements BackgroundReceiverImplementer.Presenter {
 
     private final CompositeDisposable compositeDisposable = new CompositeDisposable();
-    private BackgroundReceiverImplementer.Service service;
-    private BackgroundReceiverImplementer.Model model;
+    private final BackgroundReceiverImplementer.Service service;
+    private final BackgroundReceiverImplementer.Model model;
 
     public BackgroundReceiverPresenter(BackgroundReceiverImplementer.Service service,
                                        BackgroundReceiverImplementer.Model model) {

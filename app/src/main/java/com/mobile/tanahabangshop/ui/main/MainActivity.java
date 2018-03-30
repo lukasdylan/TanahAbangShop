@@ -8,13 +8,13 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.mobile.tanahabangshop.R;
 import com.mobile.tanahabangshop.ui.base.BaseActivity;
-import com.mobile.tanahabangshop.ui.profile.UserProfileFragment;
 import com.mobile.tanahabangshop.utility.DialogUtils;
 import com.mobile.tanahabangshop.view.MenuBottomSheetDialog;
+
+import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
 
@@ -25,8 +25,7 @@ import dagger.android.AndroidInjector;
 import dagger.android.DispatchingAndroidInjector;
 import dagger.android.support.HasSupportFragmentInjector;
 
-public class MainActivity extends BaseActivity implements MainImplementer.View,
-        MenuBottomSheetDialog.MenuBottomSheetCallback, HasSupportFragmentInjector {
+public class MainActivity extends BaseActivity implements MainImplementer.View, HasSupportFragmentInjector {
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
@@ -77,7 +76,10 @@ public class MainActivity extends BaseActivity implements MainImplementer.View,
                 onBackPressed();
                 return true;
             case R.id.menu_more:
-                MenuBottomSheetDialog menuBottomSheetDialog = DialogUtils.showBottomSheetDialog(this, this);
+                MenuBottomSheetDialog menuBottomSheetDialog = DialogUtils.showBottomSheetDialog(this);
+                menuBottomSheetDialog.fragmentPublishSubject
+                        .debounce(200, TimeUnit.MILLISECONDS)
+                        .subscribe(fragment -> openFragmentWithFade(frameContainer.getId(), fragment));
                 menuBottomSheetDialog.show();
                 return true;
             case R.id.menu_notification:
@@ -122,18 +124,8 @@ public class MainActivity extends BaseActivity implements MainImplementer.View,
 
     @Override
     protected void onDestroy() {
-        presenter.destroyView();
+        presenter.destroy();
         super.onDestroy();
-    }
-
-    @Override
-    public void openProfile() {
-        openFragmentWithFade(frameContainer.getId(), new UserProfileFragment());
-    }
-
-    @Override
-    public void openSetting() {
-        Toast.makeText(this, "Open Setting", Toast.LENGTH_SHORT).show();
     }
 
     @Override

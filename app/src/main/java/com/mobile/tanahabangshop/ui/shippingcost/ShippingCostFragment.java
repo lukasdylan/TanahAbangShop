@@ -38,14 +38,14 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 import dagger.android.support.AndroidSupportInjection;
+import io.reactivex.android.schedulers.AndroidSchedulers;
 
 import static android.app.Activity.RESULT_OK;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ShippingCostFragment extends BaseFragment implements ShippingCostImplementer.View,
-        CourierBottomSheetDialog.CourierCallback {
+public class ShippingCostFragment extends BaseFragment implements ShippingCostImplementer.View{
 
     private static final int PROVINCE_REQUEST = 0;
     private static final int CITY_REQUEST = 1;
@@ -161,18 +161,24 @@ public class ShippingCostFragment extends BaseFragment implements ShippingCostIm
     void click(View view) {
         switch (view.getId()) {
             case R.id.provinceET:
-                Intent provinceIntent = new Intent(getContext(), AdministrativeActivity.class);
-                provinceIntent.putExtra("request_code", PROVINCE_REQUEST);
-                startActivityForResult(provinceIntent, PROVINCE_REQUEST);
+                openActivityWithResult(new AdministrativeActivity(), PROVINCE_REQUEST);
                 break;
             case R.id.cityET:
-                Intent cityIntent = new Intent(getContext(), AdministrativeActivity.class);
-                cityIntent.putExtra("request_code", CITY_REQUEST);
-                cityIntent.putExtra("province_code", presenter.getProvinceCode());
-                startActivityForResult(cityIntent, CITY_REQUEST);
+                Bundle bundle = new Bundle();
+                bundle.putInt("request_code", CITY_REQUEST);
+                bundle.putInt("province_code", presenter.getProvinceCode());
+                openActivityWithResult(new AdministrativeActivity(), CITY_REQUEST, bundle);
                 break;
             case R.id.courierNameET:
-                CourierBottomSheetDialog courierBottomSheetDialog = DialogUtils.showCourierDialog(getContext(), this);
+                CourierBottomSheetDialog courierBottomSheetDialog = DialogUtils.showCourierDialog(getContext());
+                courierBottomSheetDialog.publishSubject
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .doOnNext(s -> {
+                            courierNameET.setText(s);
+                            weightLayout.setVisibility(View.VISIBLE);
+                            calculateBtn.setVisibility(View.VISIBLE);
+                        })
+                        .subscribe(s -> presenter.setCourierName(s));
                 courierBottomSheetDialog.show();
                 break;
             case R.id.calculateBtn:
@@ -195,14 +201,6 @@ public class ShippingCostFragment extends BaseFragment implements ShippingCostIm
                 }
                 break;
         }
-    }
-
-    @Override
-    public void onSelectedCourier(String name) {
-        presenter.setCourierName(name);
-        courierNameET.setText(name);
-        weightLayout.setVisibility(View.VISIBLE);
-        calculateBtn.setVisibility(View.VISIBLE);
     }
 
     @Override

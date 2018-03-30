@@ -2,8 +2,6 @@ package com.mobile.tanahabangshop.ui.register;
 
 import android.annotation.SuppressLint;
 import android.app.Dialog;
-import android.graphics.PorterDuff;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.support.design.widget.TextInputLayout;
@@ -65,11 +63,6 @@ public class RegisterActivity extends BaseActivity implements RegisterImplemente
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
             getSupportActionBar().setTitle("Daftar Baru");
-        }
-
-        Drawable drawable = toolbar.getNavigationIcon();
-        if (drawable != null) {
-            drawable.setColorFilter(white, PorterDuff.Mode.SRC_ATOP);
         }
     }
 

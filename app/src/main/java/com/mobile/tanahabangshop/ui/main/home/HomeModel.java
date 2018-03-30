@@ -10,7 +10,7 @@ import com.mobile.tanahabangshop.utility.StringUtils;
 
 public class HomeModel implements HomeImplementer.Model {
 
-    private AppPreferences appPreferences;
+    private final AppPreferences appPreferences;
 
     HomeModel(AppPreferences appPreferences) {
         this.appPreferences = appPreferences;

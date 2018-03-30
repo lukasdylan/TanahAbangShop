@@ -40,8 +40,8 @@ public class SplashActivity extends BaseActivity implements SplashImplementer.Vi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
         ButterKnife.bind(this);
-        intent = new Intent(getApplicationContext(), backgroundReceiver.getClass());
-        startService(intent);
+//        intent = new Intent(getApplicationContext(), backgroundReceiver.getClass());
+//        startService(intent);
         presenter.initView();
     }
 
@@ -62,7 +62,7 @@ public class SplashActivity extends BaseActivity implements SplashImplementer.Vi
 
     @Override
     protected void onDestroy() {
-        stopService(intent);
+//        stopService(intent);
         stopHandler();
         presenter.destroyView();
         super.onDestroy();

@@ -1,6 +1,5 @@
 package com.mobile.tanahabangshop.ui.login;
 
-import com.google.gson.JsonObject;
 import com.mobile.tanahabangshop.service.APIService;
 
 import io.reactivex.Observable;
@@ -16,16 +15,18 @@ public class LoginModel implements LoginImplementer.Model {
 
     private final APIService apiService;
 
-    public LoginModel(APIService apiService){
+    LoginModel(APIService apiService){
         this.apiService = apiService;
     }
 
 
     @Override
     public Observable<ResponseBody> fetchLogin(String noHp, String password) {
-//        JsonObject jsonObject = new JsonObject();
-//        jsonObject.addProperty("nohp", noHp);
-//        jsonObject.addProperty("password", password);
         return apiService.login(noHp, password);
+    }
+
+    @Override
+    public void setAccountLogged() {
+
     }
 }

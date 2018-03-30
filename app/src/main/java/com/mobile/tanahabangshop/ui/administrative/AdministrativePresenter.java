@@ -17,8 +17,8 @@ import io.reactivex.schedulers.Schedulers;
 
 public class AdministrativePresenter implements AdministrativeImplementer.Presenter {
 
-    private AdministrativeImplementer.View view;
-    private AdministrativeImplementer.Model model;
+    private final AdministrativeImplementer.View view;
+    private final AdministrativeImplementer.Model model;
     private final CompositeDisposable compositeDisposable = new CompositeDisposable();
 
     AdministrativePresenter(AdministrativeImplementer.View view, AdministrativeImplementer.Model model) {
@@ -31,7 +31,7 @@ public class AdministrativePresenter implements AdministrativeImplementer.Presen
         compositeDisposable.add(model.fetchProvinceList()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .doAfterTerminate(() -> view.hideLoading())
+                .doAfterTerminate(view::hideLoading)
                 .subscribe(provinceResponse -> {
                     RajaOngkirProvince rajaOngkirProvince = provinceResponse.getRajaongkir();
                     if (rajaOngkirProvince.getStatus().getCode() == 200) {
@@ -52,7 +52,7 @@ public class AdministrativePresenter implements AdministrativeImplementer.Presen
         compositeDisposable.add(model.fetchCityRegionList(String.valueOf(provinceCode))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .doAfterTerminate(() -> view.hideLoading())
+                .doAfterTerminate(view::hideLoading)
                 .subscribe(cityResponse -> {
                     RajaOngkirCity rajaOngkirCity = cityResponse.getRajaongkir();
                     if (rajaOngkirCity.getStatus().getCode() == 200) {

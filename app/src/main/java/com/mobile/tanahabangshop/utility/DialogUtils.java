@@ -15,7 +15,7 @@ import com.mobile.tanahabangshop.view.CustomDialog;
 
 public class DialogUtils {
 
-    public static CustomDialog getLoadingDialog(Context context){
+    public static CustomDialog getLoadingDialog(Context context) {
         return CustomDialog.withContext(context)
                 .setMessage("Loading...")
                 .asLoadingScreen();
@@ -24,7 +24,7 @@ public class DialogUtils {
     public static CustomDialog getConfirmationDialog(Context context,
                                                      CustomDialog.PositiveCallback positiveCallback,
                                                      CustomDialog.NegativeCallback negativeCallback,
-                                                     String message){
+                                                     String message) {
         return CustomDialog
                 .withContext(context)
                 .setMessage(message)
@@ -35,7 +35,7 @@ public class DialogUtils {
 
     public static CustomDialog getSuccessDialog(Context context,
                                                 CustomDialog.PositiveCallback positiveCallback,
-                                                String message){
+                                                String message) {
         return CustomDialog
                 .withContext(context)
                 .setMessage(message)
@@ -45,7 +45,7 @@ public class DialogUtils {
 
     public static CustomDialog getFailedDialog(Context context,
                                                CustomDialog.PositiveCallback positiveCallback,
-                                               String message){
+                                               String message) {
         return CustomDialog
                 .withContext(context)
                 .setMessage(message)
@@ -54,14 +54,12 @@ public class DialogUtils {
     }
 
     @NonNull
-    public static MenuBottomSheetDialog showBottomSheetDialog(Context context,
-                                                              MenuBottomSheetDialog.MenuBottomSheetCallback callback){
-        return new MenuBottomSheetDialog(context, callback);
+    public static MenuBottomSheetDialog showBottomSheetDialog(Context context) {
+        return new MenuBottomSheetDialog(context);
     }
 
     @NonNull
-    public static CourierBottomSheetDialog showCourierDialog(Context context,
-                                                             CourierBottomSheetDialog.CourierCallback courierCallback){
-        return new CourierBottomSheetDialog(context, courierCallback);
+    public static CourierBottomSheetDialog showCourierDialog(Context context) {
+        return new CourierBottomSheetDialog(context);
     }
 }

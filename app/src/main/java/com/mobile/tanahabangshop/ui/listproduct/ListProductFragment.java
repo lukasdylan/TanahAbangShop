@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityOptionsCompat;
@@ -31,9 +30,11 @@ import android.widget.RelativeLayout;
 import com.airbnb.lottie.LottieAnimationView;
 import com.mobile.tanahabangshop.R;
 import com.mobile.tanahabangshop.data.model.DummyProduct;
+import com.mobile.tanahabangshop.ui.base.BaseFragment;
 import com.mobile.tanahabangshop.ui.detailproduct.DetailProductActivity;
 import com.mobile.tanahabangshop.ui.main.MainImplementer;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -46,7 +47,7 @@ import butterknife.Unbinder;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ListProductFragment extends Fragment implements TextWatcher {
+public class ListProductFragment extends BaseFragment implements TextWatcher {
 
     @BindView(R.id.loadingLayout)
     LinearLayout loadingLayout;
@@ -67,11 +68,9 @@ public class ListProductFragment extends Fragment implements TextWatcher {
     Drawable iconGrid;
 
     public static final int LIST_MODE = 0;
-    public static final int GRID_MODE = 1;
+    private static final int GRID_MODE = 1;
     private Unbinder binder;
     private MainImplementer.View mainView;
-    private Handler handler;
-    private Runnable runnable;
     private int currentLayoutMode = LIST_MODE;
     private MenuItem changeLayoutMenuItem;
     private ListProductAdapter listProductAdapter;
@@ -96,7 +95,6 @@ public class ListProductFragment extends Fragment implements TextWatcher {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
-        handler = new Handler();
     }
 
     @Override
@@ -118,15 +116,15 @@ public class ListProductFragment extends Fragment implements TextWatcher {
         listProductAdapter = new ListProductAdapter();
         listProductAdapter.publishSubject
                 .subscribe(dummyProductImageViewPair -> {
-                    if(getActivity() != null){
-                        DummyProduct dummyProduct = dummyProductImageViewPair.first;
-                        ImageView imageView = dummyProductImageViewPair.second;
+                    if (getActivity() != null) {
+                        WeakReference<DummyProduct> dummyProductWeakReference = new WeakReference<>(dummyProductImageViewPair.first);
+                        WeakReference<ImageView> imageViewWeakReference = new WeakReference<>(dummyProductImageViewPair.second);
                         Intent intent = new Intent(getActivity(), DetailProductActivity.class);
-                        intent.putExtra("dummy_product", dummyProduct);
+                        intent.putExtra("dummy_product", dummyProductWeakReference.get());
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                             ActivityOptionsCompat activityOptionsCompat =
                                     ActivityOptionsCompat.makeSceneTransitionAnimation(getActivity(),
-                                            imageView, "image_transition");
+                                            imageViewWeakReference.get(), "image_transition");
                             startActivity(intent, activityOptionsCompat.toBundle());
                         } else {
                             startActivity(intent);
@@ -134,14 +132,14 @@ public class ListProductFragment extends Fragment implements TextWatcher {
                     }
                 });
         productRV.setAdapter(listProductAdapter);
-        runnable = () -> {
+        Runnable runnable = () -> {
             animationView.cancelAnimation();
             loadingLayout.setVisibility(View.GONE);
             searchLayout.setVisibility(View.VISIBLE);
             productRV.setVisibility(View.VISIBLE);
             setDummyData();
         };
-        handler.postDelayed(runnable, 2500);
+        startHandler(runnable, 2500);
         searchProductET.addTextChangedListener(this);
     }
 
@@ -193,9 +191,7 @@ public class ListProductFragment extends Fragment implements TextWatcher {
 
     @Override
     public void onDestroyView() {
-        if (runnable != null) {
-            handler.removeCallbacks(runnable);
-        }
+        stopHandler();
         binder.unbind();
         super.onDestroyView();
     }

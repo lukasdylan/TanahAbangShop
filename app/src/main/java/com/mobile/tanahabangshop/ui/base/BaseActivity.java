@@ -35,10 +35,34 @@ public abstract class BaseActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    protected void openActivity(Activity activity, int flag) {
+        Intent intent = new Intent(this, activity.getClass());
+        intent.setFlags(flag);
+        startActivity(intent);
+    }
+
     protected void openActivity(Activity activity, Bundle bundle) {
         Intent intent = new Intent(this, activity.getClass());
         intent.putExtras(bundle);
         startActivity(intent);
+    }
+
+    protected void openActivity(Activity activity, Bundle bundle, int flag) {
+        Intent intent = new Intent(this, activity.getClass());
+        intent.setFlags(flag);
+        intent.putExtras(bundle);
+        startActivity(intent);
+    }
+
+    protected void openActivityWithResult(Activity activity, int requestCode) {
+        Intent intent = new Intent(this, activity.getClass());
+        startActivityForResult(intent, requestCode);
+    }
+
+    protected void openActivityWithResult(Activity activity, int requestCode, Bundle bundle) {
+        Intent intent = new Intent(this, activity.getClass());
+        intent.putExtras(bundle);
+        startActivityForResult(intent, requestCode);
     }
 
     protected void clearInputLayout(TextInputLayout... textInputLayouts) {

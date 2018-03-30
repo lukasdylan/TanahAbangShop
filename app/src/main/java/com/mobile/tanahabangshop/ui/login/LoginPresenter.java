@@ -24,8 +24,6 @@ public class LoginPresenter implements LoginImplementer.Presenter {
     private final LoginImplementer.Model model;
     private final CompositeDisposable compositeDisposable = new CompositeDisposable();
     private final LoginImplementer.View view;
-    private String phoneNumber;
-    private String password;
 
     LoginPresenter(LoginImplementer.Model model, LoginImplementer.View view) {
         this.model = model;
@@ -33,36 +31,32 @@ public class LoginPresenter implements LoginImplementer.Presenter {
     }
 
     @Override
-    public void validateLoginRequest(String phoneNumber, String password) {
+    public void requestLogin(String phoneNumber, String password) {
+        if (validate(phoneNumber, password)) {
+            sendLoginRequest(phoneNumber, password);
+        }
+    }
+
+    private boolean validate(String phoneNumber, String password) {
         boolean valid = true;
-        if (phoneNumber.trim().length() < 11 || phoneNumber.trim().length() > 15) {
-            view.showErrorPhoneNumber("Mohon cek kembali nomor handphone anda");
+        boolean isConnected = view.isConnectedInternet();
+        if (isConnected) {
+            if (phoneNumber.trim().length() < 11 || phoneNumber.trim().length() > 15) {
+                view.showErrorPhoneNumber("Mohon cek kembali nomor handphone anda");
+                valid = false;
+            }
+            if (password.trim().length() < 6 || password.trim().length() > 10) {
+                view.showErrorPassword("Mohon cek kembali password anda");
+                valid = false;
+            }
+        } else {
+            view.showFailedLogin("Ada masalah dengan koneksi anda\nSilahkan coba kembali");
             valid = false;
         }
-        if (password.trim().length() < 6 || password.trim().length() > 10) {
-            view.showErrorPassword("Mohon cek kembali password anda");
-            valid = false;
-        }
-        if (valid) {
-            this.phoneNumber = phoneNumber;
-            this.password = password;
-            checkInternetConnection();
-        }
+        return valid;
     }
 
-    private void checkInternetConnection() {
-        compositeDisposable.add(view.isConnectedInternet()
-                .subscribe(aBoolean -> {
-                    if (aBoolean) {
-                        loginRequest();
-                    } else {
-                        view.showFailedLogin("Tidak ada koneksi internet!");
-                    }
-                }, Timber::e)
-        );
-    }
-
-    private void loginRequest() {
+    private void sendLoginRequest(String phoneNumber, String password) {
         compositeDisposable.add(model.fetchLogin(phoneNumber, password)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -84,15 +78,15 @@ public class LoginPresenter implements LoginImplementer.Presenter {
                     view.hideLoading();
                     Timber.e(throwable);
                     if (throwable instanceof SocketException || throwable instanceof SocketTimeoutException) {
-                        view.showFailedLogin("Ada masalah dengan koneksi. Silahkan coba kembali");
+                        view.showFailedLogin("Ada masalah dengan koneksi anda\nSilahkan coba kembali");
                     } else if (throwable instanceof UnknownHostException || throwable instanceof EOFException) {
-                        view.showFailedLogin("Ada masalah dengan server. Silahkan coba kembali");
+                        view.showFailedLogin("Ada masalah dengan server\nSilahkan coba kembali");
                     }
                 }));
     }
 
     @Override
-    public void destroyView() {
+    public void destroy() {
         compositeDisposable.dispose();
     }
 }

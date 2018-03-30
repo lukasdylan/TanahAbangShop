@@ -12,7 +12,7 @@ import io.reactivex.Observable;
 
 public class ShippingCostModel implements ShippingCostImplementer.Model {
 
-    private TrackingAPIService trackingAPIService;
+    private final TrackingAPIService trackingAPIService;
 
     ShippingCostModel(TrackingAPIService trackingAPIService) {
         this.trackingAPIService = trackingAPIService;

@@ -5,13 +5,16 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomSheetDialog;
+import android.support.v4.app.Fragment;
 import android.widget.TextView;
 
 import com.mobile.tanahabangshop.R;
+import com.mobile.tanahabangshop.ui.profile.UserProfileFragment;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import io.reactivex.subjects.PublishSubject;
 import timber.log.Timber;
 
 /**
@@ -25,14 +28,13 @@ public class MenuBottomSheetDialog extends BottomSheetDialog {
     @BindView(R.id.appVersionTV)
     TextView appVersionTV;
 
-    private MenuBottomSheetCallback callback;
+    public final PublishSubject<Fragment> fragmentPublishSubject = PublishSubject.create();
 
-    public MenuBottomSheetDialog(@NonNull Context context, MenuBottomSheetCallback callback) {
+    public MenuBottomSheetDialog(@NonNull Context context) {
         super(context);
         setCanceledOnTouchOutside(true);
         setContentView(R.layout.custom_bottom_sheet_dialog);
         ButterKnife.bind(this);
-        this.callback = callback;
         try {
             PackageInfo packageInfo = context.getPackageManager().getPackageInfo(context.getPackageName(), 0);
             appVersionTV.setText(String.format("Versi Aplikasi - %s (%s)", packageInfo.versionName, packageInfo.versionCode));
@@ -43,15 +45,15 @@ public class MenuBottomSheetDialog extends BottomSheetDialog {
     }
 
     @OnClick(R.id.profileBtn)
-    void toProfileActivity() {
+    void openProfile() {
         dismiss();
-        callback.openProfile();
+        fragmentPublishSubject.onNext(new UserProfileFragment());
     }
 
     @OnClick(R.id.settingBtn)
-    void toSettingActivity() {
+    void openSetting() {
         dismiss();
-        callback.openSetting();
+        fragmentPublishSubject.onNext(new UserProfileFragment());
     }
 
     @OnClick(R.id.closeBtn)
@@ -62,11 +64,5 @@ public class MenuBottomSheetDialog extends BottomSheetDialog {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-    }
-
-    public interface MenuBottomSheetCallback {
-        void openProfile();
-
-        void openSetting();
     }
 }

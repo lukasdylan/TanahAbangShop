@@ -20,16 +20,10 @@ public interface MainImplementer {
     interface Presenter {
         void initView();
 
-        void destroyView();
-
-        void showProfile();
+        void destroy();
     }
 
     interface Model {
         String getTitle(int type);
-    }
-
-    interface MainAdapter {
-        void onSelectedMenu(int position);
     }
 }

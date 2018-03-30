@@ -21,8 +21,8 @@ import io.reactivex.subjects.PublishSubject;
 
 public class ProvinceAdapter extends RecyclerView.Adapter<ProvinceAdapter.ProvinceViewHolder> {
 
-    private List<ProvinceResult> provinceResultList;
-    PublishSubject<ProvinceResult> provinceResultSubject = PublishSubject.create();
+    private final List<ProvinceResult> provinceResultList;
+    final PublishSubject<ProvinceResult> provinceResultSubject = PublishSubject.create();
 
     ProvinceAdapter(List<ProvinceResult> provinceResultList){
         this.provinceResultList = provinceResultList;

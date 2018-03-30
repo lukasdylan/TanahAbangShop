@@ -20,7 +20,7 @@ public class SplashPresenter implements SplashImplementer.Presenter {
 
     private void checkLoggedAccount() {
         boolean isAlreadyLoggedIn = splashModel.checkLoggedAccount();
-        if (!isAlreadyLoggedIn) {
+        if (isAlreadyLoggedIn) {
             viewListener.openLoginActivity();
         } else {
             viewListener.openMainActivity();

@@ -18,8 +18,8 @@ import io.reactivex.schedulers.Schedulers;
 
 public class ShippingCostPresenter implements ShippingCostImplementer.Presenter {
 
-    private ShippingCostImplementer.View view;
-    private ShippingCostImplementer.Model model;
+    private final ShippingCostImplementer.View view;
+    private final ShippingCostImplementer.Model model;
     private final CompositeDisposable compositeDisposable = new CompositeDisposable();
     private int provinceCode = 0;
     private int cityCode = 0;

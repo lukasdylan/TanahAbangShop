@@ -23,16 +23,18 @@ public interface LoginImplementer {
 
         void toMainScreen();
 
-        Observable<Boolean> isConnectedInternet();
+        boolean isConnectedInternet();
     }
 
     interface Presenter {
-        void validateLoginRequest(String phoneNumber, String password);
+        void requestLogin(String phoneNumber, String password);
 
-        void destroyView();
+        void destroy();
     }
 
     interface Model {
         Observable<ResponseBody> fetchLogin(String noHp, String password);
+
+        void setAccountLogged();
     }
 }

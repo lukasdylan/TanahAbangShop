@@ -18,8 +18,8 @@ import com.mobile.tanahabangshop.R;
 import com.mobile.tanahabangshop.data.model.MainMenu;
 import com.mobile.tanahabangshop.ui.base.BaseFragment;
 import com.mobile.tanahabangshop.ui.listorder.ListOrderFragment;
-import com.mobile.tanahabangshop.ui.main.MainImplementer;
 import com.mobile.tanahabangshop.ui.listproduct.ListProductFragment;
+import com.mobile.tanahabangshop.ui.main.MainImplementer;
 import com.mobile.tanahabangshop.ui.shippingcost.ShippingCostFragment;
 
 import java.util.ArrayList;
@@ -36,7 +36,7 @@ import dagger.android.support.AndroidSupportInjection;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class HomeFragment extends BaseFragment implements MainImplementer.MainAdapter, HomeImplementer.View{
+public class HomeFragment extends BaseFragment implements HomeImplementer.View {
 
     @BindView(R.id.welcomeUserTV)
     TextView welcomeUserTV;
@@ -66,10 +66,10 @@ public class HomeFragment extends BaseFragment implements MainImplementer.MainAd
     public void onAttach(Context context) {
         AndroidSupportInjection.inject(this);
         super.onAttach(context);
-        if(context instanceof MainImplementer.View){
+        if (context instanceof MainImplementer.View) {
             try {
                 mainView = (MainImplementer.View) context;
-            } catch (ClassCastException ex){
+            } catch (ClassCastException ex) {
                 throw new ClassCastException(context.toString() + "must implement MainImplementer.View");
             }
         }
@@ -105,26 +105,6 @@ public class HomeFragment extends BaseFragment implements MainImplementer.MainAd
     }
 
     @Override
-    public void onSelectedMenu(int position) {
-        switch (position){
-            case 0:
-                ListProductFragment listProductFragment = new ListProductFragment();
-                mainView.showFragment(listProductFragment);
-                break;
-            case 1:
-                ListOrderFragment listOrderFragment = new ListOrderFragment();
-                mainView.showFragment(listOrderFragment);
-                break;
-            case 2:
-                ShippingCostFragment shippingCostFragment = new ShippingCostFragment();
-                mainView.showFragment(shippingCostFragment);
-                break;
-            case 3:
-                break;
-        }
-    }
-
-    @Override
     public void showMenu() {
         List<MainMenu> mainMenuList = new ArrayList<>();
         mainMenuList.add(new MainMenu("Lihat Produk Toko", iconMainProduct));
@@ -132,7 +112,28 @@ public class HomeFragment extends BaseFragment implements MainImplementer.MainAd
         mainMenuList.add(new MainMenu("Cek Biaya Pengiriman", iconShippingCost));
         mainMenuList.add(new MainMenu("Lihat Informasi Toko", iconStore));
 
-        HomeMenuAdapter homeMenuAdapter = new HomeMenuAdapter(mainMenuList, this);
+        HomeMenuAdapter homeMenuAdapter = new HomeMenuAdapter(mainMenuList);
+        homeMenuAdapter.publishSubject
+                .subscribe(integer -> {
+                    if (integer != null) {
+                        switch (integer) {
+                            case 0:
+                                ListProductFragment listProductFragment = new ListProductFragment();
+                                mainView.showFragment(listProductFragment);
+                                break;
+                            case 1:
+                                ListOrderFragment listOrderFragment = new ListOrderFragment();
+                                mainView.showFragment(listOrderFragment);
+                                break;
+                            case 2:
+                                ShippingCostFragment shippingCostFragment = new ShippingCostFragment();
+                                mainView.showFragment(shippingCostFragment);
+                                break;
+                            case 3:
+                                break;
+                        }
+                    }
+                });
         mainMenuRV.setHasFixedSize(true);
         mainMenuRV.setLayoutManager(new GridLayoutManager(getContext(), 2));
         mainMenuRV.setAdapter(homeMenuAdapter);
