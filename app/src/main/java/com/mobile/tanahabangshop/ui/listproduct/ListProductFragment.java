@@ -34,7 +34,6 @@ import com.mobile.tanahabangshop.ui.base.BaseFragment;
 import com.mobile.tanahabangshop.ui.detailproduct.DetailProductActivity;
 import com.mobile.tanahabangshop.ui.main.MainImplementer;
 
-import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -43,6 +42,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
+import timber.log.Timber;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -66,6 +66,8 @@ public class ListProductFragment extends BaseFragment implements TextWatcher {
     Drawable iconList;
     @BindDrawable(R.drawable.vector_grid_mode)
     Drawable iconGrid;
+    @BindDrawable(R.drawable.divider_recycler_view)
+    Drawable divider;
 
     public static final int LIST_MODE = 0;
     private static final int GRID_MODE = 1;
@@ -74,6 +76,8 @@ public class ListProductFragment extends BaseFragment implements TextWatcher {
     private int currentLayoutMode = LIST_MODE;
     private MenuItem changeLayoutMenuItem;
     private ListProductAdapter listProductAdapter;
+    private DividerItemDecoration verticalDividerDecoration;
+    private DividerItemDecoration horizontalDividerDecoration;
 
     public ListProductFragment() {
         // Required empty public constructor
@@ -112,19 +116,21 @@ public class ListProductFragment extends BaseFragment implements TextWatcher {
         mainView.setupToolbar(true, "Produk Toko");
         productRV.setHasFixedSize(true);
         productRV.setLayoutManager(new LinearLayoutManager(getContext()));
-        productRV.addItemDecoration(new DividerItemDecoration(view.getContext(), DividerItemDecoration.VERTICAL));
+        verticalDividerDecoration = new DividerItemDecoration(view.getContext(), DividerItemDecoration.VERTICAL);
+        horizontalDividerDecoration = new DividerItemDecoration(view.getContext(), DividerItemDecoration.HORIZONTAL);
+        verticalDividerDecoration.setDrawable(divider);
+        horizontalDividerDecoration.setDrawable(divider);
+        productRV.addItemDecoration(verticalDividerDecoration);
         listProductAdapter = new ListProductAdapter();
-        listProductAdapter.publishSubject
+        listProductAdapter.getPublishSubject()
                 .subscribe(dummyProductImageViewPair -> {
                     if (getActivity() != null) {
-                        WeakReference<DummyProduct> dummyProductWeakReference = new WeakReference<>(dummyProductImageViewPair.first);
-                        WeakReference<ImageView> imageViewWeakReference = new WeakReference<>(dummyProductImageViewPair.second);
                         Intent intent = new Intent(getActivity(), DetailProductActivity.class);
-                        intent.putExtra("dummy_product", dummyProductWeakReference.get());
+                        intent.putExtra("dummy_product", dummyProductImageViewPair.first);
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                             ActivityOptionsCompat activityOptionsCompat =
                                     ActivityOptionsCompat.makeSceneTransitionAnimation(getActivity(),
-                                            imageViewWeakReference.get(), "image_transition");
+                                            dummyProductImageViewPair.second, "image_transition");
                             startActivity(intent, activityOptionsCompat.toBundle());
                         } else {
                             startActivity(intent);
@@ -141,6 +147,9 @@ public class ListProductFragment extends BaseFragment implements TextWatcher {
         };
         startHandler(runnable, 2500);
         searchProductET.addTextChangedListener(this);
+        Timber.d(view.getContext().toString());
+        Timber.d(getContext() != null ? getContext().toString() : "");
+        Timber.d(getActivity() != null ? getActivity().toString() : "");
     }
 
     @Override
@@ -154,18 +163,20 @@ public class ListProductFragment extends BaseFragment implements TextWatcher {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menu_layout:
-                if (currentLayoutMode == LIST_MODE) {
-                    currentLayoutMode = GRID_MODE;
-                    productRV.setLayoutManager(new GridLayoutManager(getContext(), 2));
-                    productRV.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.HORIZONTAL));
-                    listProductAdapter.setLayoutMode(GRID_MODE);
-                    changeLayoutMenuItem.setIcon(iconList);
-                } else {
-                    currentLayoutMode = LIST_MODE;
-                    productRV.setLayoutManager(new LinearLayoutManager(getContext()));
-                    productRV.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
-                    listProductAdapter.setLayoutMode(LIST_MODE);
-                    changeLayoutMenuItem.setIcon(iconGrid);
+                if (getContext() != null) {
+                    if (currentLayoutMode == LIST_MODE) {
+                        currentLayoutMode = GRID_MODE;
+                        productRV.setLayoutManager(new GridLayoutManager(getContext(), 2));
+                        productRV.addItemDecoration(horizontalDividerDecoration);
+                        listProductAdapter.setLayoutMode(GRID_MODE);
+                        changeLayoutMenuItem.setIcon(iconList);
+                    } else {
+                        currentLayoutMode = LIST_MODE;
+                        productRV.setLayoutManager(new LinearLayoutManager(getContext()));
+                        productRV.addItemDecoration(verticalDividerDecoration);
+                        listProductAdapter.setLayoutMode(LIST_MODE);
+                        changeLayoutMenuItem.setIcon(iconGrid);
+                    }
                 }
                 return true;
             default:

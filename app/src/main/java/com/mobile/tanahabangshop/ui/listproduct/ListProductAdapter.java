@@ -10,12 +10,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.Priority;
-import com.bumptech.glide.RequestManager;
-import com.bumptech.glide.load.DecodeFormat;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.bumptech.glide.request.RequestOptions;
+import com.mobile.tanahabangshop.GlideApp;
 import com.mobile.tanahabangshop.R;
 import com.mobile.tanahabangshop.data.model.DummyProduct;
 import com.mobile.tanahabangshop.utility.StringUtils;
@@ -28,6 +23,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.reactivex.subjects.PublishSubject;
 
+import static com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions.withCrossFade;
 import static com.mobile.tanahabangshop.ui.listproduct.ListProductFragment.LIST_MODE;
 
 /**
@@ -38,7 +34,7 @@ public class ListProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
     private List<DummyProduct> dummyProductList;
     private int layoutMode;
-    PublishSubject<Pair<DummyProduct, ImageView>> publishSubject = PublishSubject.create();
+    private final PublishSubject<Pair<DummyProduct, ImageView>> publishSubject = PublishSubject.create();
 
     ListProductAdapter() {
         dummyProductList = new ArrayList<>();
@@ -47,7 +43,6 @@ public class ListProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
     void setLayoutMode(int layoutMode) {
         this.layoutMode = layoutMode;
-//        notifyDataSetChanged();
         notifyItemRangeChanged(0, dummyProductList.size());
     }
 
@@ -55,6 +50,10 @@ public class ListProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         int startSize = dummyProductList.size();
         dummyProductList.addAll(dummyProducts);
         notifyItemRangeInserted(startSize, this.dummyProductList.size());
+    }
+
+    PublishSubject<Pair<DummyProduct, ImageView>> getPublishSubject() {
+        return publishSubject;
     }
 
     @Override
@@ -109,8 +108,6 @@ public class ListProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         ImageView productImageIV;
 
         private final DisplayMetrics displaymetrics;
-        private final RequestManager requestManager;
-        private final RequestOptions requestOptions;
 
         ListModeViewHolder(View itemView) {
             super(itemView);
@@ -119,15 +116,6 @@ public class ListProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             ((Activity) itemView.getContext()).getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
             productImageIV.getLayoutParams().width = (displaymetrics.widthPixels * 10) / 35;
             productImageIV.getLayoutParams().height = (displaymetrics.widthPixels * 10) / 35;
-            requestManager = Glide.with(itemView.getContext());
-            requestOptions = new RequestOptions()
-                    .centerCrop()
-                    .priority(Priority.HIGH)
-                    .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
-                    .dontAnimate()
-                    .format(DecodeFormat.PREFER_RGB_565)
-                    .placeholder(R.color.lightGray)
-                    .error(android.R.color.holo_red_light);
         }
 
         private void bind(DummyProduct dummyProduct) {
@@ -135,9 +123,10 @@ public class ListProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             productNameTV.setText(dummyProduct.getProductName());
             productPriceTV.setText(String.format(Locale.getDefault(), "Rp %s", StringUtils.formatNumber(dummyProduct.getProductPrice())));
             productStockTV.setText(String.format(Locale.getDefault(), "Sisa stock: %d", dummyProduct.getProductStock()));
-            requestManager
+            GlideApp.with(itemView.getContext())
                     .load(dummyProduct.getProductImageUrl())
-                    .apply(requestOptions)
+                    .withListOptions()
+                    .transition(withCrossFade())
                     .into(productImageIV);
         }
     }
@@ -155,21 +144,9 @@ public class ListProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         @BindView(R.id.productImageIV)
         ImageView productImageIV;
 
-        private final RequestManager requestManager;
-        private final RequestOptions requestOptions;
-
         GridModeViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
-            requestManager = Glide.with(itemView.getContext());
-            requestOptions = new RequestOptions()
-                    .centerCrop()
-                    .priority(Priority.HIGH)
-                    .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
-                    .dontAnimate()
-                    .format(DecodeFormat.PREFER_RGB_565)
-                    .placeholder(R.color.lightGray)
-                    .error(android.R.color.holo_red_light);
         }
 
         private void bind(DummyProduct dummyProduct) {
@@ -177,9 +154,10 @@ public class ListProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             productNameTV.setText(dummyProduct.getProductName());
             productPriceTV.setText(String.format(Locale.getDefault(), "Rp %s", StringUtils.formatNumber(dummyProduct.getProductPrice())));
             productStockTV.setText(String.format(Locale.getDefault(), "Sisa stock: %d", dummyProduct.getProductStock()));
-            requestManager
+            GlideApp.with(itemView.getContext())
                     .load(dummyProduct.getProductImageUrl())
-                    .apply(requestOptions)
+                    .withListOptions()
+                    .transition(withCrossFade())
                     .into(productImageIV);
         }
     }

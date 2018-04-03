@@ -3,6 +3,8 @@ package com.mobile.tanahabangshop.ui.base;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Handler;
+import android.os.Looper;
+import android.support.annotation.NonNull;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -109,18 +111,29 @@ public abstract class BaseActivity extends AppCompatActivity {
         baseHandler.run();
     }
 
+    protected void startHandler(Runnable runnable, long delayTime, Looper looper) {
+        baseHandler = new BaseHandler(runnable, delayTime, looper);
+        baseHandler.run();
+    }
+
     protected void stopHandler() {
         if (baseHandler != null) {
             baseHandler.remove();
         }
     }
 
-    public static class BaseHandler extends Handler {
+    private static class BaseHandler extends Handler {
 
         private final WeakReference<Runnable> runnableWeakReference;
         private final WeakReference<Long> delayTimeWeakReference;
 
-        BaseHandler(Runnable runnable, long delayTime) {
+        BaseHandler(@NonNull Runnable runnable, long delayTime) {
+            this.runnableWeakReference = new WeakReference<>(runnable);
+            this.delayTimeWeakReference = new WeakReference<>(delayTime);
+        }
+
+        BaseHandler(@NonNull Runnable runnable, long delayTime, Looper looper) {
+            super(looper);
             this.runnableWeakReference = new WeakReference<>(runnable);
             this.delayTimeWeakReference = new WeakReference<>(delayTime);
         }

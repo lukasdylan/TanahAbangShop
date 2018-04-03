@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
 import android.view.View;
@@ -91,18 +92,29 @@ public abstract class BaseFragment extends Fragment {
         baseFragmentHandler.run();
     }
 
+    protected void startHandler(Runnable runnable, long delayTime, Looper looper) {
+        baseFragmentHandler = new BaseFragmentHandler(runnable, delayTime, looper);
+        baseFragmentHandler.run();
+    }
+
     protected void stopHandler() {
         if (baseFragmentHandler != null) {
             baseFragmentHandler.remove();
         }
     }
 
-    public static class BaseFragmentHandler extends Handler {
+    private static class BaseFragmentHandler extends Handler {
 
         private final WeakReference<Runnable> runnableWeakReference;
         private final WeakReference<Long> delayTimeWeakReference;
 
         BaseFragmentHandler(Runnable runnable, long delayTime) {
+            this.runnableWeakReference = new WeakReference<>(runnable);
+            this.delayTimeWeakReference = new WeakReference<>(delayTime);
+        }
+
+        BaseFragmentHandler(Runnable runnable, long delayTime, Looper looper) {
+            super(looper);
             this.runnableWeakReference = new WeakReference<>(runnable);
             this.delayTimeWeakReference = new WeakReference<>(delayTime);
         }

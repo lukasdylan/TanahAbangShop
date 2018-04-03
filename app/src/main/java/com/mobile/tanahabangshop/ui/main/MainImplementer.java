@@ -15,6 +15,8 @@ public interface MainImplementer {
         void isShowMenuItem(boolean showMenuIcon);
 
         void setupToolbar(boolean showNavigationIcon, String title);
+
+        void showHomeFragment();
     }
 
     interface Presenter {

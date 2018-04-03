@@ -32,7 +32,7 @@ public class SplashActivity extends BaseActivity implements SplashImplementer.Vi
     BackgroundReceiver backgroundReceiver;
 
     private Intent intent;
-    private static final long DELAY_TIME = 5000L;
+    private static final long DELAY_TIME = 3000L;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,11 +89,11 @@ public class SplashActivity extends BaseActivity implements SplashImplementer.Vi
         public void run() {
             lottieAnimationViewWeakReference.get().cancelAnimation();
             lottieAnimationViewWeakReference.get().setVisibility(View.GONE);
-            activityWeakReference.get().finish();
             Intent intent = new Intent(activityWeakReference.get(), classWeakReference.get());
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             activityWeakReference.get().startActivity(intent);
             activityWeakReference.get().overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+            activityWeakReference.get().finish();
         }
     }
 }

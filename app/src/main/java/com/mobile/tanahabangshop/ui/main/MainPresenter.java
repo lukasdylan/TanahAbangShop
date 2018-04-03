@@ -14,15 +14,14 @@ public class MainPresenter implements MainImplementer.Presenter {
     private MainImplementer.Model model;
     private MainImplementer.View view;
 
-    public MainPresenter(MainImplementer.Model model, MainImplementer.View view) {
+    MainPresenter(MainImplementer.Model model, MainImplementer.View view) {
         this.view = view;
         this.model = model;
     }
 
     @Override
     public void initView() {
-        HomeFragment homeFragment = new HomeFragment();
-        view.showFragment(homeFragment);
+        view.showHomeFragment();
     }
 
     @Override

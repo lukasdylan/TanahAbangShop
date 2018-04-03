@@ -11,6 +11,7 @@ import android.widget.ImageView;
 
 import com.mobile.tanahabangshop.R;
 import com.mobile.tanahabangshop.ui.base.BaseActivity;
+import com.mobile.tanahabangshop.ui.main.home.HomeFragment;
 import com.mobile.tanahabangshop.utility.DialogUtils;
 import com.mobile.tanahabangshop.view.MenuBottomSheetDialog;
 
@@ -77,7 +78,7 @@ public class MainActivity extends BaseActivity implements MainImplementer.View, 
                 return true;
             case R.id.menu_more:
                 MenuBottomSheetDialog menuBottomSheetDialog = DialogUtils.showBottomSheetDialog(this);
-                menuBottomSheetDialog.fragmentPublishSubject
+                menuBottomSheetDialog.getFragmentPublishSubject()
                         .debounce(200, TimeUnit.MILLISECONDS)
                         .subscribe(fragment -> openFragmentWithFade(frameContainer.getId(), fragment));
                 menuBottomSheetDialog.show();
@@ -93,7 +94,7 @@ public class MainActivity extends BaseActivity implements MainImplementer.View, 
     }
 
     @Override
-    public void showFragment(android.support.v4.app.Fragment fragment) {
+    public void showFragment(Fragment fragment) {
         openFragmentWithSlide(frameContainer.getId(), fragment);
     }
 
@@ -111,6 +112,11 @@ public class MainActivity extends BaseActivity implements MainImplementer.View, 
             getSupportActionBar().setDisplayHomeAsUpEnabled(show);
             getSupportActionBar().setTitle(title);
         }
+    }
+
+    @Override
+    public void showHomeFragment() {
+        openFragmentWithFade(frameContainer.getId(), new HomeFragment());
     }
 
     @Override

@@ -28,7 +28,7 @@ public class MenuBottomSheetDialog extends BottomSheetDialog {
     @BindView(R.id.appVersionTV)
     TextView appVersionTV;
 
-    public final PublishSubject<Fragment> fragmentPublishSubject = PublishSubject.create();
+    private final PublishSubject<Fragment> fragmentPublishSubject = PublishSubject.create();
 
     public MenuBottomSheetDialog(@NonNull Context context) {
         super(context);
@@ -42,6 +42,10 @@ public class MenuBottomSheetDialog extends BottomSheetDialog {
             Timber.e(e);
             appVersionTV.setText("Versi Aplikasi (unknown)");
         }
+    }
+
+    public PublishSubject<Fragment> getFragmentPublishSubject() {
+        return fragmentPublishSubject;
     }
 
     @OnClick(R.id.profileBtn)
