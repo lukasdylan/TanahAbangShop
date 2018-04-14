@@ -32,4 +32,8 @@ public class UiUtils {
         textView.setTextColor(textColor);
         snackbar.show();
     }
+
+    public static void showSnackBar(CoordinatorLayout coordinatorLayout, String message) {
+        Snackbar.make(coordinatorLayout, message, Snackbar.LENGTH_LONG).show();
+    }
 }

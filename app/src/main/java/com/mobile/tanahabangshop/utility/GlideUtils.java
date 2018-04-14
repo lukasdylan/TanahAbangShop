@@ -25,22 +25,25 @@ public class GlideUtils {
 
     @GlideOption
     public static void withListOptions(RequestOptions requestOptions) {
-        requestOptions.centerCrop()
+        requestOptions
+                .centerCrop()
+                .dontAnimate()
                 .priority(Priority.HIGH)
                 .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
                 .format(DecodeFormat.PREFER_RGB_565)
-                .placeholder(R.color.lightGray)
+                .placeholder(R.color.lightGray2)
                 .error(android.R.color.holo_red_light);
     }
 
     @GlideOption
     public static void withDetailOptions(RequestOptions requestOptions) {
-        requestOptions.priority(Priority.HIGH)
+        requestOptions
+                .priority(Priority.HIGH)
                 .dontAnimate()
                 .dontTransform()
                 .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
                 .format(DecodeFormat.PREFER_RGB_565)
-                .placeholder(R.color.lightGray)
+                .placeholder(R.color.lightGray2)
                 .error(android.R.color.holo_red_light);
     }
 }

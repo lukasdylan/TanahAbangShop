@@ -42,7 +42,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
-import timber.log.Timber;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -118,8 +117,8 @@ public class ListProductFragment extends BaseFragment implements TextWatcher {
         productRV.setLayoutManager(new LinearLayoutManager(getContext()));
         verticalDividerDecoration = new DividerItemDecoration(view.getContext(), DividerItemDecoration.VERTICAL);
         horizontalDividerDecoration = new DividerItemDecoration(view.getContext(), DividerItemDecoration.HORIZONTAL);
-        verticalDividerDecoration.setDrawable(divider);
-        horizontalDividerDecoration.setDrawable(divider);
+        /*verticalDividerDecoration.setDrawable(divider);
+        horizontalDividerDecoration.setDrawable(divider);*/
         productRV.addItemDecoration(verticalDividerDecoration);
         listProductAdapter = new ListProductAdapter();
         listProductAdapter.getPublishSubject()
@@ -147,9 +146,6 @@ public class ListProductFragment extends BaseFragment implements TextWatcher {
         };
         startHandler(runnable, 2500);
         searchProductET.addTextChangedListener(this);
-        Timber.d(view.getContext().toString());
-        Timber.d(getContext() != null ? getContext().toString() : "");
-        Timber.d(getActivity() != null ? getActivity().toString() : "");
     }
 
     @Override

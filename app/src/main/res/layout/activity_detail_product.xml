@@ -1,10 +1,95 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/coordinatorLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/lightGray2"
     tools:context="com.mobile.tanahabangshop.ui.detailproduct.DetailProductActivity">
+
+    <android.support.v4.widget.NestedScrollView
+        android:id="@+id/nestedScrollView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/titleCardView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="12dp"
+            app:cardCornerRadius="6dp"
+            android:visibility="gone">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="8dp">
+
+                <TextView
+                    android:id="@+id/productNameTV"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@android:color/black"
+                    android:textSize="20sp"
+                    tools:text="Test" />
+
+                <TextView
+                    android:id="@+id/productDescTV"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:lineSpacingMultiplier="1.25"
+                    android:textColor="@color/darkGray"
+                    android:textSize="14sp"
+                    android:text="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum." />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:lineSpacingMultiplier="1.25"
+                    android:textColor="@color/darkGray"
+                    android:textSize="14sp"
+                    android:text="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum." />
+
+            </LinearLayout>
+
+        </android.support.v7.widget.CardView>
+
+    </android.support.v4.widget.NestedScrollView>
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/buyNavigationCV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:cardBackgroundColor="@color/colorPrimary"
+        android:layout_marginBottom="16dp"
+        android:layout_gravity="bottom|center"
+        app:cardCornerRadius="10dp"
+        android:visibility="gone">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Klik untuk membeli"
+            android:textColor="@android:color/white"
+            android:textSize="12sp"
+            android:padding="8dp"/>
+
+    </android.support.v7.widget.CardView>
+
+    <Button
+        android:id="@+id/orderNowBtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:background="@android:color/holo_green_light"
+        android:text="Pesan Sekarang"
+        android:textColor="@android:color/white"
+        android:visibility="gone" />
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/appBarLayout"
@@ -17,47 +102,39 @@
             android:id="@+id/collapsingToolbarLayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            app:collapsedTitleGravity="center"
+            app:collapsedTitleTextAppearance="@style/TextAppearance.AppCompat.Title"
             app:contentScrim="@color/colorPrimary"
             app:expandedTitleGravity="center|bottom"
-            app:collapsedTitleGravity="center"
-            app:titleEnabled="false"
             app:expandedTitleTextAppearance="@style/TextAppearance.AppCompat.Title"
-            app:collapsedTitleTextAppearance="@style/TextAppearance.AppCompat.Title"
-            app:layout_scrollFlags="scroll|exitUntilCollapsed">
+            app:layout_scrollFlags="scroll|exitUntilCollapsed"
+            app:titleEnabled="false">
 
             <ImageView
                 android:id="@+id/productImageIV"
                 android:layout_width="match_parent"
                 android:layout_height="230dp"
                 android:scaleType="centerCrop"
-                app:layout_collapseMode="parallax"/>
+                app:layout_collapseMode="parallax" />
 
-            <LinearLayout
+            <TextView
                 android:id="@+id/detailPhotoBtn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:text="Lihat Detail Foto"
                 android:layout_gravity="bottom|end"
                 android:layout_margin="8dp"
-                app:layout_collapseMode="pin"
-                android:visibility="gone"
-                android:background="@drawable/black_transparent_rounded_background">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Lihat Detail Foto"
-                    android:textSize="12sp"
-                    android:textColor="@android:color/white"/>
-
-            </LinearLayout>
+                android:background="@drawable/black_transparent_rounded_background"
+                android:textColor="@android:color/white"
+                android:textSize="13sp"
+                android:visibility="gone"/>
 
             <android.support.v7.widget.Toolbar
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
-                app:popupTheme="@style/AppTheme.PopupOverlay"
-                app:titleTextColor="@android:color/white"
-                app:layout_collapseMode="pin"/>
+                app:layout_collapseMode="pin"
+                app:titleTextColor="@android:color/white" />
 
         </android.support.design.widget.CollapsingToolbarLayout>
 

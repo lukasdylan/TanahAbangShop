@@ -10,6 +10,7 @@ import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -19,6 +20,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 
 import com.mobile.tanahabangshop.R;
 import com.mobile.tanahabangshop.data.network.CostResult;
@@ -27,7 +29,7 @@ import com.mobile.tanahabangshop.ui.base.BaseFragment;
 import com.mobile.tanahabangshop.ui.main.MainImplementer;
 import com.mobile.tanahabangshop.utility.DialogUtils;
 import com.mobile.tanahabangshop.utility.UiUtils;
-import com.mobile.tanahabangshop.view.CourierBottomSheetDialog;
+import com.mobile.tanahabangshop.widget.CourierBottomSheetDialog;
 
 import java.util.List;
 
@@ -76,6 +78,10 @@ public class ShippingCostFragment extends BaseFragment implements ShippingCostIm
     RecyclerView shippingCostRV;
     @BindView(R.id.coordinatorLayout)
     CoordinatorLayout coordinatorLayout;
+    @BindView(R.id.scrollView)
+    ScrollView scrollView;
+    @BindView(R.id.scrollNavigationCV)
+    CardView navigationCV;
 
     @Inject
     ShippingCostImplementer.Presenter presenter;
@@ -133,6 +139,7 @@ public class ShippingCostFragment extends BaseFragment implements ShippingCostIm
                 if (shippingCostRV.getVisibility() == View.VISIBLE) {
                     shippingCostRV.setVisibility(View.GONE);
                 }
+                navigationCV.setVisibility(View.GONE);
             } else if (requestCode == CITY_REQUEST && data != null) {
                 presenter.setCityCode(data.getIntExtra("city_code", 0));
                 cityET.setText(data.getStringExtra("city_name"));
@@ -140,6 +147,7 @@ public class ShippingCostFragment extends BaseFragment implements ShippingCostIm
                     calculateBtn.setVisibility(View.VISIBLE);
                 }
                 inputCourierLayout.setVisibility(View.VISIBLE);
+                navigationCV.setVisibility(View.GONE);
             }
         }
     }
@@ -155,6 +163,12 @@ public class ShippingCostFragment extends BaseFragment implements ShippingCostIm
     public void onDetach() {
         mainView = null;
         super.onDetach();
+    }
+
+    @OnClick(R.id.scrollNavigationCV)
+    void navigateToBottom(){
+        navigationCV.setVisibility(View.GONE);
+        scrollView.post(() -> scrollView.smoothScrollBy(0, shippingCostRV.getBottom()));
     }
 
     @OnClick({R.id.provinceET, R.id.cityET, R.id.courierNameET, R.id.calculateBtn})
@@ -183,6 +197,7 @@ public class ShippingCostFragment extends BaseFragment implements ShippingCostIm
                 break;
             case R.id.calculateBtn:
                 clearInputLayout(inputLayoutWeight);
+                navigationCV.setVisibility(View.GONE);
                 if (shippingCostRV.getVisibility() == View.VISIBLE) {
                     shippingCostRV.setVisibility(View.GONE);
                 }
@@ -206,6 +221,7 @@ public class ShippingCostFragment extends BaseFragment implements ShippingCostIm
     @Override
     public void showShippingCostList(List<CostResult> costResultList) {
         shippingCostRV.setVisibility(View.VISIBLE);
+        navigationCV.setVisibility(View.VISIBLE);
         ShippingCostAdapter shippingCostAdapter = new ShippingCostAdapter(costResultList, presenter.getCourierName());
         shippingCostRV.setAdapter(shippingCostAdapter);
     }

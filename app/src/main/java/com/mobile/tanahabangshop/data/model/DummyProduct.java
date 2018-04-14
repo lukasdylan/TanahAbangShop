@@ -13,6 +13,7 @@ public class DummyProduct implements Parcelable{
     private double productPrice;
     private int productStock;
     private String productImageUrl;
+    private boolean isFavorite = false;
 
     public DummyProduct(String productCode, String productName, double productPrice, int productStock, String productImageUrl) {
         this.productCode = productCode;
@@ -80,6 +81,14 @@ public class DummyProduct implements Parcelable{
 
     public void setProductImageUrl(String productImageUrl) {
         this.productImageUrl = productImageUrl;
+    }
+
+    public boolean isFavorite() {
+        return isFavorite;
+    }
+
+    public void setFavorite(boolean favorite) {
+        isFavorite = favorite;
     }
 
     @Override

@@ -122,6 +122,12 @@ public abstract class BaseActivity extends AppCompatActivity {
         }
     }
 
+    protected void stopHandler(Runnable runnable) {
+        if (baseHandler != null) {
+            baseHandler.removeRunnable(runnable);
+        }
+    }
+
     private static class BaseHandler extends Handler {
 
         private final WeakReference<Runnable> runnableWeakReference;
@@ -147,6 +153,15 @@ public abstract class BaseActivity extends AppCompatActivity {
         void remove() {
             if (runnableWeakReference.get() != null) {
                 removeCallbacks(runnableWeakReference.get());
+            }
+        }
+
+        void removeRunnable(Runnable runnable) {
+            WeakReference<Runnable> rawRunnable = new WeakReference<>(runnable);
+            if (runnableWeakReference.get().equals(rawRunnable.get())) {
+                removeCallbacks(runnableWeakReference.get());
+            } else {
+                throw new IllegalStateException("We cannot find this runnable " + rawRunnable.get().toString());
             }
         }
     }

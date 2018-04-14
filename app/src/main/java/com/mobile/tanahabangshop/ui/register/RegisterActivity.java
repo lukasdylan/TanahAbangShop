@@ -15,7 +15,7 @@ import com.mobile.tanahabangshop.R;
 import com.mobile.tanahabangshop.ui.base.BaseActivity;
 import com.mobile.tanahabangshop.utility.DialogUtils;
 import com.mobile.tanahabangshop.utility.NetworkUtils;
-import com.mobile.tanahabangshop.view.CustomDialog;
+import com.mobile.tanahabangshop.widget.CustomDialog;
 
 import javax.inject.Inject;
 

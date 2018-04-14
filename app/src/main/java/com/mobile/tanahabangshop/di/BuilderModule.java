@@ -4,6 +4,8 @@ import com.mobile.tanahabangshop.service.backgroundreceiver.BackgroundReceiver;
 import com.mobile.tanahabangshop.service.backgroundreceiver.BackgroundReceiverModule;
 import com.mobile.tanahabangshop.ui.administrative.AdministrativeActivity;
 import com.mobile.tanahabangshop.ui.administrative.AdministrativeModule;
+import com.mobile.tanahabangshop.ui.detailproduct.DetailProductActivity;
+import com.mobile.tanahabangshop.ui.detailproduct.DetailProductModule;
 import com.mobile.tanahabangshop.ui.login.LoginActivity;
 import com.mobile.tanahabangshop.ui.login.LoginModule;
 import com.mobile.tanahabangshop.ui.main.MainActivity;
@@ -52,4 +54,7 @@ abstract class BuilderModule {
 
     @ContributesAndroidInjector(modules = BackgroundReceiverModule.class)
     abstract BackgroundReceiver bindBackgroundReceiver();
+
+    @ContributesAndroidInjector(modules = DetailProductModule.class)
+    abstract DetailProductActivity bindDetailProductActivity();
 }

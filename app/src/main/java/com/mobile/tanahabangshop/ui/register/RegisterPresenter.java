@@ -12,7 +12,6 @@ import java.net.UnknownHostException;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.schedulers.Schedulers;
-import timber.log.Timber;
 
 /**
  * Created by Lukas Dylan Adisurya on 21/02/2018.
@@ -75,7 +74,7 @@ public class RegisterPresenter implements RegisterImplementer.Presenter {
                     view.hideDialog();
                     JsonParser jsonParser = new JsonParser();
                     JsonObject jsonObject = (JsonObject) jsonParser.parse(responseBody.string());
-                    int statusCode = jsonObject.get("success").getAsInt();
+                    int statusCode = jsonObject.get("statusCode").getAsInt();
                     if (statusCode == 1) {
                         model.savePhoneNumber(phoneNumber);
                         view.showSuccessDialog();

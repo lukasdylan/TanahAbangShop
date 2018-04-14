@@ -1,4 +1,4 @@
-package com.mobile.tanahabangshop.view;
+package com.mobile.tanahabangshop.widget;
 
 import android.app.Dialog;
 import android.content.Context;

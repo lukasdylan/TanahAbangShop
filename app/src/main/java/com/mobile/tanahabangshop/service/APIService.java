@@ -23,5 +23,5 @@ public interface APIService {
     Observable<ResponseBody> register(@Field("name") String name,
                                       @Field("phone_number") String nohp,
                                       @Field("password") String password,
-                                      @Field("device_id") String device_id);
+                                      @Field("devid") String device_id);
 }

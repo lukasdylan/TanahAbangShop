@@ -13,7 +13,7 @@ import com.mobile.tanahabangshop.R;
 import com.mobile.tanahabangshop.ui.base.BaseActivity;
 import com.mobile.tanahabangshop.ui.main.home.HomeFragment;
 import com.mobile.tanahabangshop.utility.DialogUtils;
-import com.mobile.tanahabangshop.view.MenuBottomSheetDialog;
+import com.mobile.tanahabangshop.widget.MenuBottomSheetDialog;
 
 import java.util.concurrent.TimeUnit;
 

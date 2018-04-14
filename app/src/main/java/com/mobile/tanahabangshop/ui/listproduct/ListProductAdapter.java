@@ -32,7 +32,7 @@ import static com.mobile.tanahabangshop.ui.listproduct.ListProductFragment.LIST_
 
 public class ListProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    private List<DummyProduct> dummyProductList;
+    private final List<DummyProduct> dummyProductList;
     private int layoutMode;
     private final PublishSubject<Pair<DummyProduct, ImageView>> publishSubject = PublishSubject.create();
 
@@ -121,7 +121,7 @@ public class ListProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         private void bind(DummyProduct dummyProduct) {
             productCodeTV.setText(dummyProduct.getProductCode());
             productNameTV.setText(dummyProduct.getProductName());
-            productPriceTV.setText(String.format(Locale.getDefault(), "Rp %s", StringUtils.formatNumber(dummyProduct.getProductPrice())));
+            productPriceTV.setText(String.format(Locale.getDefault(), "Rp %s /pcs", StringUtils.formatNumber(dummyProduct.getProductPrice())));
             productStockTV.setText(String.format(Locale.getDefault(), "Sisa stock: %d", dummyProduct.getProductStock()));
             GlideApp.with(itemView.getContext())
                     .load(dummyProduct.getProductImageUrl())
@@ -152,7 +152,7 @@ public class ListProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         private void bind(DummyProduct dummyProduct) {
             productCodeTV.setText(dummyProduct.getProductCode());
             productNameTV.setText(dummyProduct.getProductName());
-            productPriceTV.setText(String.format(Locale.getDefault(), "Rp %s", StringUtils.formatNumber(dummyProduct.getProductPrice())));
+            productPriceTV.setText(String.format(Locale.getDefault(), "Rp %s /pcs", StringUtils.formatNumber(dummyProduct.getProductPrice())));
             productStockTV.setText(String.format(Locale.getDefault(), "Sisa stock: %d", dummyProduct.getProductStock()));
             GlideApp.with(itemView.getContext())
                     .load(dummyProduct.getProductImageUrl())

@@ -63,12 +63,11 @@ public class LoginPresenter implements LoginImplementer.Presenter {
                 .retryWhen(new RxRetryWithDelay(3, 3000))
                 .doOnSubscribe(disposable -> view.showLoading())
                 .subscribe(responseBody -> {
-                    Timber.d(responseBody.string());
                     view.hideLoading();
                     JsonParser jsonParser = new JsonParser();
                     JsonObject jsonObject = (JsonObject) jsonParser.parse(responseBody.string());
-                    String statusCode = jsonObject.get("status").getAsString();
-                    if (statusCode.equalsIgnoreCase("1")) {
+                    int statusCode = jsonObject.get("statusCode").getAsInt();
+                    if (statusCode == 1) {
                         view.toMainScreen();
                     } else {
                         String message = jsonObject.get("message").getAsString();

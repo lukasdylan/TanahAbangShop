@@ -3,9 +3,9 @@ package com.mobile.tanahabangshop.utility;
 import android.content.Context;
 import android.support.annotation.NonNull;
 
-import com.mobile.tanahabangshop.view.CourierBottomSheetDialog;
-import com.mobile.tanahabangshop.view.MenuBottomSheetDialog;
-import com.mobile.tanahabangshop.view.CustomDialog;
+import com.mobile.tanahabangshop.widget.CourierBottomSheetDialog;
+import com.mobile.tanahabangshop.widget.MenuBottomSheetDialog;
+import com.mobile.tanahabangshop.widget.CustomDialog;
 
 /**
  * Created by Lukas Dylan Adisurya on 19/02/2018.
